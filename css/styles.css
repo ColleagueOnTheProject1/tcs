@@ -1,0 +1,129 @@
+@charset "utf-8"; 
+body{padding: 0px; margin: 0px; color:black; font-family:"Arial"; font-size:14px; 
+	width:100%; position:absolute; display:table; min-width:1200px;
+	background:silver; 
+}
+a{color:inherit;}
+ul{margin:0; padding:0;}
+h1, h2, h3, h4, h5, h6{margin:0;font-weight:normal;}
+h1{font-family:"Courier";font-size:20px;text-transform:uppercase;text-align:center;margin:20px 0;}/*заголовок страницы*/
+h2{line-height:30px;text-transform:uppercase;font-size:14px;}
+p{line-height:21px;margin:0;}/*текст основного блока*/
+textarea{margin:0;}
+textarea:focus, input:focus, select:focus{outline: none;}
+textarea:active, input:active, select:active{outline: none;}
+input::-ms-clear {width : 0;height: 0;}
+button{cursor:pointer;}
+/**классы общего назначения*/
+.null {height: 0px; min-height: 0px; line-height: 0px; font-size: 0px; overflow: hidden; clear: both;}
+.tb{display:table;}
+.td{display:table-cell;}
+.tr{display:table-row;}
+.content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
+.btn{text-align:center;text-decoration:none;cursor:pointer;}
+.btn1{height:30px;box-sizing:border-box;}
+
+/**компоненты*/
+.detail{border:1px solid black;}
+.detail input[type="text"]{
+	width:400px;
+	margin:10px auto;
+	height:30px;
+	text-align:center;
+	text-transform:uppercase;}
+.detail textArea{width:100%;box-sizing:border-box;resize:none;height:100px;margin-top:10px;}
+
+
+.detail:not(.edit) textArea,
+.detail:not(.edit) input{}
+.detail img{margin:10px;max-height:100px;}
+
+.img-actions{vertical-align:middle;display:none;text-align:center;}
+.img-actions img{max-width:400px;max-height:400px;}
+.img-actions > div{display:table;margin:10px auto;}
+
+#edit-buttons{text-align:justify;}
+#edit-buttons:after{width:100%;display:inline-block;content:"";}
+#edit-buttons img{border:1px solid gray;border-left:none;border-top:0;cursor:pointer;display:none;}
+#edit-buttons img:first-child{display:inline;}
+
+.detail.edit #edit-buttons img:first-child{display:none;}
+.detail.edit #edit-buttons img:nth-child(2){display:inline;}
+.detail.edit #edit-buttons img:nth-child(3){display:inline;}
+
+.logo{display:block;text-decoration:none;}
+
+.header{}
+
+.footer{}
+.footer .dev{float:righttext-align:right;}
+.footer .dev a{text-decoration:none;color:#980003;display:block;}
+.footer .dev a:hover{text-decoration:underline;}
+
+.case-task{margin:20px 0;}
+
+
+table{width:100%;
+	counter-reset:td; /* Инициализируем счетчик */
+	border-collapse:collapse;}
+table th{
+	background-image:linear-gradient(to bottom, #dde4f4, #aabce0);
+	border-right:1px solid #444;
+	cursor:pointer;}
+table th:last-child{border-right:none;}
+table th.active[to_up="0"]:after{content:"\2B07";color:blue;margin-left:10px;}
+table th.active[to_up="1"]:after{content:"\2B06";color:blue;margin-left:10px;}
+
+table td{text-align:center;}
+table tr:first-child{line-height:28px;}
+table tr{
+	border-top:1px solid #444;
+	border-bottom:1px solid #444;
+	cursor:pointer;}
+.new-task{margin:10px 0;}
+.new-task input, 
+.new-task select{;width:300px;
+	padding:0 5px;
+	box-sizing:border-box;
+	height:30px;}
+.new-task .btn{height:30px;box-sizing:border-box;margin-left:20px;}
+.new-task input{margin-right:30px;}
+.new-task select{padding-right:0;margin-left:10px;}
+
+.connect-form{text-align:center;}
+.connect-form .c{font-size:20px;line-height:40px;}
+.connect-form input{width:200px;margin:10px 0;display:inline-block;}
+.connect-form .wrapper{
+	background-color:#fff;
+	border:1px solid blue;
+	padding:20px;
+	box-shadow:0 0 1px white;}
+
+
+.modal{
+	display:none;
+	top:0;left:0;
+	position:fixed;	
+	width:100%;
+	height:100%;
+	z-index:1000;
+	background:rgba(0,0,0,0.9);}
+.modal:after{height:100%;content:"";display:inline-block;vertical-align:middle;}
+.modal > div{display:inline-block;vertical-align:middle;}
+
+.page{display:none;}
+
+.tab1{display:none;}
+.tab1 + label{padding:5px 10px;display:inline-block;border:1px solid black;background-color:rgba(255,255,255,0.5);}
+.tab1:checked + label{background-color:rgba(0,255,0,0.5);}
+.tab1:checked:nth-of-type(1) ~ .page:nth-of-type(1){display:block;}
+.tab1:checked:nth-of-type(2) ~ .page:nth-of-type(2){display:block;}
+
+#sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}
+
+#description{padding:0 10px;}
+
+/*главная страница макет*/
+#Test{background:url("../index.jpg")no-repeat top center;position:absolute;top:0px;height:100%;width:100%;opacity:0.4;
+	z-index:1000;pointer-events:none;}
+#Test .content{border:1px solid red;border-bottom:0;border-top:0;position:absolute;top:0;bottom:0;left:0;right:0;}
