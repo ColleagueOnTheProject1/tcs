@@ -6,8 +6,9 @@
 		<!--набор функций для оптимизации-->
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/requests.js"></script>
-		<script type="text/javascript" src="js/script.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/parser.js"></script>
+		<script type="text/javascript" src="js/ui.js"></script>
+		<script type="text/javascript" src="js/manager.js"></script>
 		<meta name="viewport" content="width=1400">
 		<title>система контроля задач</title>
 	</head>
@@ -35,12 +36,12 @@
 				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
+		<form class="connect-form modal" id="login-form" name="login_form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
 				<input name="password" placeholder="пароль" type="password"/>
-				<button onclick="event.preventDefault();">Попробуем</button>
+				<button onclick="getData();event.preventDefault();">Попробуем</button>
 			</div>
 		</form>
 		<div id="sureface">

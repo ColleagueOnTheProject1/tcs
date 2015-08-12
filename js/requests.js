@@ -123,3 +123,9 @@ function setConfig(){
 	}
 	sendRequest("?name=config&" + getRString(config), update);
 }
+/**получить данные пользователей и задач*/
+function getData(){	
+	var formData = new FormData(document.forms.login_form);
+	formData.append("action", ACTION_GET_TASKS);
+	sendRequest("?", parse);
+}
