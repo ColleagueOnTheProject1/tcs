@@ -5,8 +5,8 @@
 		<link rel="stylesheet" href="css/styles.css" type="text/css">
 		<!--набор функций для оптимизации-->
 		<script type="text/javascript" src="js/functions.js"></script>
-		<script type="text/javascript" src="js/requests.js"></script>
 		<script type="text/javascript" src="js/parser.js"></script>
+		<script type="text/javascript" src="js/requests.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/manager.js"></script>
 		<meta name="viewport" content="width=1400">
@@ -36,12 +36,13 @@
 				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="" method="POST" enctype="application/x-www-form-urlencoded">
+		<form class="connect-form modal" id="login-form" name="login_form" action="" method="get" enctype="application/x-www-form-urlencoded">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
-				<input name="password" placeholder="пароль" type="password"/>
-				<button onclick="getData();event.preventDefault();">Попробуем</button>
+				<input name="password" placeholder="пароль" type=""/>
+				<button onclick="event.preventDefault();sendForm('login_form');">Попробуем</button>
+				<input type="hidden" name="action" value='get_tasks';/>
 			</div>
 		</form>
 		<div id="sureface">

@@ -9,8 +9,17 @@ function showBaseForm(){
 }
 //
 function showLoginForm(){
-	document.getElementById("login-form").style.display = "block";	
+	if(cookie['login']){
+		document.getElementById('login-form').login = cookie['login'];
+		document.getElementById('login-form').password = cookie['password'];
+		getData();
+	}else
+		document.getElementById('login-form').style.display = "block";	
+	
 }
 function showTasks(){
+	
+}
+function showUsers(){
 	
 }

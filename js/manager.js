@@ -6,10 +6,15 @@ const ACTION_GET_TASKS="get_tasks";//имя события - получить д
 const ACTION_GET_USERS="get_users";//имя события - получить пользователей
 //------------события
 //
+var cookie;
 function init(){
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
+	cookie = cookieToArr();
 	showLoginForm();
 }
+document.addEventListener('DOMContentLoaded', function() {
+	init();
+});

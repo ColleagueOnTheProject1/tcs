@@ -32,6 +32,7 @@ function userCreate(){
 	mysql_query($query);
 }
 //создаем таблицу задач
+/*
 function tasksCreate(){
 	$query = 'CREATE TABLE `$tasks_table` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -42,7 +43,7 @@ function tasksCreate(){
 	`images` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`));';
 	mysql_query($query);
-}
+}*/
 //создаем базу
 function baseCreate(){
 		$connect = mysql_connect($config['host'], $config['user'], $config['pass']);

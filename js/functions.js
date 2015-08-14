@@ -6,3 +6,38 @@ function arrAddEventListener(arr, event, callback){
 	for (var i = 0; i < arr.length; i++)
 		arr[i].addEventListener(event, callback);
 }
+/**возврашает массив из строки вида cookie*/
+function cookieToArr(){
+	var arr = {};
+	var p;
+	var n;
+	var s = document.cookie;
+	var i = s.indexOf(';');
+	while(i != -1){
+		p = s.substr(0, i + 1);
+		n = p.indexOf("=");
+		if(n != -1)
+			arr[p.substr(0,n)] = p.substr(n+1);
+		s = s.substr(i);
+		i = s.indexOf(';');
+	}
+	return arr;
+}
+/**сохраняет массив в cookie*/
+function setCookie(obj){
+	var s = "";
+	var key;
+	for(key in obj){
+		s += key + '=' + obj[key] + '; ';
+	}
+	document.cookie = s;
+}
+/**добавляет объект в cookie*/
+function addCookie(obj){
+	var s = document.cookie;
+	var key;
+	for(key in obj){
+		s += key + '=' + obj[key] + '; ';
+	}
+	document.cookie = s;
+}

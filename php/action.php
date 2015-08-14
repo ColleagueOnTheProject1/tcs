@@ -7,6 +7,7 @@ include 'base.php';
 if($_GET["name"] == "auth"){
 	include "auth.php";
 }
+/*
 if($_GET["name"] == "get_tasks"){
 	include "get_tasks.php";
 }elseif($_GET["name"] == "add_task"){
@@ -15,7 +16,6 @@ if($_GET["name"] == "get_tasks"){
 	include "remove_tasks.php";
 }elseif($_GET["name"] == "edit_task"){
 	include "edit_task.php";
-}
-else echo '{error:"error"}';
+}*/
 echo json_encode($response);
 ?>

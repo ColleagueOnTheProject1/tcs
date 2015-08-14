@@ -16,12 +16,24 @@ function getXmlHttp(){
   return xmlhttp;
 }
 
-
+/**отправка формы*/
+function sendForm(form_name){
+	var formData = new FormData(document.forms[form_name]);
+	if(!cookie['login'] || !cookie['password']){
+		setCookie({'login':document.forms[form_name].login, 'password':document.forms[form_name].password});
+	}
+	var xmlhttp = getXmlHttp();
+	xmlhttp.open("POST",'php/action.php',false);
+	formData.append("login", cookie['login']);
+	formData.append("password", cookie['password']);
+	xmlhttp.send(formData);	
+	parse(xmlhttp.responseText);
+}
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/
 function sendRequest(get, handler){
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("GET",'php/action.php' + get,false);
-	xmlhttp.send();
+	xmlhttp.send();	
 	if(handler)
 		handler(xmlhttp.responseText);
 }
@@ -124,8 +136,5 @@ function setConfig(){
 	sendRequest("?name=config&" + getRString(config), update);
 }
 /**получить данные пользователей и задач*/
-function getData(){	
-	var formData = new FormData(document.forms.login_form);
-	formData.append("action", ACTION_GET_TASKS);
-	sendRequest("?", parse);
+function getData(){
 }
