@@ -1,10 +1,10 @@
 <?php
-//ini_set('display_errors','On');
-//error_reporting(E_ALL);
+ini_set('display_errors','On');
+error_reporting(E_ALL);
 $response = array();
 include 'config.php';
 include 'base.php';
-if($_GET["name"] == "auth"){
+if($_POST["action"] == "auth"){
 	include "auth.php";
 }
 /*

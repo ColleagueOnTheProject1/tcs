@@ -8,15 +8,16 @@ function hostConnect(){
 	if(!$connect){
 		$response['action'] = 'connect_error';
 		$response['error_text'] = mysql_error($connect);
-		exit();
+		exit(json_encode($response));
 	}
 }
 //подключаемся к базе
 function baseConnect() {
+	global $config;
 	if(!mysql_select_db($config['base'])) {
 		$response['action'] = 'base_error';
 		$response['error_text'] = mysql_error();
-		exit();
+		exit(json_encode($response));
 	}//else mysql_query("SET NAMES 'utf8'");
 }
 //создаем таблицу пользователей
@@ -67,21 +68,39 @@ function getUsers(){
 		$response[] = $data;
 	}
 }
+//создает таблицы, если их нет
+function tablesCreate(){
+
+}
+//получает информацию о пользователе, если таблиц нет, создает их
+function getInfo(){
+	global $response;
+	$query = 'SELECT * FROM `$users_table` WHERE `login` = "'.$_POST['login'].'";';	
+	$result = mysql_query($query);	
+	if (mysql_num_rows($result) == 0) {
+		$response['action'] = 'auth_error';
+		$response['error_text'] = mysql_error($connect);
+	} else
+		$response[] = mysql_fetch_assoc($result);
+}
 $tasks_table = "tasks";
 $users_table = "users";
+$response['status'] = "ok";
+hostConnect();
+baseConnect();
 
 //получаем задачи
-if($_GET['action']=='get_tasks'){
-	hostConnect();
-	baseConnect();
+if($_POST['action']=='get_info'){	
+	getInfo();	
+}
+//получаем задачи
+elseif($_POST['action']=='get_tasks'){
 	getTasks();
 //получаем данные пользователей
-}elseif($_GET['action']=='get_users'){
-	hostConnect();
-	baseConnect();
+}elseif($_POST['action']=='get_users'){
 	getUsers();
 }
 /*создаем базу и парочку таблиц*/
-elseif($_GET["action"] == "base_create")
+elseif($_POST["action"] == "base_create")
 	baseCreate();
 ?>

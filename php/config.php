@@ -3,7 +3,7 @@
 $config_file = '../config.ini';
 $config = parse_ini_file($config_file);
 //пишем в файл конфигурации
-if($_GET['name'] == "set_config"){
+if($_POST['action'] == "set_config"){
 	foreach($_GET as $key=>$value){
 		if(isset($config[$key]))
 			$config[$key] = $value;

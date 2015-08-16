@@ -36,13 +36,13 @@
 				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="" method="get" enctype="application/x-www-form-urlencoded">
+		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
 				<input name="password" placeholder="пароль" type=""/>
 				<button onclick="event.preventDefault();sendForm('login_form');">Попробуем</button>
-				<input type="hidden" name="action" value='get_tasks';/>
+				<input type="hidden" name="action" value='get_info';/>
 			</div>
 		</form>
 		<div id="sureface">

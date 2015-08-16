@@ -24,8 +24,6 @@ function sendForm(form_name){
 	}
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',false);
-	formData.append("login", cookie['login']);
-	formData.append("password", cookie['password']);
 	xmlhttp.send(formData);	
 	parse(xmlhttp.responseText);
 }
