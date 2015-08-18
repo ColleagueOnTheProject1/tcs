@@ -1,8 +1,8 @@
 <?php
 ini_set('display_errors','On');
 error_reporting(E_ALL);
+require_once 'config.php';
 $response = array();
-include 'config.php';
 include 'base.php';
 if($_POST["action"] == "auth"){
 	include "auth.php";
