@@ -21,7 +21,7 @@ function baseConnect() {
 	}//else mysql_query("SET NAMES 'utf8'");
 }
 //создаем таблицу пользователей
-function userTableCreate(){
+function usersTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['users_table']."` (
 		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -34,13 +34,16 @@ function userTableCreate(){
 	mysql_query($query);
 	//создаем тестовых пользователей
 	if($config['test_users']==1){
-		$query = "INSERT INTO `".$config['users_table']."` (`id`, `login`, `password`, `type`, `tasks`) VALUES (1, 'vladimir', 'pas1', 1, '1,2,3');";
+		$query = "INSERT INTO `".$config['users_table']."` (`id`, `login`, `password`, `type`, `tasks`) VALUES
+		(0, 'admin', 'admin', 0, ''),
+		(1, 'leader', '1234', 1, '1,2,3'),
+		(2, 'executor1', '1234', 1, '1,2,3'),
+		(3, 'executor2', '1234', 1, '1,2,3');";
 		mysql_query($query);
-
 	}
 }
 //создаем таблицу групп
-function groupTableCreate(){
+function groupsTableCreate(){
 	global $config;
 	$query="CREATE TABLE `".$config['groups_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
@@ -49,6 +52,12 @@ function groupTableCreate(){
 	`users` VARCHAR(255) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`));";
 	mysql_query($query);
+	if($config['test_groups']==1){
+		$query = "INSERT INTO `".$config['groups_table']."` (`id`, `title`, `description`, `users`) VALUES
+		(1, 'сайтостроение', 'все задачи по сайтам', '1,2,3'),
+		(2, 'другие', 'остальные задачи', '1,2');";
+		mysql_query($query);
+	}
 }
 //
 function tasksTableCreate(){
@@ -66,7 +75,10 @@ function tasksTableCreate(){
 	PRIMARY KEY (`id`))";
 	mysql_query($query);
 	if($config['test_tasks']==1){
-		$query="";
+		$query="INSERT INTO `".$config['tasks_table']."` (`id`, `title`, `text`, `owner`) VALUES
+		(1, 'задача 1', 'описание задачи 1', 0),
+		(2, 'задача 2', 'описание задачи 2', 1),
+		(3, 'задача 3', 'описание задачи 3', 0);";
 		mysql_query($query);
 	}
 }
@@ -77,12 +89,21 @@ function baseCreate(){
 		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 		$result = mysql_query($query);
 		mysql_select_db($config['base']);
-		userTableCreate();
-		groupTableCreate();
+		usersTableCreate();
+		groupsTableCreate();
 		tasksTableCreate();
 }
+//получаем массив задач
 function getTasks(){
-	$result = mysql_query("SELECT * FROM $tasks_table");
+	global $response, $user;
+	$result = mysql_query("SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$user['tasks'].")");
+	while($data = mysql_fetch_assoc($result)){
+		$response[] = $data;
+	}
+}
+//получаем группы
+function getGroups(){
+	$result = mysql_query("SELECT * FROM ".$config['groups_table']);
 	global $response;
 	while($data = mysql_fetch_assoc($result)){
 		$response[] = $data;
@@ -95,16 +116,11 @@ function getUsers(){
 		$response[] = $data;
 	}
 }
-//получает информацию о пользователе, если таблиц нет, создает их
-function getInfo(){
-	global $response;
-	$query = 'SELECT * FROM `$users_table` WHERE `login` = "'.$_POST['login'].'";';
-	$result = mysql_query($query);
-	if (mysql_num_rows($result) == 0) {
-		$response['action'] = 'auth_error';
-		$response['error_text'] = mysql_error($connect);
-	} else
-		$response[] = mysql_fetch_assoc($result);
+//получает информацию о текущем пользователе для последующей обработки
+function init(){
+	global $user;
+	$result = mysql_query("SELECT * FROM ".$config['users_table']." WHERE `login`=".$_POST['login']." AND `password`=".$_POST['password']);
+	$user = mysql_fetch_assoc($result);
 }
 $tasks_table = "tasks";
 $users_table = "users";

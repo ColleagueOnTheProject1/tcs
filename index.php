@@ -42,7 +42,7 @@
 				<input name="login" placeholder="имя пользователя"/>
 				<input name="password" placeholder="пароль" type=""/>
 				<button onclick="event.preventDefault();sendForm('login_form');">Попробуем</button>
-				<input type="hidden" name="action" value='get_info';/>
+				<input type="hidden" name="action" value='auth';/>
 			</div>
 		</form>
 		<div id="sureface">

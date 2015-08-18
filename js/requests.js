@@ -18,6 +18,7 @@ function getXmlHttp(){
 
 /**отправка формы*/
 function sendForm(form_name){
+	document.forms[form_name].style.display = "none";
 	var formData = new FormData(document.forms[form_name]);
 	if(!cookie['login'] || !cookie['password']){
 		setCookie({'login':document.forms[form_name].login, 'password':document.forms[form_name].password});
