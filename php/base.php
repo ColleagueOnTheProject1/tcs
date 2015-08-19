@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //подключаемся к хосту, затем к базе, или возвращаем ошибки
 //подключаемся к хосту
 function hostConnect(){
@@ -18,13 +18,13 @@ function baseConnect() {
 		$response['action'] = 'base_error';
 		$response['error_text'] = mysql_error();
 		exit(json_encode($response));
-	}//else mysql_query("SET NAMES 'utf8'");
+	}else mysql_query("SET NAMES 'utf8'");
 }
 //создаем таблицу пользователей
 function usersTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['users_table']."` (
-		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		`id` INT(11) UNSIGNED NOT NULL,
 		`login` VARCHAR(32) NOT NULL,
 		`password` VARCHAR(32) NOT NULL,
 		`type` TINYINT(4) NOT NULL,
@@ -38,7 +38,7 @@ function usersTableCreate(){
 		(0, 'admin', 'admin', 0, ''),
 		(1, 'leader', '1234', 1, '1,2,3'),
 		(2, 'executor1', '1234', 1, '1,2,3'),
-		(3, 'executor2', '1234', 1, '1,2,3');";
+		(3, 'executor2', '1234', 1, '1,2,3');";		
 		mysql_query($query);
 	}
 }
@@ -95,8 +95,10 @@ function baseCreate(){
 }
 //получаем массив задач
 function getTasks(){
-	global $response, $user;
-	$result = mysql_query("SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$user['tasks'].")");
+	global $response, $user, $config;
+	$query = "SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$user['tasks'].");";
+	exit($query);
+	$result = mysql_query($query);
 	while($data = mysql_fetch_assoc($result)){
 		$response[] = $data;
 	}
@@ -123,7 +125,7 @@ function connect(){
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){
-	global $user, $config;
+	global $user, $config, $login, $password;
 	$query = "SELECT * FROM ".$config['users_table']." WHERE `login`='$login' AND `password`='$password';";
 	$result = mysql_query($query);
 	if(mysql_num_rows($result) > 0)

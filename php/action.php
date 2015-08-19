@@ -2,11 +2,13 @@
 ini_set('display_errors','On');
 error_reporting(E_ALL);
 require_once 'config.php';
+$login = '';
+$password = '';
 //нет локина или пароля - уходим отсюда
 if(!isset($_POST['login']) || !isset($_POST['password'])){
-	if(!$_COOKIE['login'] || !$_COOKIE['passsword'])
+	if(!isset($_COOKIE['login']) || !isset($_COOKIE['passsword']))
 		exit(json_encode(array('action' => 'connect')));
-}elseif(!$_COOKIE['login'] || !$_COOKIE['passsword']){
+}elseif(!isset($_COOKIE['login']) || !isset($_COOKIE['passsword'])){
 	setcookie('login', 'password', time() + 2629743);//срок хранения 1 месяц
 }
 //если пришел логин с паролем, берем их, иначе берем из cookie
