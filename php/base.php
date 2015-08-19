@@ -116,11 +116,18 @@ function getUsers(){
 		$response[] = $data;
 	}
 }
+//подключаемся к хосту и к бузу
+function connect(){
+	hostConnect();
+	baseConnect();
+}
 //получает информацию о текущем пользователе для последующей обработки
 function init(){
-	global $user;
-	$result = mysql_query("SELECT * FROM ".$config['users_table']." WHERE `login`=".$_POST['login']." AND `password`=".$_POST['password']);
-	$user = mysql_fetch_assoc($result);
+	global $user, $config;
+	$query = "SELECT * FROM ".$config['users_table']." WHERE `login`='$login' AND `password`='$password';";
+	$result = mysql_query($query);
+	if(mysql_num_rows($result) > 0)
+		$user = mysql_fetch_assoc($result);
 }
 $tasks_table = "tasks";
 $users_table = "users";

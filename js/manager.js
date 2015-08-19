@@ -11,7 +11,7 @@ function init(){
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;
-	parser_handlers[ACTION_AUTH] = showTasks;
+	parser_handlers[ACTION_AUTH] = showLoginForm;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	cookie = cookieToArr();
 	showLoginForm();

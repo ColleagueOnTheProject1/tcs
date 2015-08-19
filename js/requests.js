@@ -20,12 +20,9 @@ function getXmlHttp(){
 function sendForm(form_name){
 	document.forms[form_name].style.display = "none";
 	var formData = new FormData(document.forms[form_name]);
-	if(!cookie['login'] || !cookie['password']){
-		setCookie({'login':document.forms[form_name].login, 'password':document.forms[form_name].password});
-	}
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',false);
-	xmlhttp.send(formData);	
+	xmlhttp.send(formData);
 	parse(xmlhttp.responseText);
 }
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/

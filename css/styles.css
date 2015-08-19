@@ -98,7 +98,8 @@ table tr{
 	border:1px solid blue;
 	padding:20px;
 	box-shadow:0 0 1px white;}
-
+.connect-form .hint{font-size:10px;color:rgba(255,0,0,0);}
+.connect-form .hint.animate{color:rgba(255,0,0,1);transition:color 0.3s ease 0s;}
 
 .modal{
 	display:none;

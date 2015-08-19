@@ -30,6 +30,7 @@ function setCookie(obj){
 	for(key in obj){
 		s += key + '=' + obj[key] + '; ';
 	}
+	console.log(s);
 	document.cookie = s;
 }
 /**добавляет объект в cookie*/
