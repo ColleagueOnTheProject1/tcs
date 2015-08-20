@@ -21,6 +21,9 @@ function cookieToArr(){
 		s = s.substr(i);
 		i = s.indexOf(';');
 	}
+	n = s.indexOf("=");
+	if(n != -1)
+		arr[s.substr(0,n)] = s.substr(n+1);
 	return arr;
 }
 /**сохраняет массив в cookie*/

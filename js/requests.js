@@ -18,11 +18,25 @@ function getXmlHttp(){
 
 /**отправка формы*/
 function sendForm(form_name){
-	document.forms[form_name].style.display = "none";
-	var formData = new FormData(document.forms[form_name]);
+	var form = document.forms[form_name];
+	var fields = {};
+	var json;
+	for(var i = 0; i < form.elements.length; i++){
+		if(form.elements[i].value)
+			fields[form.elements[i].name] = form.elements[i].value;
+	}
+	json = JSON.stringify(fields);
 	var xmlhttp = getXmlHttp();
+	form.style.display = "none";
 	xmlhttp.open("POST",'php/action.php',false);
-	xmlhttp.send(formData);
+	xmlhttp.send(json);
+	parse(xmlhttp.responseText);
+}
+//
+function sendAction(action){
+	var xmlhttp = getXmlHttp();
+	xmlhttp.open("post",'php/action.php',false);
+	xmlhttp.send('action='+action);	
 	parse(xmlhttp.responseText);
 }
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/

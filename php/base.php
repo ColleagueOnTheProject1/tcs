@@ -38,7 +38,7 @@ function usersTableCreate(){
 		(0, 'admin', 'admin', 0, ''),
 		(1, 'leader', '1234', 1, '1,2,3'),
 		(2, 'executor1', '1234', 1, '1,2,3'),
-		(3, 'executor2', '1234', 1, '1,2,3');";		
+		(3, 'executor2', '1234', 1, '1,2,3');";
 		mysql_query($query);
 	}
 }
@@ -130,7 +130,6 @@ function init(){
 	$result = mysql_query($query);
 	if(mysql_num_rows($result) > 0)
 		$user = mysql_fetch_assoc($result);
+	exit(mysql_num_rows($result));
 }
-$tasks_table = "tasks";
-$users_table = "users";
 ?>

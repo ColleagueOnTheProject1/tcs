@@ -9,16 +9,15 @@ function showBaseForm(){
 }
 //
 function showLoginForm(){
-	console.log(cookie['login']);
 	if(cookie['login']){
-		document.getElementById('login-form').login = cookie['login'];
-		document.getElementById('login-form').password = cookie['password'];
+		document.getElementById('login-form').login.value = cookie['login'];
+		if(cookie['password'])
+			document.getElementById('login-form').password.value = cookie['password'];
 		document.getElementById('login-form').getElementsByClassName("hint")[0].classList.add('animate');
 	}else{
 		document.getElementById('login-form').getElementsByClassName("hint")[0].classList.remove('animate');
 	}
 	document.getElementById('login-form').style.display = "block";	
-	
 }
 function showTasks(){
 	
