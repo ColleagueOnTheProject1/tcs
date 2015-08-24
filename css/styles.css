@@ -56,7 +56,7 @@ button{cursor:pointer;}
 .header{}
 
 .footer{}
-.footer .dev{float:righttext-align:right;}
+.footer .dev{float:right;text-align:right;}
 .footer .dev a{text-decoration:none;color:#980003;display:block;}
 .footer .dev a:hover{text-decoration:underline;}
 

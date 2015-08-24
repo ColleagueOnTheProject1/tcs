@@ -21,15 +21,22 @@ function sendForm(form_name){
 	var form = document.forms[form_name];
 	var fields = {};
 	var json;
+	var s = "";
+	var key;
 	for(var i = 0; i < form.elements.length; i++){
-		if(form.elements[i].value)
-			fields[form.elements[i].name] = form.elements[i].value;
+		if(form.elements[i].value){
+			key = form.elements[i].name;
+			fields[key] = form.elements[i].value;
+			s = s + '&' + key + '=' + fields[key];
+		}
 	}
+	s = s.substr(1);
 	json = JSON.stringify(fields);
 	var xmlhttp = getXmlHttp();
 	form.style.display = "none";
 	xmlhttp.open("POST",'php/action.php',false);
-	xmlhttp.send(json);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send(s);
 	parse(xmlhttp.responseText);
 }
 //

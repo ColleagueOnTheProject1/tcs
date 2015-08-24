@@ -4,20 +4,17 @@ error_reporting(E_ALL);
 require_once 'config.php';
 $login = '';
 $password = '';
-//нет локина или пароля - уходим отсюда
-if(!isset($_POST['login']) || !isset($_POST['password'])){
-	if(!isset($_COOKIE['login']) || !isset($_COOKIE['passsword']))
-		exit(json_encode(array('action' => 'connect')));
-}elseif(!isset($_COOKIE['login']) || !isset($_COOKIE['passsword'])){
-	setcookie('login', 'password', time() + 2629743);//срок хранения 1 месяц
-}
 //если пришел логин с паролем, берем их, иначе берем из cookie
 if(isset($_POST['login']) && isset($_POST['password'])){
 	$login = $_POST['login'];
 	$password = $_POST['password'];
-}elseif($_COOKIE['login'] && $_COOKIE['passsword']){
+	setcookie('login', $_POST['login'], time() + 2629743);//срок хранения 1 месяц
+	setcookie('password', $_POST['password'], time() + 2629743);//срок хранения 1 месяц
+}elseif(isset($_COOKIE['login']) && isset($_COOKIE['passsword'])){
 	$login = $_COOKIE['login'];
 	$password = $_COOKIE['password'];
+}else{
+	exit(json_encode(array('action' => 'connect')));
 }
 $response = array();
 include 'base.php';
