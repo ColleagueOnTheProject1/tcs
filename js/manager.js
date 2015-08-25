@@ -14,11 +14,12 @@ function init(){
 	parser_handlers[ACTION_AUTH] = showLoginForm;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	cookie = cookieToArr();
-	console.log(document.cookie);
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();
-	}else 
+	}else {
+		return;
 		sendAction(ACTION_AUTH);
+	}
 }
 document.addEventListener('DOMContentLoaded', function() {
 	init();

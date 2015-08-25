@@ -8,8 +8,8 @@ $password = '';
 if(isset($_POST['login']) && isset($_POST['password'])){
 	$login = $_POST['login'];
 	$password = $_POST['password'];
-	setcookie('login', $_POST['login'], time() + 2629743);//срок хранения 1 месяц
-	setcookie('password', $_POST['password'], time() + 2629743);//срок хранения 1 месяц
+	setcookie('login', $_POST['login'], time() + 2629743,'/');//срок хранения 1 месяц
+	setcookie('password', $_POST['password'], time() + 2629743,'/');//срок хранения 1 месяц
 }elseif(isset($_COOKIE['login']) && isset($_COOKIE['passsword'])){
 	$login = $_COOKIE['login'];
 	$password = $_COOKIE['password'];

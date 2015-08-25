@@ -1,7 +1,10 @@
 /*Переписывает содержимое таблицы содержимым из data. Ключи берутся из аттрибута name тега th*/
-function tableUpdate(data){
-	
-	
+function tableUpdate(table, data){
+	var row;
+	if(table.rows.length < data.length){
+		row = table.insertRow();
+		row.insertCell;
+	}
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){
@@ -37,4 +40,26 @@ function tableSort(table, cell){
 			sort_f(table.rows[i], table.rows[j]);
 		}
 	}
+}
+//возвращает название типа пользователя по его типу
+function getTypeName(type){
+	switch(type){
+		case 0:return 'Админ';break;
+		case 1:return 'Руководитель';break;
+		case 2:return 'Исполнитель';break;
+		default: return 'Исполнитель';
+	}
+}
+//возвращает количество задачи из строки, в которой они расположены через запятую
+function getTaskCount(tasks){
+	var k = 1;
+	if (!tasks.length)	{
+		return 0;
+	}
+	for (var i = 0; i < tasks.length; i++)	{
+		if(tasks[i] == ','){
+			k++;
+		}
+	}
+	return k;
 }

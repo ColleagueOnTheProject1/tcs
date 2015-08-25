@@ -10,20 +10,22 @@ function arrAddEventListener(arr, event, callback){
 function cookieToArr(){
 	var arr = {};
 	var p;
-	var n;
+	var n;	
 	var s = document.cookie;
 	var i = s.indexOf(';');
+	
 	while(i != -1){
-		p = s.substr(0, i + 1);
+		p = s.substr(0, i);
 		n = p.indexOf("=");
 		if(n != -1)
 			arr[p.substr(0,n)] = p.substr(n+1);
-		s = s.substr(i);
+		s = s.substr(i + 2);
 		i = s.indexOf(';');
-	}
+	}	
 	n = s.indexOf("=");
-	if(n != -1)
+	if(n != -1){
 		arr[s.substr(0,n)] = s.substr(n+1);
+	}
 	return arr;
 }
 /**сохраняет массив в cookie*/

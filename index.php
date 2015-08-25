@@ -57,21 +57,23 @@
 			</div>
 		</div>
 		<div id="tabulator" class="content">
-			<input class="tab1" id="users-tab" type="radio" name="tab1" checked="checked"/>
-			<label for="users-tab">Пользователи</label>
 			<input class="tab1" id="tasks-tab" type="radio" name="tab1"/>
 			<label for="tasks-tab">Задачи</label>
+			<input class="tab1" id="users-tab" type="radio" name="tab1" checked="checked"/>
+			<label for="users-tab">Пользователи</label>
+			<input class="tab1" id="groups-tab" type="radio" name="tab1" checked="checked"/>
+			<label for="groups-tab">Группы</label>
 			<div class="users page">
 				<h2>Пользователи</h2>
 				<button>Удалить выбранных</button>
 				<table id="users-table">
 					<tr>
-						<th class="active" to_up="0">Тип</th>
-						<th to_up="1">Логин</th>
-						<th>Пароль</th>
-						<th to_up="1">задач осталось</th>
-						<th to_up="1">задач выполнено</th>
-						<th>Активный</th>
+						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
+						<th name="login" to_up="1">Логин</th>
+						<th name="password">Пароль</th>
+						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
+						<th name="finished" to_up="1">задач выполнено</th>
+						<th name="active">Активный</th>
 					</tr>
 					<tr>
 						<td sort="0">Администратор</td>
@@ -99,7 +101,6 @@
 					</tr>
 				</table>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
-
 				</form>
 			</div>
 			<div class="page">
@@ -117,6 +118,8 @@
 						<th onclick="sort(0);">№</th>
 						<th onclick="sort(1);">задание</th>
 						<th onclick="sort(2);">приоритет</th>
+						<th onclick="sort(2);">дата создания</th>
+						<th onclick="sort(2);">состояние</th>
 						<th>выбор</th>
 						<th>активный</th>
 					</tr>
