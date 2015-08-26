@@ -1,9 +1,38 @@
 /*Переписывает содержимое таблицы содержимым из data. Ключи берутся из аттрибута name тега th*/
 function tableUpdate(table, data){
 	var row;
-	if(table.rows.length < data.length){
+	var cell;
+	var main_cell;
+	var f;
+	var name;
+	var i;
+	if(table.rows.length <= data.length){
 		row = table.insertRow();
-		row.insertCell;
+		for (i = 0; i < table.rows[0].cells.length; i++){
+			row.insertCell();
+		}
+		
+	}
+	for (var j = 0; j < table.rows[0].cells.length; j++)	
+	{
+		f = null;
+		main_cell = table.rows[0].cells[j];
+		name = main_cell.attributes.name.value;
+		if(main_cell.attributes['name_f'])
+			f = window[main_cell.attributes['name_f'].value];
+		for (i = 1; i < table.rows.length; i++)
+		{
+			cell = table.rows[i].cells[j];
+			if(data[i - 1][name]){				
+				if(f){
+					cell.innerHTML = f(data[i - 1][name]);
+					console.log(data[i - 1][name]);
+				}
+				else{
+					cell.innerHTML = data[i - 1][name];
+				}
+			}
+		}
 	}
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
@@ -62,4 +91,22 @@ function getTaskCount(tasks){
 		}
 	}
 	return k;
+}
+//настройка всех таблиц
+function tablesInit(){
+	var tables = document.getElementsByClassName('sortable');
+	var sort_cells;
+	var cell;
+	for (var i = 0; i < tables.length; i++)
+	{
+		for (j = 0; j < tables[i].rows[0].cells; j++)
+		{
+			cell = tables[i].rows[0].cells[j];
+			if(cell.hasAttribute('to_up')){
+				cell.addEventListener('click', function(e){
+					tableSort(this.parent.parent.parent, this);
+				});
+			}
+		}
+	}
 }

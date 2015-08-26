@@ -22,6 +22,7 @@ function showLoginForm(){
 function showTasks(){
 	
 }
-function showUsers(){
-	
+//обновляет таблицу пользователей
+function showUsers(data){
+	tableUpdate(document.getElementById('users-table'), data);
 }

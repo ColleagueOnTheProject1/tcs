@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/parser.js"></script>
 		<script type="text/javascript" src="js/requests.js"></script>
+		<script type="text/javascript" src="js/table.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/manager.js"></script>
 		<meta name="viewport" content="width=1400">
@@ -66,7 +67,7 @@
 			<div class="users page">
 				<h2>Пользователи</h2>
 				<button>Удалить выбранных</button>
-				<table id="users-table">
+				<table id="users-table" class="sortable">
 					<tr>
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
 						<th name="login" to_up="1">Логин</th>

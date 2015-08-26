@@ -3,7 +3,7 @@
 const ACTION_CONNECT="connect_error";//имя события - не удалось подключится к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
 const ACTION_GET_TASKS="get_tasks";//имя события - получить данные задачи
-const ACTION_GET_USERS="get_users";//имя события - получить пользователей
+const ACTION_GET_USERS="get_users";//имя события - список пользователей с дополнительной информацией
 const ACTION_AUTH="auth";//имя события - авторизация
 //------------события
 var cookie;
@@ -17,7 +17,6 @@ function init(){
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();
 	}else {
-		return;
 		sendAction(ACTION_AUTH);
 	}
 }

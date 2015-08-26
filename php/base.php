@@ -6,7 +6,7 @@ function hostConnect(){
 	global $config;
 	$connect = mysql_connect($config['host'], $config['user'], $config['pass']);
 	if(!$connect){
-		$response['action'] = 'connect_error';
+		$response['action'] = 'connect';
 		$response['error_text'] = mysql_error($connect);
 		exit(json_encode($response));
 	}
@@ -37,8 +37,8 @@ function usersTableCreate(){
 		$query = "INSERT INTO `".$config['users_table']."` (`id`, `login`, `password`, `type`, `tasks`) VALUES
 		(0, 'admin', 'admin', 0, ''),
 		(1, 'leader', '1234', 1, '1,2,3'),
-		(2, 'executor1', '1234', 1, '1,2,3'),
-		(3, 'executor2', '1234', 1, '1,2,3');";
+		(2, 'executor1', '1234', 2, '1,2,3'),
+		(3, 'executor2', '1234', 2, '1,2,3');";
 		mysql_query($query);
 	}
 }
@@ -94,10 +94,11 @@ function baseCreate(){
 		tasksTableCreate();
 }
 //получаем массив задач
-function getTasks(){
+function getTasks($ids){
 	global $response, $user, $config;
-	$query = "SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$user['tasks'].");";
-	exit($query);
+	if(!$ids)
+		$ids = $user['id'];
+	$query = "SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$ids.");";
 	$result = mysql_query($query);
 	while($data = mysql_fetch_assoc($result)){
 		$response[] = $data;
@@ -112,11 +113,14 @@ function getGroups(){
 	}
 }
 function getUsers(){
-	$result = mysql_query("SELECT * FROM $users_table");
-	global $response;
-	while($data = mysql_fetch_assoc($result)){
-		$response[] = $data;
+	global $response, $user, $config;
+	$query = "SELECT * FROM ".$config['users_table'].";";
+	$result = mysql_query($query);
+	$data = array();
+	while($row = mysql_fetch_assoc($result)){
+		$data[] = $row;
 	}
+	$response['data'] = $data;
 }
 //подключаемся к хосту и к бузу
 function connect(){
@@ -130,6 +134,6 @@ function init(){
 	$result = mysql_query($query);
 	if(mysql_num_rows($result) > 0)
 		$user = mysql_fetch_assoc($result);
-	exit(mysql_num_rows($result));
+	else xit(mysql_num_rows($result));
 }
 ?>

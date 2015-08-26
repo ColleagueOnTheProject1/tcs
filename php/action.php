@@ -10,7 +10,7 @@ if(isset($_POST['login']) && isset($_POST['password'])){
 	$password = $_POST['password'];
 	setcookie('login', $_POST['login'], time() + 2629743,'/');//срок хранения 1 месяц
 	setcookie('password', $_POST['password'], time() + 2629743,'/');//срок хранения 1 месяц
-}elseif(isset($_COOKIE['login']) && isset($_COOKIE['passsword'])){
+}elseif(isset($_COOKIE['login']) && isset($_COOKIE['password'])){
 	$login = $_COOKIE['login'];
 	$password = $_COOKIE['password'];
 }else{
@@ -21,12 +21,14 @@ include 'base.php';
 $user;
 connect();
 init();
+
 //не найден пользователь - уходим отсюда
 if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
+
 if($_POST["action"] == "auth"){
-	$response['action'] = 'get_tasks';
-	getTasks();
+	$response['action'] = 'get_users';
+	getUsers();
 }
 /*
 if($_GET["name"] == "get_tasks"){

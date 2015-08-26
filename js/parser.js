@@ -7,7 +7,7 @@ function parse(json_data){
 		return;
 	obj = JSON.parse(json_data);
 	if(parser_handlers[obj.action])
-		parser_handlers[obj.action]();
+		parser_handlers[obj.action](obj.data);
 }
 function showServerForm(){
 

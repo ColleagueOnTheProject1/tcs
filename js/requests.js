@@ -43,6 +43,7 @@ function sendForm(form_name){
 function sendAction(action){
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("post",'php/action.php',false);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send('action='+action);	
 	parse(xmlhttp.responseText);
 }
