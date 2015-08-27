@@ -117,9 +117,11 @@ function getUsers(){
 	$query = "SELECT * FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
 	$data = array();
+	
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
+	
 	$response['data'] = $data;
 }
 //подключаемся к хосту и к бузу
@@ -132,8 +134,9 @@ function init(){
 	global $user, $config, $login, $password;
 	$query = "SELECT * FROM ".$config['users_table']." WHERE `login`='$login' AND `password`='$password';";
 	$result = mysql_query($query);
-	if(mysql_num_rows($result) > 0)
+	if(mysql_num_rows($result) > 0){
 		$user = mysql_fetch_assoc($result);
-	else xit(mysql_num_rows($result));
+	}
+	else exit(mysql_num_rows($result));
 }
 ?>

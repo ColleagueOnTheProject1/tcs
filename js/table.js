@@ -72,12 +72,8 @@ function tableSort(table, cell){
 }
 //возвращает название типа пользователя по его типу
 function getTypeName(type){
-	switch(type){
-		case 0:return 'Админ';break;
-		case 1:return 'Руководитель';break;
-		case 2:return 'Исполнитель';break;
-		default: return 'Исполнитель';
-	}
+	var types = ['Админ', 'Руководитель', 'Исполнитель'];
+	return types[type];
 }
 //возвращает количество задачи из строки, в которой они расположены через запятую
 function getTaskCount(tasks){

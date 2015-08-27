@@ -21,7 +21,6 @@ include 'base.php';
 $user;
 connect();
 init();
-
 //не найден пользователь - уходим отсюда
 if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
@@ -40,5 +39,8 @@ if($_GET["name"] == "get_tasks"){
 }elseif($_GET["name"] == "edit_task"){
 	include "edit_task.php";
 }*/
-echo json_encode($response, JSON_NUMERIC_CHECK);
+if(defined('JSON_NUMERIC_CHECK'))
+	echo json_encode($response, JSON_NUMERIC_CHECK);
+else
+	echo json_encode($response);
 ?>
