@@ -29,6 +29,7 @@ function usersTableCreate(){
 		`password` VARCHAR(32) NOT NULL,
 		`type` TINYINT(4) NOT NULL,
 		`tasks` VARCHAR(255) NOT NULL,
+		`finished` INT(11) UNSIGNED DEFAULT '0',
 		PRIMARY KEY (`id`),
 		UNIQUE INDEX `login` (`login`));";
 	mysql_query($query);
@@ -117,11 +118,11 @@ function getUsers(){
 	$query = "SELECT * FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
 	$data = array();
-	
+
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
-	
+
 	$response['data'] = $data;
 }
 //подключаемся к хосту и к бузу

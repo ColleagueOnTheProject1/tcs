@@ -39,8 +39,9 @@ if($_GET["name"] == "get_tasks"){
 }elseif($_GET["name"] == "edit_task"){
 	include "edit_task.php";
 }*/
+/*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);
-else
+else*/
 	echo json_encode($response);
 ?>

@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/parser.js"></script>
 		<script type="text/javascript" src="js/requests.js"></script>
+		<script type="text/javascript" src="js/blocks.js"></script>
 		<script type="text/javascript" src="js/table.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/manager.js"></script>
@@ -66,39 +67,16 @@
 			<label for="groups-tab">Группы</label>
 			<div class="users page">
 				<h2>Пользователи</h2>
+				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
 				<button>Удалить выбранных</button>
 				<table id="users-table" class="sortable">
-					<tr>
+					<tr main="login">
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
 						<th name="login" to_up="1">Логин</th>
 						<th name="password">Пароль</th>
 						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
 						<th name="finished" to_up="1">задач выполнено</th>
-						<th name="active">Активный</th>
-					</tr>
-					<tr>
-						<td sort="0">Администратор</td>
-						<td>user1</td>
-						<td>password1</td>
-						<td>0</td>
-						<td>0</td>
-						<td><input name="users-check" type="radio" checked="checked"/></td>
-					</tr>
-					<tr>
-						<td sort="1">Руководитель</td>
-						<td>user2</td>
-						<td>password2</td>
-						<td>0</td>
-						<td>3</td>
-						<td><input name="users-check" type="radio"/></td>
-					</tr>
-					<tr>
-						<td sort="2">Исполнитель</td>
-						<td>user3</td>
-						<td>password3</td>
-						<td>3</td>
-						<td>3</td>
-						<td><input name="users-check" type="radio"/></td>
+						<th name="choose" choose_f="chooseUser">Выбрать</th>
 					</tr>
 				</table>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
