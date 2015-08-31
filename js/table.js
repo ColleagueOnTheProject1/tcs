@@ -45,15 +45,27 @@ function tableUpdate(table, data){
 	{
 		if(table.rows[0].cells[j].hasAttribute('to_up')){
 			table.rows[0].cells[j].addEventListener('click', function(e){
-				if(this.attributes['to_up']
-				
-				tableSort(this);
+				if(this.classList.contains('active')){
+					if(this.attributes['to_up'].value == '1')
+						this.setAttribute('to_up','0')
+					else
+						this.setAttribute('to_up','1');
+				}
+				var table = this;
+				while(table.tagName != "TABLE") 
+					table = table.parentNode;
+				for(var k = 0; k < table.rows[0].cells.length; k++){
+					table.rows[0].cells[k].classList.remove('active');
+
+				}
+				table.rows[0].cells[this.cellIndex].classList.toggle('active');
+				tableSort(table,this);
 			});
 		}
 		f = null;
 		cur_cell = table.rows[0].cells[j];
 		name = cur_cell.attributes.name.value;
-		if(cur_cell.attributes['name_f'])
+		if(cur_cell.hasAttribute('name_f'))
 			f = window[cur_cell.attributes['name_f'].value];
 		for (i = 1; i < table.rows.length; i++)
 		{
@@ -61,6 +73,7 @@ function tableUpdate(table, data){
 			if(data[i - 1][name] != undefined){
 				if(f){
 					cell.innerHTML = f(data[i - 1][name]);
+					cell.setAttribute('sort', data[i - 1][name]);
 				}
 				else{
 					cell.innerHTML = data[i - 1][name];
@@ -73,21 +86,20 @@ function tableUpdate(table, data){
 				cell.classList.add('not');
 				cell.addEventListener('click',cellChoose);
 			}
-			
 		}
 	}
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
-function tableSort(cell){
-	var table = cell.parentNode.parentNode.parentNode;
+function tableSort(table, cell){
 	var col = cell.cellIndex;
 	//сортировка по значению
 	function sort_by_val(row1, row2){
-		el1 = row1.cells[col].innetText;
-		el2 = row2.cells[col].innerText;
-
+		el1 = row1.cells[col].innerHTML;
+		el2 = row2.cells[col].innerHTML;
+		console.log(to_up, el1, el2);
 		if((to_up && el1 > el2)||(!to_up && el2 > el1)){
 			table.rows[i].parentNode.insertBefore(row2,row1);
+			console.log('sort_by_val');
 		}
 	}
 	//сортировка по аттрибуту sort
@@ -96,6 +108,7 @@ function tableSort(cell){
 		el2 = row2.cells[col].attributes.sort.value;
 		if((to_up && el1 > el2)||(!to_up && el2 > el1)){
 			table.rows[i].parentNode.insertBefore(row2,row1);
+			console.log('sort_by_attr');
 		}
 	}
 	var el1, el2;
@@ -130,6 +143,15 @@ function getTaskCount(tasks){
 		}
 	}
 	return k;
+}
+//возвращает состояние задания по его id
+function getState(id){
+	var states = ['не назначена','назначена','начата', 'приостановлена','закрыта','переоткрыта'];
+	return states[id];
+}
+//
+function getDate(date){
+	return new Date(date).toLocaleString();
 }
 //настройка всех таблиц
 function tablesInit(){

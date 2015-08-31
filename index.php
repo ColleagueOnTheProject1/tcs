@@ -65,23 +65,6 @@
 			<label for="users-tab">Пользователи</label>
 			<input class="tab1" id="groups-tab" type="radio" name="tab1" checked="checked"/>
 			<label for="groups-tab">Группы</label>
-			<div class="users page">
-				<h2>Пользователи</h2>
-				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
-				<button>Удалить выбранных</button>
-				<table id="users-table" class="sortable">
-					<tr main="login">
-						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
-						<th name="login" to_up="1">Логин</th>
-						<th name="password">Пароль</th>
-						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
-						<th name="finished" to_up="1">задач выполнено</th>
-						<th name="choose" choose_f="chooseUser">Выбрать</th>
-					</tr>
-				</table>
-				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
-				</form>
-			</div>
 			<div class="page">
 				<div id="case-task">
 					<h2>операции с выбранными элементами</h2>
@@ -94,13 +77,11 @@
 				</div>
 				<table id="tasks" class="tasks">
 					<tr class="sort-field">
-						<th onclick="sort(0);">№</th>
-						<th onclick="sort(1);">задание</th>
-						<th onclick="sort(2);">приоритет</th>
-						<th onclick="sort(2);">дата создания</th>
-						<th onclick="sort(2);">состояние</th>
-						<th>выбор</th>
-						<th>активный</th>
+						<th name="id" name_f="getDate" to_up="1">дата создания</th>
+						<th name="title" to_up="1">задание</th>
+						<th name="priority" to_up="1">приоритет</th>
+						<th name="state" name_f="getState" to_up="1">состояние</th>
+						<th name="choose" choose_f="chooseUser">Выбрать</th>
 					</tr>
 				</table>
 				<h2>АКТИВНАЯ ЗАДАЧА</h2>
@@ -124,6 +105,24 @@
 				<form class="image-form" id="image-form" name="image_form" action="" method="POST" enctype="multipart/form-data">
 					<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>
 					<button onclick="addImage();event.preventDefault();">загрузить</button>
+				</form>
+			</div>
+
+			<div class="users page">
+				<h2>Пользователи</h2>
+				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
+				<button>Удалить выбранных</button>
+				<table id="users-table" class="sortable">
+					<tr main="login">
+						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
+						<th name="login" to_up="1">Логин</th>
+						<th name="password">Пароль</th>
+						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
+						<th name="finished" to_up="1">задач выполнено</th>
+						<th name="choose" choose_f="chooseUser">Выбрать</th>
+					</tr>
+				</table>
+				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 				</form>
 			</div>
 
