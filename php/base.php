@@ -95,23 +95,27 @@ function baseCreate(){
 		tasksTableCreate();
 }
 //получаем массив задач
-function getTasks($ids){
+function getTasks($ids=null){
 	global $response, $user, $config;
 	if(!$ids)
 		$ids = $user['id'];
-	$query = "SELECT * FROM ".$config['tasks_table']." WHERE `id` in(".$ids.");";
+	$query = "SELECT * FROM ".$config['tasks_table']."";
 	$result = mysql_query($query);
-	while($data = mysql_fetch_assoc($result)){
-		$response[] = $data;
+	$data = array();
+	while($row = mysql_fetch_assoc($result)){
+		$data[] = $row;
 	}
+	$response['data'] = $data;
 }
 //получаем группы
 function getGroups(){
 	$result = mysql_query("SELECT * FROM ".$config['groups_table']);
 	global $response;
-	while($data = mysql_fetch_assoc($result)){
-		$response[] = $data;
+	$data = array();
+	while($row = mysql_fetch_assoc($result)){
+		$data[] = $row;
 	}
+	$response['data'] = $data;
 }
 function getUsers(){
 	global $response, $user, $config;

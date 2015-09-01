@@ -75,8 +75,8 @@
 					<button class="btn btn1">высокий</button>
 					<button class="btn btn1">наивысший</button>
 				</div>
-				<table id="tasks" class="tasks">
-					<tr class="sort-field">
+				<table id="tasks-table" class="tasks sortable">
+					<tr main="title">
 						<th name="id" name_f="getDate" to_up="1">дата создания</th>
 						<th name="title" to_up="1">задание</th>
 						<th name="priority" to_up="1">приоритет</th>

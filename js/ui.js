@@ -19,8 +19,13 @@ function showLoginForm(){
 	}
 	document.getElementById('login-form').style.display = "block";	
 }
-function showTasks(){
-	
+//обновляет таблицу групп
+function showGroups(data){
+	groupsUpdate(document.getElementById('groups-table'), data);	
+}
+//обновляет таблицу задач
+function showTasks(data){
+	tableUpdate(document.getElementById('tasks-table'), data);	
 }
 //обновляет таблицу пользователей
 function showUsers(data){

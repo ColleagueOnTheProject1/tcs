@@ -29,6 +29,8 @@ function tableUpdate(table, data){
 		}
 		e.stopPropagation();
 	}
+	if(data.length == 0)
+		return;
 	while(table.rows.length > 1){
 		table.deleteRow(2);
 	}
@@ -151,7 +153,7 @@ function getState(id){
 }
 //
 function getDate(date){
-	return new Date(date).toLocaleString();
+	return (new Date(parseInt(date))).toLocaleFormat('%d.%m.%Y  %H:%M');
 }
 //настройка всех таблиц
 function tablesInit(){

@@ -26,19 +26,16 @@ if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
 
 if($_POST["action"] == "auth"){
+	$response['action'] = 'get_tasks';
+	getTasks();
+}elseif($_POST["action"] == "get_tasks"){
+	$response['action'] = 'get_tasks';
+	getTasks();
+}elseif($_POST["action"] == "get_users"){
 	$response['action'] = 'get_users';
 	getUsers();
 }
-/*
-if($_GET["name"] == "get_tasks"){
-	include "get_tasks.php";
-}elseif($_GET["name"] == "add_task"){
-	include "add_task.php";
-}elseif($_GET["name"] == "remove_tasks"){
-	include "remove_tasks.php";
-}elseif($_GET["name"] == "edit_task"){
-	include "edit_task.php";
-}*/
+
 /*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);
