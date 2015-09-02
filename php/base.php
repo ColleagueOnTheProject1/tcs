@@ -109,8 +109,9 @@ function getTasks($ids=null){
 }
 //получаем группы
 function getGroups(){
-	$result = mysql_query("SELECT * FROM ".$config['groups_table']);
-	global $response;
+	global $response, $user, $config;
+	$query = "SELECT * FROM ".$config['groups_table'].";";
+	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
@@ -122,11 +123,9 @@ function getUsers(){
 	$query = "SELECT * FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
 	$data = array();
-
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
-
 	$response['data'] = $data;
 }
 //подключаемся к хосту и к бузу

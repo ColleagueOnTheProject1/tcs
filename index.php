@@ -58,10 +58,18 @@
 				</div>
 			</div>
 		</div>
+		<div id="user" class="user content">
+			Здравствуй <span id="login" class="login">Админ</span>!
+			<br/>
+			<span class="mask">
+				<span class="hint">я не <span id="exit" class="exit">Админ</span>, - </span>
+				<a class="" href="" onclick="document.cookie = '';preventDefault();">выйти</a>
+			</span>
+		</div>
 		<div id="tabulator" class="content">
 			<input class="tab1" id="tasks-tab" type="radio" name="tab1"/>
 			<label for="tasks-tab">Задачи</label>
-			<input class="tab1" id="users-tab" type="radio" name="tab1" checked="checked"/>
+			<input class="tab1" id="users-tab" type="radio" name="tab1"/>
 			<label for="users-tab">Пользователи</label>
 			<input class="tab1" id="groups-tab" type="radio" name="tab1" checked="checked"/>
 			<label for="groups-tab">Группы</label>
@@ -77,7 +85,7 @@
 				</div>
 				<table id="tasks-table" class="tasks sortable">
 					<tr main="title">
-						<th name="id" name_f="getDate" to_up="1">дата создания</th>
+						<th name="id" name_f="getDate" to_up="1" class="active">дата создания</th>
 						<th name="title" to_up="1">задание</th>
 						<th name="priority" to_up="1">приоритет</th>
 						<th name="state" name_f="getState" to_up="1">состояние</th>
@@ -124,6 +132,17 @@
 				</table>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 				</form>
+			</div>
+			<div class="groups page">
+				<h2>Пользователи</h2>
+				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
+				<button>Удалить выбранных</button>
+				<table id="groups-table" class="sortable">
+					<tr main="login">
+						<th name="title" class="active" to_up="1">название</th>
+						<th name="choose" choose_f="chooseUser">Выбрать</th>
+					</tr>
+				</table>
 			</div>
 
 			<div id="footer" class="footer">

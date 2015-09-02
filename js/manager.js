@@ -10,6 +10,7 @@ const ACTION_AUTH="auth";//имя события - авторизация
 var cookie;
 var tabs;
 function init(){
+	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;
@@ -20,6 +21,9 @@ function init(){
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();
 	}else {
+		document.getElementById("user").style.display = 'block';
+		document.getElementById("login").innerHTML = cookie['login'];
+		document.getElementById("exit").innerHTML = cookie['login'];
 		sendAction(ACTION_AUTH);
 	}
 }

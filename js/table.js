@@ -93,7 +93,17 @@ function tableUpdate(table, data){
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){
-	var col = cell.cellIndex;
+	var col;
+	var i;
+	if (!cell)	{
+		for(i = 0; i < table.rows[0].cells.length; i++){
+			if(table.rows[0].cells[i].classList.contains('active')){
+				cell = table.rows[0].cells[i];
+				break;
+			}
+		}
+	}	
+	col = cell.cellIndex;
 	//сортировка по значению
 	function sort_by_val(row1, row2){
 		el1 = row1.cells[col].innerHTML;
@@ -122,7 +132,7 @@ function tableSort(table, cell){
 		sort_f = sort_by_attr
 	else
 		sort_f = sort_by_val;
-	for(var i = 1; i < table.rows.length - 1; i++){
+	for(i = 1; i < table.rows.length - 1; i++){
 		for(var j = i + 1; j < table.rows.length; j++){
 			sort_f(table.rows[i], table.rows[j]);
 		}

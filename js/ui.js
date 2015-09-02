@@ -21,15 +21,18 @@ function showLoginForm(){
 }
 //обновляет таблицу групп
 function showGroups(data){
-	groupsUpdate(document.getElementById('groups-table'), data);	
+	tableUpdate(document.getElementById('groups-table'), data);	
+	tableSort(document.getElementById('groups-table'));
 }
 //обновляет таблицу задач
 function showTasks(data){
 	tableUpdate(document.getElementById('tasks-table'), data);	
+	tableSort(document.getElementById('tasks-table'));
 }
 //обновляет таблицу пользователей
 function showUsers(data){
 	tableUpdate(document.getElementById('users-table'), data);
+	tableSort(document.getElementById('users-table'));
 }
 /*берет логин пользователя из строки таблицы и добавляет его в список/строку выбранных. 
 Если пользователь уже есть - удаляет его из списка*/
