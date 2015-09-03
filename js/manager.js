@@ -9,6 +9,9 @@ const ACTION_AUTH="auth";//имя события - авторизация
 //------------события
 var cookie;
 var tabs;
+var tasks;
+var groups;
+var users;
 function init(){
 	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
@@ -21,9 +24,7 @@ function init(){
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();
 	}else {
-		document.getElementById("user").style.display = 'block';
-		document.getElementById("login").innerHTML = cookie['login'];
-		document.getElementById("exit").innerHTML = cookie['login'];
+		showLogin();
 		sendAction(ACTION_AUTH);
 	}
 }
@@ -33,6 +34,19 @@ function initListeners(){
 	for (var i = 0; i < tabs.length; i++)	{
 		tabs[i].addEventListener('click', getData);
 	}
+}
+//отменяет последнюю авторизацию
+function exit(){
+	removeCookie('login');
+	removeCookie('password');
+	location.reload();
+}
+//отображает имя авторизованного пользователя
+function showLogin(){
+	document.getElementById("user").style.display = 'block';
+	cookie = cookieToArr();
+	document.getElementById("login").innerHTML = cookie['login'];
+	document.getElementById("exit").innerHTML = cookie['login'];
 }
 document.addEventListener('DOMContentLoaded', function() {
 	init();

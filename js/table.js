@@ -4,6 +4,7 @@
 Главная ячейка определяется по имени аттрибута. 
 Если имя аттрибута совпадает со значением аттрибута main заголовка, то она считается главной.
 В каждой строке одна главная ячейка td.
+в каждую строку пишется аттрибут n, равный индексу в массиве исходных данных для таблицы.
 */
 function tableUpdate(table, data){
 	var row;
@@ -14,12 +15,18 @@ function tableUpdate(table, data){
 	var main_attr;
 	var i;
 	function rowActive(e){
-		var rows = this.parentNode.parentNode.rows;
+		var table = this;
+		while(table.tagName != "TABLE") 
+			table = table.parentNode;
+		var rows = table.rows;
 		for (var i = 1; i < rows.length; i++)
 		{
 			rows[i].classList.remove('active');
 		}
 		this.classList.toggle('active');
+		if(table.hasAttribute('active_f')){
+			window[table.attributes['active_f'].value](this.attributes['n'].value);
+		}
 	}
 	function cellChoose(e){
 		var row = this.parentNode.parentNode.rows[0];
@@ -36,12 +43,13 @@ function tableUpdate(table, data){
 	}
 	while (table.rows.length <= data.length){
 		row = table.insertRow();
+		row.setAttribute('n', row.rowIndex - 1);
 		row.addEventListener('click', rowActive);
 		for (i = 0; i < table.rows[0].cells.length; i++){
 			row.insertCell();
 		}
 	}
-	table.rows[1].classList.add('active');
+	//table.rows[1].classList.add('active');
 	main_attr = table.rows[0].attributes['main'].value;
 	for (var j = 0; j < table.rows[0].cells.length; j++)	
 	{
@@ -90,6 +98,7 @@ function tableUpdate(table, data){
 			}
 		}
 	}
+	table.rows[1].click();
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){
@@ -137,6 +146,15 @@ function tableSort(table, cell){
 			sort_f(table.rows[i], table.rows[j]);
 		}
 	}
+}
+//врзвращает псевдозначение параметра, из таблицы задач для заданного имени параметра по id задачи
+function getTaskData(id, field_name){
+	var val;
+	switch(field_name){
+		case 'tasks':val = getTaskCount(tasks[id][field_name]);break;
+		default:val = tasks[id][field_name];break;
+	}
+	return val;
 }
 //возвращает название типа пользователя по его типу
 function getTypeName(type){

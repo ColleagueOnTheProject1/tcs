@@ -63,7 +63,7 @@
 			<br/>
 			<span class="mask">
 				<span class="hint">я не <span id="exit" class="exit">Админ</span>, - </span>
-				<a class="" href="" onclick="document.cookie = '';preventDefault();">выйти</a>
+				<a class="" href="" onclick="exit();preventDefault();">выйти</a>
 			</span>
 		</div>
 		<div id="tabulator" class="content">
@@ -83,31 +83,33 @@
 					<button class="btn btn1">высокий</button>
 					<button class="btn btn1">наивысший</button>
 				</div>
-				<table id="tasks-table" class="tasks sortable">
+				<table id="tasks-table" class="tasks sortable" active_f="activeTask">
 					<tr main="title">
 						<th name="id" name_f="getDate" to_up="1" class="active">дата создания</th>
 						<th name="title" to_up="1">задание</th>
 						<th name="priority" to_up="1">приоритет</th>
 						<th name="state" name_f="getState" to_up="1">состояние</th>
-						<th name="choose" choose_f="chooseUser">Выбрать</th>
+						<th name="choose" choose_f="chooseTask">Выбрать</th>
 					</tr>
 				</table>
-				<h2>АКТИВНАЯ ЗАДАЧА</h2>
-				<form id="detail" class="detail">
-					<div id="edit-buttons">
-						<img src="../design/edit.jpg" onclick="edit()">
-						<img src="../design/apply.jpg" onclick="applyEdit()">
-						<img src="../design/cancel.jpg" onclick="cancelEdit()">
-					</div>
-					<input id="caption" type="text"/>
-					<div class="">приоритет</div>
-					<input type="radio" name="priority"/>
-					<input type="radio" name="priority"/>
-					<input type="radio" name="priority"/>
-					<input type="radio" name="priority"/>
-					<textArea id="description"></textArea>
-					<div id="images" class="images">
-						<div class="">прикрепленные картинки</div>
+
+				<form id="active-task" class="detail">
+					<h2>АКТИВНАЯ ЗАДАЧА</h2>
+					<div class="wrapper">
+						<div id="edit-buttons">
+							<img src="../design/edit.jpg" onclick="edit()">
+							<img src="../design/apply.jpg" onclick="applyEdit()">
+							<img src="../design/cancel.jpg" onclick="cancelEdit()">
+						</div>
+						<input name="title" type="text"/>
+						<div class="">приоритет</div>
+						<input type="radio" name="priority"/>
+						<input type="radio" name="priority"/>
+						<input type="radio" name="priority"/>
+						<input type="radio" name="priority"/>
+						<textArea name="text"></textArea>
+						<div id="images" class="images">
+						</div>
 					</div>
 				</form>
 				<form class="image-form" id="image-form" name="image_form" action="" method="POST" enctype="multipart/form-data">
@@ -140,7 +142,7 @@
 				<table id="groups-table" class="sortable">
 					<tr main="login">
 						<th name="title" class="active" to_up="1">название</th>
-						<th name="choose" choose_f="chooseUser">Выбрать</th>
+						<th name="choose" choose_f="chooseGroup">Выбрать</th>
 					</tr>
 				</table>
 			</div>

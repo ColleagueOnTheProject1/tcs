@@ -21,16 +21,26 @@ function showLoginForm(){
 }
 //обновляет таблицу групп
 function showGroups(data){
+	groups = data;
 	tableUpdate(document.getElementById('groups-table'), data);	
 	tableSort(document.getElementById('groups-table'));
 }
 //обновляет таблицу задач
 function showTasks(data){
+	tasks = data;
 	tableUpdate(document.getElementById('tasks-table'), data);	
 	tableSort(document.getElementById('tasks-table'));
 }
+//активировать задачу для просмотра
+function activeTask(taskId){
+	var form = document.getElementById('active-task');
+	form['title'].value = tasks[taskId]['title'];
+	form['text'].value = tasks[taskId]['text'];
+	form['priority'][tasks[taskId]['priority']].checked = true;
+}
 //обновляет таблицу пользователей
 function showUsers(data){
+	users = data;
 	tableUpdate(document.getElementById('users-table'), data);
 	tableSort(document.getElementById('users-table'));
 }
