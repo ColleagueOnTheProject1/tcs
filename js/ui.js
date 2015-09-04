@@ -34,9 +34,19 @@ function showTasks(data){
 //активировать задачу для просмотра
 function activeTask(taskId){
 	var form = document.getElementById('active-task');
+	var imgs = [];
+	var task_images = document.getElementById('task-images');
 	form['title'].value = tasks[taskId]['title'];
 	form['text'].value = tasks[taskId]['text'];
 	form['priority'][tasks[taskId]['priority']].checked = true;
+	if(tasks[taskId]['images'])
+		imgs = tasks[taskId]['images'].split(',');
+	task_images.innerHTML = "";
+	for(var i = 0; i < imgs.length; i++){
+		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
+	}
+
+
 }
 //обновляет таблицу пользователей
 function showUsers(data){

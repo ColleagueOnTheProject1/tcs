@@ -24,25 +24,28 @@ button{cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
 
 /**компоненты*/
-.detail .wrapper{border:1px solid black;}
+.detail h2{display:inline;}
+.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;}
 .detail input[type="text"]{
 	width:400px;
-	margin:10px auto;
-	height:30px;
-	text-align:center;
+	height:16px;
 	text-transform:uppercase;}
-.detail textArea{width:100%;box-sizing:border-box;resize:none;height:100px;margin-top:10px;}
-
-
+.detail textArea{width:600px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input{background-color:transparent;border:none;}
 .detail img{margin:10px;max-height:100px;}
+.detail .images,
+.detail textArea{height:250px;}
+.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:auto;}
+.detail .images img{max-width:90%;}
+.detail .images:before{display:block;content:"прикрепленные картинки";}
+.detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}
 .img-actions > div{display:table;margin:10px auto;}
 
-#edit-buttons{text-align:justify;}
+#edit-buttons{text-align:justify;font-size:0;}
 #edit-buttons:after{width:100%;display:inline-block;content:"";}
 #edit-buttons img{border:1px solid gray;border-left:none;border-top:0;cursor:pointer;display:none;}
 #edit-buttons img:first-child{display:inline;}
@@ -135,7 +138,6 @@ table tr{
 .user .hint{display:none;}
 .user .mask:hover .hint{display:inline;}
 
-.images:before{display:block;content:"прикрепленные картинки";}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}

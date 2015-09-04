@@ -94,22 +94,20 @@
 				</table>
 
 				<form id="active-task" class="detail">
-					<h2>АКТИВНАЯ ЗАДАЧА</h2>
+					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text"/>
+					<div id="edit-buttons">
+						<img src="../design/edit.jpg" onclick="edit()">
+						<img src="../design/apply.jpg" onclick="applyEdit()">
+						<img src="../design/cancel.jpg" onclick="cancelEdit()">
+					</div>
 					<div class="wrapper">
-						<div id="edit-buttons">
-							<img src="../design/edit.jpg" onclick="edit()">
-							<img src="../design/apply.jpg" onclick="applyEdit()">
-							<img src="../design/cancel.jpg" onclick="cancelEdit()">
-						</div>
-						<input name="title" type="text"/>
 						<div class="">приоритет</div>
 						<input type="radio" name="priority"/>
 						<input type="radio" name="priority"/>
 						<input type="radio" name="priority"/>
 						<input type="radio" name="priority"/>
-						<textArea name="text"></textArea>
-						<div id="images" class="images">
-						</div>
+						<br/><textArea name="text"></textArea>
+						<div id="task-images" class="images"></div>
 					</div>
 				</form>
 				<form class="image-form" id="image-form" name="image_form" action="" method="POST" enctype="multipart/form-data">
