@@ -36,6 +36,7 @@ function tableUpdate(table, data){
 		}
 		e.stopPropagation();
 	}
+	
 	if(data.length == 0)
 		return;
 	while(table.rows.length > 1){
@@ -181,7 +182,9 @@ function getState(id){
 }
 //
 function getDate(date){
-	return (new Date(parseInt(date))).toLocaleFormat('%d.%m.%Y  %H:%M');
+	var d = new Date(parseInt(date));
+	return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + ' в ' + d.getHours() + ':' + parseInt(d.getMinutes()) +  (d.getMinutes() % 10);
+	return d.toLocaleFormat('%d.%m.%Y  %H:%M');
 }
 //настройка всех таблиц
 function tablesInit(){

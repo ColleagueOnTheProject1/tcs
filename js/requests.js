@@ -41,11 +41,16 @@ function sendForm(form_name){
 }
 //
 function sendAction(action){
+	function responseHandler(){
+		if(xmlhttp.readyState == 4)
+			parse(xmlhttp.responseText);
+	}
 	var xmlhttp = getXmlHttp();
-	xmlhttp.open("post",'php/action.php',false);
+	xmlhttp.open("post",'php/action.php',true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.onreadystatechange = responseHandler;
 	xmlhttp.send('action='+action);	
-	parse(xmlhttp.responseText);
+	//parse(xmlhttp.responseText);
 }
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/
 function sendRequest(get, handler){

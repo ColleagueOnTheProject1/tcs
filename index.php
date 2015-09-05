@@ -7,7 +7,6 @@
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/parser.js"></script>
 		<script type="text/javascript" src="js/requests.js"></script>
-		<script type="text/javascript" src="js/blocks.js"></script>
 		<script type="text/javascript" src="js/table.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/manager.js"></script>
