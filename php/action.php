@@ -34,8 +34,10 @@ if($_POST["action"] == "auth"){
 }elseif($_POST["action"] == "get_users"){
 	$response['action'] = 'get_users';
 	getUsers();
+}elseif($_POST["action"] == "save_images"){
+	include 'images.php';
+	saveImages();
 }
-
 /*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);

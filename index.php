@@ -109,10 +109,16 @@
 						<div id="task-images" class="images"></div>
 					</div>
 				</form>
-				<form class="image-form" id="image-form" name="image_form" action="" method="POST" enctype="multipart/form-data">
-					<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>
-					<button onclick="addImage();event.preventDefault();">загрузить</button>
+				<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data">
+					<input type="file" multiple="multiple" name="uploadfile[]" accept="image/jpeg,image/png"/>
+					<input type="hidden" name="action" value="save_images"/>
+					<button onclick="event.preventDefault();f1();">загрузить</button>
 				</form>
+				<script type="text/javascript">
+				function f1(){
+					alert(document.getElementById('image-form')['uploadfile[]'].files[0]);
+				}
+				</script>
 			</div>
 
 			<div class="users page">
