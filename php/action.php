@@ -24,7 +24,6 @@ init();
 //не найден пользователь - уходим отсюда
 if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
-
 if($_POST["action"] == "auth"){
 	$response['action'] = 'get_tasks';
 	getTasks();
@@ -36,8 +35,14 @@ if($_POST["action"] == "auth"){
 	getUsers();
 }elseif($_POST["action"] == "save_images"){
 	include 'images.php';
+	$response['action'] = 'task_image';
 	saveImages();
+}elseif($_POST["action"] == "save_task"){
+	$response['action'] = 'get_tasks';
+	saveTask();
+	getTasks();
 }
+
 /*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);

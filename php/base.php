@@ -107,6 +107,18 @@ function getTasks($ids=null){
 	}
 	$response['data'] = $data;
 }
+//сохранить задачу
+function saveTask(){
+	global $config;
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images');
+	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
+	$query = "UPDATE ".$config['tasks_table']." SET ";
+	for($i = 0; $i < count($fields); $i++){
+		$query.=$fields[$i].'='.$_POST[$fields[$i]].',';
+	}
+	$query = substr($query,0,-1).';';
+	$result = mysql_query($query);
+}
 //получаем группы
 function getGroups(){
 	global $response, $user, $config;

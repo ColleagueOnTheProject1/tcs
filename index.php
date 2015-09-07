@@ -37,12 +37,12 @@
 				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded">
+		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
 				<input name="password" placeholder="пароль" type=""/>
-				<button onclick="event.preventDefault();sendForm('login_form');">Попробуем</button>
+				<button type="submit">Попробуем</button>
 				<div class="hint">не удалось войти!</div>
 				<input type="hidden" name="action" value='auth'/>
 			</div>
@@ -92,33 +92,31 @@
 					</tr>
 				</table>
 
-				<form id="active-task" class="detail">
-					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text"/>
+				<form id="active-task" name="active-task" class="detail" enctype="application/x-www-form-urlencoded">
+					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
 					<div id="edit-buttons">
-						<img src="../design/edit.jpg" onclick="edit()">
-						<img src="../design/apply.jpg" onclick="applyEdit()">
-						<img src="../design/cancel.jpg" onclick="cancelEdit()">
+						<img src="../design/edit.jpg" onclick="taskEdit()">
+						<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
+						<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 					</div>
 					<div class="wrapper">
 						<div class="">приоритет</div>
-						<input type="radio" name="priority"/>
-						<input type="radio" name="priority"/>
-						<input type="radio" name="priority"/>
-						<input type="radio" name="priority"/>
-						<br/><textArea name="text"></textArea>
+						<input type="radio" name="priority" disabled="disabled" value="0"/>
+						<input type="radio" name="priority" disabled="disabled" value="1"/>
+						<input type="radio" name="priority" disabled="disabled" value="2"/>
+						<input type="radio" name="priority" disabled="disabled" value="3"/>
+						<br/><textArea name="text"  readonly="readonly"></textArea>
 						<div id="task-images" class="images"></div>
+						<input type="hidden" name="images" value=""/>
+						<input type="hidden" name="action" value="save_task"/>
 					</div>
 				</form>
-				<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data">
-					<input type="file" multiple="multiple" name="uploadfile[]" accept="image/jpeg,image/png"/>
+				<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
+					<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>
+
 					<input type="hidden" name="action" value="save_images"/>
-					<button onclick="event.preventDefault();f1();">загрузить</button>
+					<button type="submit" onclick="">загрузить</button>
 				</form>
-				<script type="text/javascript">
-				function f1(){
-					alert(document.getElementById('image-form')['uploadfile[]'].files[0]);
-				}
-				</script>
 			</div>
 
 			<div class="users page">

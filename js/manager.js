@@ -6,12 +6,14 @@ const ACTION_GET_TASKS="get_tasks";//имя события - получить д
 const ACTION_GET_USERS="get_users";//имя события - список пользователей с дополнительной информацией
 const ACTION_GET_GROUPS="get_groups";//имя события - группы
 const ACTION_AUTH="auth";//имя события - авторизация
+const ACTION_TASK_IMAGE="task_image";//имя события - картинка сохранена на сервер
 //------------события
 var cookie;
 var tabs;
 var tasks;
 var groups;
 var users;
+var cur_task;
 function init(){
 	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
@@ -20,6 +22,8 @@ function init(){
 	parser_handlers[ACTION_GET_GROUPS] = showGroups;
 	parser_handlers[ACTION_AUTH] = showLoginForm;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
+	parser_handlers[ACTION_TASK_IMAGE] = taskAddImage;
+	
 	cookie = cookieToArr();
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();

@@ -35,8 +35,8 @@ button{cursor:pointer;}
 .detail:not(.edit) input{background-color:transparent;border:none;}
 .detail img{margin:10px;max-height:100px;}
 .detail .images,
-.detail textArea{height:250px;}
-.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:auto;}
+.detail textArea{height:250px;overflow-y:scroll;}
+.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:scroll;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}

@@ -15,16 +15,17 @@ function getXmlHttp(){
   }
   return xmlhttp;
 }
-
+//
 /**отправка формы*/
-function sendForm(form_name){
-	var form = document.forms[form_name];
+function sendForm(form){
 	var fields = {};
 	var json;
 	var s = "";
 	var key;
 	for(var i = 0; i < form.elements.length; i++){
-		if(form.elements[i].value){
+		if(form.elements[i].value != undefined){
+			if(form.elements[i].type == 'radio' && form.elements[i].checked == false)
+				continue;
 			key = form.elements[i].name;
 			fields[key] = form.elements[i].value;
 			s = s + '&' + key + '=' + fields[key];
@@ -39,7 +40,20 @@ function sendForm(form_name){
 	xmlhttp.send(s);
 	parse(xmlhttp.responseText);
 }
+//отправка формы с бинарными данными
+function sendFormData(form){
+	function responseHandler(){
+		if(xmlhttp.readyState == 4)
+			parse(xmlhttp.responseText);
+	}
+	var formData = new FormData(form);
+	var xmlhttp = getXmlHttp();
+	xmlhttp.open("POST",'php/action.php',true);
+	xmlhttp.onreadystatechange = responseHandler;
+	xmlhttp.send(formData);
+}
 //
+
 function sendAction(action){
 	function responseHandler(){
 		if(xmlhttp.readyState == 4)

@@ -36,17 +36,18 @@ function activeTask(taskId){
 	var form = document.getElementById('active-task');
 	var imgs = [];
 	var task_images = document.getElementById('task-images');
+	cur_task = taskId;
 	form['title'].value = tasks[taskId]['title'];
 	form['text'].value = tasks[taskId]['text'];
 	form['priority'][tasks[taskId]['priority']].checked = true;
+	form['images'].value = tasks[taskId]['images'];
 	if(tasks[taskId]['images'])
 		imgs = tasks[taskId]['images'].split(',');
 	task_images.innerHTML = "";
 	for(var i = 0; i < imgs.length; i++){
 		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
 	}
-
-
+	taskCancelEdit();
 }
 //обновляет таблицу пользователей
 function showUsers(data){
@@ -74,4 +75,34 @@ function chooseUser(row){
 	}
 	console.log(arr);
 	document.getElementById('selected-users').innerHTML = arr.join(',');
+}
+//открывает редактирование задачи
+function taskEdit(){
+	var form = document.getElementById('active-task');
+	form.classList.add('edit');
+	form['title'].readOnly = false;
+	form['text'].readOnly = false;
+	
+	for(var i =0; i < form['priority'].length; i++){
+		form['priority'][i].disabled = false;
+	}
+	document.forms['image-form'].style.display = 'block';
+}
+
+function taskCancelEdit(){
+	var form = document.getElementById('active-task');
+	form.classList.remove('edit');
+	form['title'].readOnly = true;
+	form['text'].readOnly = true;	 
+	for(var i =0; i < form['priority'].length; i++){
+		form['priority'][i].disabled = true;
+	}
+	document.forms['image-form'].style.display = 'none';
+}
+function taskAddImage(data){
+	var form = document.forms['active-task'];
+	document.getElementById('task-images').innerHTML += '<img src="images/' + data + '" alt=""/>';
+	if(form['images'].value != '')
+		form['images'].value += ',';
+	form['images'].value += data;
 }
