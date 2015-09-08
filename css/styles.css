@@ -19,6 +19,7 @@ button{cursor:pointer;}
 .tb{display:table;}
 .td{display:table-cell;}
 .tr{display:table-row;}
+.inline{display:inline-block;}
 .content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}

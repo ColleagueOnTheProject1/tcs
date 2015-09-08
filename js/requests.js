@@ -34,7 +34,6 @@ function sendForm(form){
 	s = s.substr(1);
 	json = JSON.stringify(fields);
 	var xmlhttp = getXmlHttp();
-	form.style.display = "none";
 	xmlhttp.open("POST",'php/action.php',false);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send(s);

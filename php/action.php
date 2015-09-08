@@ -42,6 +42,10 @@ if($_POST["action"] == "auth"){
 	saveTask();
 	getTasks();
 }
+elseif($_POST["action"] == "get_info"){
+	$response['action'] = 'get_info';
+	getInfo();
+}
 
 /*
 if(defined('JSON_NUMERIC_CHECK'))

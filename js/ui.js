@@ -41,6 +41,7 @@ function activeTask(taskId){
 	form['text'].value = tasks[taskId]['text'];
 	form['priority'][tasks[taskId]['priority']].checked = true;
 	form['images'].value = tasks[taskId]['images'];
+	form['id'].value = tasks[taskId]['id'];
 	if(tasks[taskId]['images'])
 		imgs = tasks[taskId]['images'].split(',');
 	task_images.innerHTML = "";
@@ -82,7 +83,6 @@ function taskEdit(){
 	form.classList.add('edit');
 	form['title'].readOnly = false;
 	form['text'].readOnly = false;
-	
 	for(var i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = false;
 	}

@@ -87,6 +87,7 @@
 						<th name="id" name_f="getDate" to_up="1" class="active">дата создания</th>
 						<th name="title" to_up="1">задание</th>
 						<th name="priority" to_up="1">приоритет</th>
+						<th name="assigned" to_up="1">назначено на</th>
 						<th name="state" name_f="getState" to_up="1">состояние</th>
 						<th name="choose" choose_f="chooseTask">Выбрать</th>
 					</tr>
@@ -100,14 +101,23 @@
 						<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 					</div>
 					<div class="wrapper">
-						<div class="">приоритет</div>
-						<input type="radio" name="priority" disabled="disabled" value="0"/>
-						<input type="radio" name="priority" disabled="disabled" value="1"/>
-						<input type="radio" name="priority" disabled="disabled" value="2"/>
-						<input type="radio" name="priority" disabled="disabled" value="3"/>
+						<div class="inline">
+							<div class="">приоритет</div>
+							<input type="radio" name="priority" disabled="disabled" value="0"/>
+							<input type="radio" name="priority" disabled="disabled" value="1"/>
+							<input type="radio" name="priority" disabled="disabled" value="2"/>
+							<input type="radio" name="priority" disabled="disabled" value="3"/>
+						</div>
+						<div class="inline">
+							<div class="">Назначено на</div>
+							<select name="assigned">
+								<option>никого</option>
+							</select>
+						</div>
 						<br/><textArea name="text"  readonly="readonly"></textArea>
 						<div id="task-images" class="images"></div>
 						<input type="hidden" name="images" value=""/>
+						<input type="hidden" name="id" value=""/>
 						<input type="hidden" name="action" value="save_task"/>
 					</div>
 				</form>

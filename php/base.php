@@ -114,9 +114,9 @@ function saveTask(){
 	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
-		$query.=$fields[$i].'='.$_POST[$fields[$i]].',';
+		$query.=$fields[$i]."='".$_POST[$fields[$i]]."',";
 	}
-	$query = substr($query,0,-1).';';
+	$query = substr($query,0,-1)." WHERE id='".$_POST['id']."';";
 	$result = mysql_query($query);
 }
 //получаем группы
@@ -131,6 +131,17 @@ function getGroups(){
 	$response['data'] = $data;
 }
 function getUsers(){
+	global $response, $user, $config;
+	$query = "SELECT * FROM ".$config['users_table'].";";
+	$result = mysql_query($query);
+	$data = array();
+	while($row = mysql_fetch_assoc($result)){
+		$data[] = $row;
+	}
+	$response['data'] = $data;
+}
+//возвращает информацию список пользователей, задач и логинов
+function getInfo(){
 	global $response, $user, $config;
 	$query = "SELECT * FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
