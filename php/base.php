@@ -68,6 +68,7 @@ function tasksTableCreate(){
 	`title` VARCHAR(64) NULL DEFAULT NULL,
 	`text` TEXT NULL,
 	`owner` INT(11) UNSIGNED DEFAULT '0',
+	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NULL,
 	`lead_time` TIME NULL DEFAULT NULL,
@@ -110,7 +111,7 @@ function getTasks($ids=null){
 //сохранить задачу
 function saveTask(){
 	global $config;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images');
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned');
 	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
@@ -143,12 +144,28 @@ function getUsers(){
 //возвращает информацию список пользователей, задач и логинов
 function getInfo(){
 	global $response, $user, $config;
-	$query = "SELECT * FROM ".$config['users_table'].";";
-	$result = mysql_query($query);
 	$data = array();
+	$query = "SELECT `id` FROM ".$config['tasks_table'].";";
+	$result = mysql_query($query);
+	$s = '';
 	while($row = mysql_fetch_assoc($result)){
-		$data[] = $row;
+		$s .= $row['id'].',';
 	}
+	$data['tasks'] = substr($s, 0, - 1);
+	$query = "SELECT `login` FROM ".$config['users_table'].";";
+	$result = mysql_query($query);
+	$s = '';
+	while($row = mysql_fetch_assoc($result)){
+		$s .= $row['login'].',';
+	}
+	$data['users'] = substr($s, 0, - 1);
+	$query = "SELECT `id` FROM ".$config['groups_table'].";";
+	$result = mysql_query($query);
+	$s = '';
+	while($row = mysql_fetch_assoc($result)){
+		$s .= $row['id'].',';
+	}
+	$data['groups'] = substr($s, 0, - 1);
 	$response['data'] = $data;
 }
 //подключаемся к хосту и к бузу

@@ -42,10 +42,32 @@ function activeTask(taskId){
 	form['priority'][tasks[taskId]['priority']].checked = true;
 	form['images'].value = tasks[taskId]['images'];
 	form['id'].value = tasks[taskId]['id'];
+	var logins;
+	logins = info['users'].split(',');
+	for(var i = 0; i < logins.length; i++){
+		form['assigned'].options[i + 1] = new Option(logins[i]);
+		if(tasks[taskId]['assigned'] == logins[i]){
+			form['assigned'].options[i + 1].selected = true;
+		}
+	}
+	//начать,приостановить,закрыть,переоткрыть
+	var s_btns = document.getElementById('state-buttons').getElementsByTagName('button');
+
+	//if(tasks[taskId]['state'] == 2)
+	//['не начата','начата', 'приостановлена', 'закрыта','переоткрыта']
+	for (i = 0; i < s_btns.length; i++)
+	{
+		s_btns[i].style.display = 'none';
+	}
+	s_btns[tasks[taskId]['state']].style.display = 'inline';
+	if(tasks[taskId]['state'] == 1)
+		s_btns[2].style.display = 'inline';
+	 //state_btn.innerHTML = states[tasks[taskId]['state']];
+	
 	if(tasks[taskId]['images'])
 		imgs = tasks[taskId]['images'].split(',');
 	task_images.innerHTML = "";
-	for(var i = 0; i < imgs.length; i++){
+	for(i = 0; i < imgs.length; i++){
 		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
 	}
 	taskCancelEdit();
@@ -83,6 +105,7 @@ function taskEdit(){
 	form.classList.add('edit');
 	form['title'].readOnly = false;
 	form['text'].readOnly = false;
+	form['assigned'].disabled = false;
 	for(var i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = false;
 	}
@@ -93,7 +116,8 @@ function taskCancelEdit(){
 	var form = document.getElementById('active-task');
 	form.classList.remove('edit');
 	form['title'].readOnly = true;
-	form['text'].readOnly = true;	 
+	form['text'].readOnly = true;		
+	form['assigned'].disabled = true;
 	for(var i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = true;
 	}

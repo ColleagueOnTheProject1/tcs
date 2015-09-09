@@ -27,6 +27,8 @@ function sendForm(form){
 			if(form.elements[i].type == 'radio' && form.elements[i].checked == false)
 				continue;
 			key = form.elements[i].name;
+			if(form.elements[i].tagName="select" && form.elements[i].selectedIndex == 0)
+				fields[key] = '';
 			fields[key] = form.elements[i].value;
 			s = s + '&' + key + '=' + fields[key];
 		}

@@ -175,9 +175,14 @@ function getTaskCount(tasks){
 	}
 	return k;
 }
+//сохраняем необходимые данные по задачам, пользователям и группам.
+function getInfo(data){
+	info = data;
+	sendAction(ACTION_AUTH);
+}
 //возвращает состояние задания по его id
 function getState(id){
-	var states = ['не назначена','назначена','начата', 'приостановлена','закрыта','переоткрыта'];
+	var states = ['не начата','начата', 'приостановлена','закрыта','переоткрыта'];
 	return states[id];
 }
 //
@@ -185,6 +190,17 @@ function getDate(date){
 	var d = new Date(parseInt(date));
 	return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + ' в ' + d.getHours() + ':' + parseInt(d.getMinutes()) +  (d.getMinutes() % 10);
 	return d.toLocaleFormat('%d.%m.%Y  %H:%M');
+}
+function getPriority(id){
+	const arr = ['низкий', 'средний', 'высокий', 'наивысший'];
+	return arr[id]; 
+}
+//переписывает пустой логин на значение по умолчанию или возвращает тот же логин.
+function getAssigned(s){
+	if(!s)
+		return 'Пушкин, что-ли?'
+	else
+		return s;
 }
 //настройка всех таблиц
 function tablesInit(){
