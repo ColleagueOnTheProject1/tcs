@@ -50,7 +50,6 @@ function tableUpdate(table, data){
 			row.insertCell();
 		}
 	}
-	//table.rows[1].classList.add('active');
 	main_attr = table.rows[0].attributes['main'].value;
 	for (var j = 0; j < table.rows[0].cells.length; j++)	
 	{

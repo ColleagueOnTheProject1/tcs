@@ -71,7 +71,8 @@ function tasksTableCreate(){
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NULL,
-	`lead_time` TIME NULL DEFAULT NULL,
+	`start_time` INT(10) UNSIGNED DEFAULT '0',
+	`lead_time` TIME NULL DEFAULT '0',
 	`priority` INT(11) UNSIGNED DEFAULT '0',
 	`state` INT(11) UNSIGNED DEFAULT '0',
 	PRIMARY KEY (`id`))";
@@ -111,11 +112,17 @@ function getTasks($ids=null){
 //сохранить задачу
 function saveTask(){
 	global $config;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned');
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state');
 	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
 		$query.=$fields[$i]."='".$_POST[$fields[$i]]."',";
+	}
+	if($_POST['state'] == 1){//состояние-начать
+		$query.= "start_time=".time().",";
+	}
+	elseif($_POST['state'] == 2){//состояние-остановить
+		$query.="lead_time=lead_time + ".time()." - start_time,";
 	}
 	$query = substr($query,0,-1)." WHERE id='".$_POST['id']."';";
 	$result = mysql_query($query);

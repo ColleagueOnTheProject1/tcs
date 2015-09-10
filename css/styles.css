@@ -41,6 +41,16 @@ button{cursor:pointer;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
+.active-task .state-buttons{display:inline;}
+.active-task .state-buttons button{display:none;}
+.active-task .state-buttons input[value="0"] ~ button:nth-of-type(1){display:inline;}/*не начата*/
+.active-task .state-buttons input[value="1"] ~ button:nth-of-type(2){display:inline;}/*начата*/
+.active-task .state-buttons input[value="1"] ~ button:nth-of-type(3){display:inline;}
+.active-task .state-buttons input[value="2"] ~ button:nth-of-type(3){display:inline;}/*приостановлена*/
+.active-task .state-buttons input[value="2"] ~ button:nth-of-type(4){display:inline;}
+.active-task .state-buttons input[value="3"] ~ button:nth-of-type(5){display:inline;}/*закрыта*/
+.active-task .state-buttons input[value="4"] ~ button:nth-of-type(5){display:inline;}
+.active-task .lead-time:before{content:"затрачено времени:";}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}

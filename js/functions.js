@@ -47,6 +47,19 @@ function addCookie(obj){
 	}
 	document.cookie = s;
 }
+//возвращает форму, в которой расположен элемент. уровень вложенности не превышает 100.
+function getParentForm(child){
+	var form = child;
+	var i = 0;
+	while(form.tagName != 'FORM' && i < 100){
+		i++;
+		form = form.parentNode;
+	}
+	if(form.tagName == "FORM")
+		return form
+	else
+		return null;
+}
 //удалить куки
 function removeCookie(cookie_name){
   var cookie_date = new Date ();  // Текущая дата и время

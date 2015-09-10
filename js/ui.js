@@ -42,6 +42,8 @@ function activeTask(taskId){
 	form['priority'][tasks[taskId]['priority']].checked = true;
 	form['images'].value = tasks[taskId]['images'];
 	form['id'].value = tasks[taskId]['id'];
+	form['state'].value = tasks[taskId]['state'];
+	form['lead_time'].value = tasks[taskId]['lead_time'];
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -50,20 +52,6 @@ function activeTask(taskId){
 			form['assigned'].options[i + 1].selected = true;
 		}
 	}
-	//начать,приостановить,закрыть,переоткрыть
-	var s_btns = document.getElementById('state-buttons').getElementsByTagName('button');
-
-	//if(tasks[taskId]['state'] == 2)
-	//['не начата','начата', 'приостановлена', 'закрыта','переоткрыта']
-	for (i = 0; i < s_btns.length; i++)
-	{
-		s_btns[i].style.display = 'none';
-	}
-	s_btns[tasks[taskId]['state']].style.display = 'inline';
-	if(tasks[taskId]['state'] == 1)
-		s_btns[2].style.display = 'inline';
-	 //state_btn.innerHTML = states[tasks[taskId]['state']];
-	
 	if(tasks[taskId]['images'])
 		imgs = tasks[taskId]['images'].split(',');
 	task_images.innerHTML = "";

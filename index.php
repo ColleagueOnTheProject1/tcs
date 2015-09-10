@@ -93,7 +93,7 @@
 					</tr>
 				</table>
 
-				<form id="active-task" name="active-task" class="detail" enctype="application/x-www-form-urlencoded">
+				<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(document.forms['active-task']);">
 					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
 					<div id="edit-buttons">
 						<img src="../design/edit.jpg" onclick="taskEdit()">
@@ -114,18 +114,23 @@
 								<option>никого</option>
 							</select>
 						</div>
-						<div id="state-buttons"  class="inline">
-							<button>начать</button>
-							<button>приостановить</button>
-							<button>закрыть</button>
-							<button>переоткрыть</button>
+						<div class="state-buttons"  class="inline">
+							<input type="hidden" name="state" value="0"/>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">закрыть</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
 						</div>
-
+						<div class="inline">
+							затрачено времени:<br/><input name="lead_time"/>
+						</div>
 						<br/><textArea name="text"  readonly="readonly"></textArea>
 						<div id="task-images" class="images"></div>
 						<input type="hidden" name="images" value=""/>
 						<input type="hidden" name="id" value=""/>
 						<input type="hidden" name="action" value="save_task"/>
+
 					</div>
 				</form>
 				<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
