@@ -65,7 +65,7 @@ function tasksTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
-	`title` VARCHAR(64) NULL DEFAULT NULL,
+	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
 	`owner` INT(11) UNSIGNED DEFAULT '0',
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
@@ -109,6 +109,12 @@ function getTasks($ids=null){
 	}
 	$response['data'] = $data;
 }
+//добавить задачу
+function addTask(){
+	global $config;
+	$query = "INSERT INTO `".$config['tasks_table']."` (`id`) VALUES (".time().");";
+	$result = mysql_query($query);
+}
 //сохранить задачу
 function saveTask(){
 	global $config;
@@ -124,9 +130,18 @@ function saveTask(){
 	elseif($_POST['state'] == 2){//состояние-остановить
 		$query.="lead_time=lead_time + ".time()." - start_time,";
 	}
+	elseif($_POST['state'] == 4){//состояние-завершить
+		//увеличиваем количесво завершенных задач пользователя на 1
+		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `id`='".$_POST['assigned']."';";
+		$result = mysql_query($query);
+		$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
+		$result = mysql_query($query);
+		return;
+	}
 	$query = substr($query,0,-1)." WHERE id='".$_POST['id']."';";
 	$result = mysql_query($query);
 }
+
 //получаем группы
 function getGroups(){
 	global $response, $user, $config;

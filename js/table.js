@@ -30,9 +30,11 @@ function tableUpdate(table, data){
 	}
 	function cellChoose(e){
 		var row = this.parentNode.parentNode.rows[0];
+		var temp_cell;
 		this.classList.toggle('not');
 		if(row.cells[this.cellIndex].hasAttribute('choose_f')){
-			window[row.cells[this.cellIndex].attributes['choose_f'].value](this.parentNode);
+			temp_cell = row.cells[this.cellIndex];
+			window[temp_cell.attributes['choose_f'].value](this.parentNode, temp_cell.attributes['choose_list'].value);
 		}
 		e.stopPropagation();
 	}
@@ -117,10 +119,8 @@ function tableSort(table, cell){
 	function sort_by_val(row1, row2){
 		el1 = row1.cells[col].innerHTML;
 		el2 = row2.cells[col].innerHTML;
-		console.log(to_up, el1, el2);
 		if((to_up && el1 > el2)||(!to_up && el2 > el1)){
 			table.rows[i].parentNode.insertBefore(row2,row1);
-			console.log('sort_by_val');
 		}
 	}
 	//сортировка по аттрибуту sort
@@ -129,7 +129,6 @@ function tableSort(table, cell){
 		el2 = row2.cells[col].attributes.sort.value;
 		if((to_up && el1 > el2)||(!to_up && el2 > el1)){
 			table.rows[i].parentNode.insertBefore(row2,row1);
-			console.log('sort_by_attr');
 		}
 	}
 	var el1, el2;
@@ -181,14 +180,13 @@ function getInfo(data){
 }
 //возвращает состояние задания по его id
 function getState(id){
-	var states = ['не начата','начата', 'приостановлена','закрыта','переоткрыта'];
+	var states = ['не начата','начата', 'приостановлена','на проверке','переоткрыта'];
 	return states[id];
 }
 //
 function getDate(date){
-	var d = new Date(parseInt(date));
-	return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + ' в ' + d.getHours() + ':' + parseInt(d.getMinutes()) +  (d.getMinutes() % 10);
-	return d.toLocaleFormat('%d.%m.%Y  %H:%M');
+	var d = new Date(parseInt(date)*1000);
+	return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + ' в ' + d.getHours() + ':' + Math.floor(d.getMinutes()/10) +  (d.getMinutes() % 10);
 }
 function getPriority(id){
 	const arr = ['низкий', 'средний', 'высокий', 'наивысший'];

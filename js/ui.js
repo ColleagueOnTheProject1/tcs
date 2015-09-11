@@ -84,9 +84,31 @@ function chooseUser(row){
 	}else{
 		arr.push(login); 
 	}
-	console.log(arr);
 	document.getElementById('selected-users').innerHTML = arr.join(',');
 }
+/*
+Обновляет список выбора.
+Берет значение главной ячейки из строки таблицы и добавляет его в список/строку выбранных. 
+Если значение уже есть - удаляет его из списка*/
+function chooseRow(row, list){
+	var val =  row.attributes['val'].value;
+	var s = document.getElementById(list).innerHTML;
+	var arr = s.split(', ');
+	var i = 0;
+	if(arr[0] == ''){
+		arr = [];
+	}
+	while(i < arr.length && arr[i] != val){
+		i++;
+	}
+	if(i < arr.length){
+		arr.splice(i,1);
+	}else{
+		arr.push(val); 
+	}
+	document.getElementById(list).innerHTML = arr.join(', ');
+}
+
 //открывает редактирование задачи
 function taskEdit(){
 	var form = document.getElementById('active-task');

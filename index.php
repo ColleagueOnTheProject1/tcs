@@ -74,7 +74,9 @@
 			<label for="groups-tab">Группы</label>
 			<div class="page">
 				<div id="case-task">
-					<h2>операции с выбранными элементами</h2>
+					<h2>Задачи</h2>
+					<span id="selected-tasks" class="active-list"></span>
+					<br/>
 					<button class="btn btn1" onclick="removeSelectedFields();">удалить</button>
 					или установить приоритет -
 					<button class="btn btn1">низкий</button>
@@ -89,13 +91,16 @@
 						<th name="priority" name_f="getPriority" to_up="1">приоритет</th>
 						<th name="assigned" name_f="getAssigned" to_up="1">назначено на</th>
 						<th name="state" name_f="getState" to_up="1">состояние</th>
-						<th name="choose" choose_f="chooseTask">Выбрать</th>
+						<th name="choose" choose_f="chooseRow" choose_list="selected-tasks">Выбрать</th>
 					</tr>
 				</table>
-
+				<form class="create-task" id="create-task" name="create-task" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать задачу</button>
+					<input type="hidden" name="action" value="add_task"/>
+				</form>
 				<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(document.forms['active-task']);">
 					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
-					<div id="edit-buttons">
+					<div id="edit-buttons" class="edit-buttons">
 						<img src="../design/edit.jpg" onclick="taskEdit()">
 						<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
 						<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
@@ -114,13 +119,14 @@
 								<option>никого</option>
 							</select>
 						</div>
-						<div class="state-buttons"  class="inline">
+						<div class="state-buttons inline">
 							<input type="hidden" name="state" value="0"/>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">закрыть</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">переоткрыть</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">завершить</button>
 						</div>
 						<div class="inline">
 							затрачено времени:<br/><input name="lead_time"/>

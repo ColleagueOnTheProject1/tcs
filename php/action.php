@@ -45,6 +45,10 @@ if($_POST["action"] == "auth"){
 elseif($_POST["action"] == "get_info"){
 	$response['action'] = 'get_info';
 	getInfo();
+}elseif($_POST["action"] == "add_task"){
+	$response['action'] = 'get_tasks';
+	addTask();
+	getTasks();
 }
 
 /*
