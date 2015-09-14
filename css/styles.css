@@ -23,7 +23,7 @@ button{cursor:pointer;}
 .content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
-
+.hidden{display:none !important;}
 /**компоненты*/
 .detail h2{display:inline-block;line-height:16px;}
 .detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;}
@@ -42,13 +42,14 @@ button{cursor:pointer;}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
-.active-task .state-buttons input[value="0"] ~ button:nth-of-type(1){display:inline;}/*не начата*/
-.active-task .state-buttons input[value="1"] ~ button:nth-of-type(2){display:inline;}/*начата*/
-.active-task .state-buttons input[value="1"] ~ button:nth-of-type(3){display:inline;}
-.active-task .state-buttons input[value="2"] ~ button:nth-of-type(3){display:inline;}/*приостановлена*/
+.active-task .state-buttons input[value="0"] ~ button:nth-of-type(1){display:inline;}/*не начата-начать*/
+.active-task .state-buttons input[value="1"] ~ button:nth-of-type(2){display:inline;}/*начата-приостановить*/
+.active-task .state-buttons input[value="1"] ~ button:nth-of-type(4){display:inline;}/*начата-на проверку*/
+.active-task .state-buttons input[value="2"] ~ button:nth-of-type(3){display:inline;}/*приостановлена, продолжить*/
 .active-task .state-buttons input[value="2"] ~ button:nth-of-type(4){display:inline;}
 .active-task .state-buttons input[value="3"] ~ button:nth-of-type(5){display:inline;}/*закрыта*/
 .active-task .state-buttons input[value="3"] ~ button:nth-of-type(6){display:inline;}
+.active-task .state-buttons input[value="5"] ~ button:nth-of-type(3){display:inline;}
 .active-task .lead-time:before{content:"затрачено времени:";}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
@@ -143,6 +144,7 @@ table tr{
 .create-task{margin:3px 0;}
 .active-list{color:white;}
 .active-list:before{content:"Выбранные задачи: ";color:black;}
+.active-list:empty:after{content:"ничего не выбрано";}
 
 .sortable{}
 .sortable td.choose{background:white url(../design/choose.png)no-repeat center center;border:1px solid black;}

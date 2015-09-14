@@ -23,7 +23,8 @@ function tableUpdate(table, data){
 		{
 			rows[i].classList.remove('active');
 		}
-		this.classList.toggle('active');
+		this.classList.add('active');
+		table.rows[0].cells[0].setAttribute('active',this.cells[0].getAttribute('sort'));
 		if(table.hasAttribute('active_f')){
 			window[table.attributes['active_f'].value](this.attributes['n'].value);
 		}
@@ -100,7 +101,14 @@ function tableUpdate(table, data){
 			}
 		}
 	}
-	table.rows[1].click();
+	for(i = 1; i < table.rows.length; i++){
+		if(table.rows[i].cells[0].getAttribute('sort') == table.rows[0].cells[0].getAttribute('active')){
+			table.rows[i].click();
+			break;
+		}
+	}
+	if(i == table.rows.length)
+		table.rows[1].click();
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){
@@ -180,7 +188,7 @@ function getInfo(data){
 }
 //возвращает состояние задания по его id
 function getState(id){
-	var states = ['не начата','начата', 'приостановлена','на проверке','переоткрыта'];
+	var states = ['не начата','начата', 'приостановлена','на проверке','переоткрыта', 'приостановлена'];
 	return states[id];
 }
 //

@@ -116,6 +116,7 @@ function taskEdit(){
 	form['title'].readOnly = false;
 	form['text'].readOnly = false;
 	form['assigned'].disabled = false;
+	document.getElementById('task-state-btns').classList.add('hidden');
 	for(var i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = false;
 	}
@@ -128,6 +129,7 @@ function taskCancelEdit(){
 	form['title'].readOnly = true;
 	form['text'].readOnly = true;		
 	form['assigned'].disabled = true;
+	document.getElementById('task-state-btns').classList.remove('hidden');
 	for(var i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = true;
 	}

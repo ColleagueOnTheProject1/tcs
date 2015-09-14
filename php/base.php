@@ -127,10 +127,10 @@ function saveTask(){
 	if($_POST['state'] == 1){//состояние-начать
 		$query.= "start_time=".time().",";
 	}
-	elseif($_POST['state'] == 2){//состояние-остановить
+	elseif($_POST['state'] == 2 || $_POST['state'] == 3){//состояние-остановить или вернуть владельцу
 		$query.="lead_time=lead_time + ".time()." - start_time,";
 	}
-	elseif($_POST['state'] == 4){//состояние-завершить
+	elseif($_POST['state'] == 4 && $_POST['id']){//состояние-завершить
 		//увеличиваем количесво завершенных задач пользователя на 1
 		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `id`='".$_POST['assigned']."';";
 		$result = mysql_query($query);

@@ -119,13 +119,13 @@
 								<option>никого</option>
 							</select>
 						</div>
-						<div class="state-buttons inline">
+						<div id="task-state-btns" class="state-buttons inline">
 							<input type="hidden" name="state" value="0"/>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">переоткрыть</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '5';">переоткрыть</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">завершить</button>
 						</div>
 						<div class="inline">
