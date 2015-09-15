@@ -27,7 +27,7 @@ function usersTableCreate(){
 		`id` INT(11) UNSIGNED NOT NULL,
 		`login` VARCHAR(32) NOT NULL,
 		`password` VARCHAR(32) NOT NULL,
-		`type` TINYINT(4) NOT NULL,
+		`type` TINYINT(4) NOT NULL DEFAULT '2',
 		`tasks` VARCHAR(255) NOT NULL,
 		`finished` INT(11) UNSIGNED DEFAULT '0',
 		PRIMARY KEY (`id`),
@@ -120,6 +120,12 @@ function saveTask(){
 	global $config;
 	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state');
 	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
+	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
+	if($_POST['priority'] == 3){
+		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 LIMIT 1;";
+		$result = mysql_query($query);
+	}
+
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
 		$query.=$fields[$i]."='".$_POST[$fields[$i]]."',";
@@ -127,8 +133,9 @@ function saveTask(){
 	if($_POST['state'] == 1){//состояние-начать
 		$query.= "start_time=".time().",";
 	}
-	elseif($_POST['state'] == 2 || $_POST['state'] == 3){//состояние-остановить или вернуть владельцу
-		$query.="lead_time=lead_time + ".time()." - start_time,";
+	elseif($_POST['state'] == 2 || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){//состояние-остановить или вернуть владельцу
+		//$query.="lead_time=lead_time + ".time()." - start_time,";
+		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
 	}
 	elseif($_POST['state'] == 4 && $_POST['id']){//состояние-завершить
 		//увеличиваем количесво завершенных задач пользователя на 1
@@ -162,6 +169,18 @@ function getUsers(){
 		$data[] = $row;
 	}
 	$response['data'] = $data;
+}
+//добавить пользователя
+function userAdd(){
+	global $response, $user, $config;
+	$query = "INSERT INTO `".$config['users_table']."` (`id`,`login`,`password`) VALUES (".time().", '".$_POST['login']."','".$_POST['password']."');";
+	$result = mysql_query($query);
+}
+//
+function usersRemove(){
+	global $response, $user, $config;
+	$query = "DELETE FROM `".$config['users_table']."` WHERE  `login` IN(".$_POST['users'].");";
+	$result = mysql_query($query);
 }
 //возвращает информацию список пользователей, задач и логинов
 function getInfo(){

@@ -8,6 +8,8 @@ const ACTION_GET_GROUPS="get_groups";//имя события - группы
 const ACTION_AUTH="auth";//имя события - авторизация
 const ACTION_TASK_IMAGE="task_image";//имя события - картинка сохранена на сервер
 const ACTION_GET_INFO="get_info";//имя события - получить id групп, задач и пользователей
+const ACTION_ADD_USER="add_user";//имя события - добавить пользователя
+const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
 //------------события
 var cookie;
 var tabs;
@@ -26,8 +28,7 @@ function init(){
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	parser_handlers[ACTION_TASK_IMAGE] = taskAddImage;
 	parser_handlers[ACTION_GET_INFO] = getInfo;
-	
-	
+
 	cookie = cookieToArr();
 	if(!cookie['login'] || !cookie['password']){
 		showLoginForm();

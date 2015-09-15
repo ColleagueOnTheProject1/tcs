@@ -14,6 +14,7 @@ function tableUpdate(table, data){
 	var name;
 	var main_attr;
 	var i;
+	var more = false;
 	function rowActive(e){
 		var table = this;
 		while(table.tagName != "TABLE") 
@@ -42,6 +43,9 @@ function tableUpdate(table, data){
 	
 	if(data.length == 0)
 		return;
+	//проверяем, стало ли элементов в таблице больше
+	if(table.rows.length <= data.length && table.rows.length > 1)
+		more = true;
 	while(table.rows.length > 1){
 		table.deleteRow(1);
 	}
@@ -101,13 +105,16 @@ function tableUpdate(table, data){
 			}
 		}
 	}
+	if(more){
+		table.rows[table.rows.length - 1].click();
+	}else
 	for(i = 1; i < table.rows.length; i++){
 		if(table.rows[i].cells[0].getAttribute('sort') == table.rows[0].cells[0].getAttribute('active')){
 			table.rows[i].click();
 			break;
 		}
 	}
-	if(i == table.rows.length)
+	if(i == table.rows.length && !more)
 		table.rows[1].click();
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/

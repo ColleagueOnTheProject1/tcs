@@ -43,7 +43,9 @@ function activeTask(taskId){
 	form['images'].value = tasks[taskId]['images'];
 	form['id'].value = tasks[taskId]['id'];
 	form['state'].value = tasks[taskId]['state'];
+	form['old_state'].value = tasks[taskId]['state'];
 	form['lead_time'].value = tasks[taskId]['lead_time'];
+
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -66,26 +68,6 @@ function showUsers(data){
 	tableUpdate(document.getElementById('users-table'), data);
 	tableSort(document.getElementById('users-table'));
 }
-/*берет логин пользователя из строки таблицы и добавляет его в список/строку выбранных. 
-Если пользователь уже есть - удаляет его из списка*/
-function chooseUser(row){
-	var login =  row.attributes['val'].value;
-	var s = document.getElementById('selected-users').innerHTML;
-	var arr = s.split(',');
-	var i = 0;
-	if(arr[0] == ''){
-		arr = [];
-	}
-	while(i < arr.length && arr[i] != login){
-		i++;
-	}
-	if(i < arr.length){
-		arr.splice(i,1);
-	}else{
-		arr.push(login); 
-	}
-	document.getElementById('selected-users').innerHTML = arr.join(',');
-}
 /*
 Обновляет список выбора.
 Берет значение главной ячейки из строки таблицы и добавляет его в список/строку выбранных. 
@@ -104,7 +86,7 @@ function chooseRow(row, list){
 	if(i < arr.length){
 		arr.splice(i,1);
 	}else{
-		arr.push(val); 
+		arr.push("'"+val+"'"); 
 	}
 	document.getElementById(list).innerHTML = arr.join(', ');
 }
@@ -141,4 +123,9 @@ function taskAddImage(data){
 	if(form['images'].value != '')
 		form['images'].value += ',';
 	form['images'].value += data;
+}
+//удалить выбранных пользователей
+function usersRemove(event, form){
+	event.preventDefault();
+	form['users'].value = document.getElementById('selected-users').innerHTML;
 }

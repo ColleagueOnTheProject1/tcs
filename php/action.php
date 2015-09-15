@@ -5,7 +5,7 @@ require_once 'config.php';
 $login = '';
 $password = '';
 //если пришел логин с паролем, берем их, иначе берем из cookie
-if(isset($_POST['login']) && isset($_POST['password'])){
+if(isset($_POST['login']) && isset($_POST['password'])&& $_POST['action']=="auth"){
 	$login = $_POST['login'];
 	$password = $_POST['password'];
 	setcookie('login', $_POST['login'], time() + 2629743,'/');//срок хранения 1 месяц
@@ -49,8 +49,15 @@ elseif($_POST["action"] == "get_info"){
 	$response['action'] = 'get_tasks';
 	addTask();
 	getTasks();
+}elseif($_POST["action"] == "add_user"){
+	$response['action'] = 'get_users';
+	userAdd();
+	getUsers();
+}elseif($_POST["action"] == "remove_users"){
+	$response['action'] = 'get_users';
+	usersRemove();
+	getUsers();
 }
-
 /*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);

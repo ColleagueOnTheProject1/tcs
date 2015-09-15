@@ -66,11 +66,11 @@
 			</span>
 		</div>
 		<div id="tabulator" class="content">
-			<input class="tab1" id="tasks-tab" type="radio" name="tab1"/>
+			<input class="tab1" id="tasks-tab" type="radio" name="tab1" checked="checked"/>
 			<label for="tasks-tab">Задачи</label>
 			<input class="tab1" id="users-tab" type="radio" name="tab1"/>
 			<label for="users-tab">Пользователи</label>
-			<input class="tab1" id="groups-tab" type="radio" name="tab1" checked="checked"/>
+			<input class="tab1" id="groups-tab" type="radio" name="tab1" />
 			<label for="groups-tab">Группы</label>
 			<div class="page">
 				<div id="case-task">
@@ -78,11 +78,6 @@
 					<span id="selected-tasks" class="active-list"></span>
 					<br/>
 					<button class="btn btn1" onclick="removeSelectedFields();">удалить</button>
-					или установить приоритет -
-					<button class="btn btn1">низкий</button>
-					<button class="btn btn1">средний</button>
-					<button class="btn btn1">высокий</button>
-					<button class="btn btn1">наивысший</button>
 				</div>
 				<table id="tasks-table" class="tasks sortable" active_f="activeTask">
 					<tr main="title">
@@ -133,6 +128,7 @@
 						</div>
 						<br/><textArea name="text"  readonly="readonly"></textArea>
 						<div id="task-images" class="images"></div>
+						<input type="hidden" name="old_state" value="0"/>
 						<input type="hidden" name="images" value=""/>
 						<input type="hidden" name="id" value=""/>
 						<input type="hidden" name="action" value="save_task"/>
@@ -149,8 +145,12 @@
 
 			<div class="users page">
 				<h2>Пользователи</h2>
-				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
-				<button>Удалить выбранных</button>
+				<form class="users-remove" id="users-remove" name="users-remove" action="" method="post" enctype="application/x-www-form-urlencoded"  onsubmit="usersRemove(event, this);sendForm(this);">
+					<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
+					<button type="submit">Удалить выбранных</button>
+					<input type="hidden" name="users"/>
+					<input type="hidden" name="action" value="remove_users"/>
+				</form>
 				<table id="users-table" class="sortable">
 					<tr main="login">
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
@@ -158,9 +158,16 @@
 						<th name="password">Пароль</th>
 						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
 						<th name="finished" to_up="1">задач выполнено</th>
-						<th name="choose" choose_f="chooseUser">Выбрать</th>
+						<th name="choose" choose_f="chooseRow" choose_list="selected-users">Выбрать</th>
 					</tr>
 				</table>
+				<form class="user-create" id="user-create" name="user-create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+					<h2>Новый пользователь</h2>
+					<input type="text" name="login"/> логин&nbsp;&nbsp;&nbsp;
+					<input type="text" name="password"/> пароль
+					<button type="submit">Создать</button>
+					<input type="hidden" name="action" value="add_user"/>
+				</form>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 				</form>
 			</div>
