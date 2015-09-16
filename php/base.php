@@ -139,7 +139,7 @@ function saveTask(){
 	}
 	elseif($_POST['state'] == 4 && $_POST['id']){//состояние-завершить
 		//увеличиваем количесво завершенных задач пользователя на 1
-		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `id`='".$_POST['assigned']."';";
+		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `login`='".$_POST['assigned']."';";
 		$result = mysql_query($query);
 		$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
 		$result = mysql_query($query);
