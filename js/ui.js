@@ -31,6 +31,10 @@ function showTasks(data){
 	tableUpdate(document.getElementById('tasks-table'), data);	
 	tableSort(document.getElementById('tasks-table'));
 }
+//активировать пользователя для просмотра информации о нем
+function userActive(userId){
+
+}
 //активировать задачу для просмотра
 function activeTask(taskId){
 	var form = document.getElementById('active-task');
@@ -67,6 +71,7 @@ function showUsers(data){
 	users = data;
 	tableUpdate(document.getElementById('users-table'), data);
 	tableSort(document.getElementById('users-table'));
+	sendAction(ACTION_GET_COMPLETE_TASKS);
 }
 /*
 Обновляет список выбора.
@@ -128,4 +133,15 @@ function taskAddImage(data){
 function usersRemove(event, form){
 	event.preventDefault();
 	form['users'].value = document.getElementById('selected-users').innerHTML;
+}
+//обновить список завершенных задач
+function updateCompleteTasks(data){
+	var tasks_check = document.getElementById('tasks-check');
+	var tasks_titles = document.getElementById('tasks-titles');
+	tasks_check.innerHTML = '';
+	tasks_titles.innerHTML = '';
+	for(var i = 0; i < data.length; i++){
+		tasks_check.innerHTML += '<input type="checkbox" name="id[]" value="'+data[i]['id']+'"/><br/>';
+		tasks_titles.innerHTML += data[i]['title'] + '<br/>';
+	}
 }

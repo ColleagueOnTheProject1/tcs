@@ -57,6 +57,9 @@ elseif($_POST["action"] == "get_info"){
 	$response['action'] = 'get_users';
 	usersRemove();
 	getUsers();
+}elseif($_POST["action"] == "get_complete_tasks"){
+	$response['action'] = 'get_complete_tasks';
+	getCompleteTasks();
 }
 /*
 if(defined('JSON_NUMERIC_CHECK'))

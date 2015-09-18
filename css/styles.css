@@ -47,9 +47,9 @@ button{cursor:pointer;}
 .active-task .state-buttons input[value="1"] ~ button:nth-of-type(4){display:inline;}/*начата-на проверку*/
 .active-task .state-buttons input[value="2"] ~ button:nth-of-type(3){display:inline;}/*приостановлена, продолжить*/
 .active-task .state-buttons input[value="2"] ~ button:nth-of-type(4){display:inline;}
-.active-task .state-buttons input[value="3"] ~ button:nth-of-type(5){display:inline;}/*закрыта*/
+.active-task .state-buttons input[value="3"] ~ button:nth-of-type(5){display:inline;}/*завершена*/
 .active-task .state-buttons input[value="3"] ~ button:nth-of-type(6){display:inline;}
-.active-task .state-buttons input[value="5"] ~ button:nth-of-type(3){display:inline;}
+.active-task .state-buttons input[value="4"] ~ button:nth-of-type(3){display:inline;}
 .active-task .lead-time:before{content:"затрачено времени:";}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
@@ -158,6 +158,9 @@ table tr{
 .user .exit{font-weight:bold;}
 .user .hint{display:none;}
 .user .mask:hover .hint{display:inline;}
+
+.tasks-completed .wrapper{border:1px solid black;}
+.tasks-completed .wrapper > *{display:inline-block;}
 
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 

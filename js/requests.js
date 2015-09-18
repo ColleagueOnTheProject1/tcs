@@ -172,26 +172,4 @@ function setConfig(){
 	}
 	sendRequest("?name=config&" + getRString(config), update);
 }
-/**получить данные для текущей вкладки - пользователи/задачи/группы/...*/
-function getData(){
-	for (var i = 0; i < tabs.length; i++)	{
-		if(tabs[i].checked == true)
-			break;
-	}
-	switch(tabs[i].id){
-		case 'tasks-tab':
-			if(document.getElementById('tasks-table').rows.length == 1)
-				sendAction(ACTION_GET_TASKS);
-			break;
-		case 'users-tab':
-			if(document.getElementById('users-table').rows.length == 1)	
-					sendAction(ACTION_GET_USERS);
-				break;
-		case 'groups-tab':
-			if(document.getElementById('groups-table').rows.length == 1)
-				sendAction(ACTION_GET_GROUPS);
-			break;
-		default:;
-	}
-}
 /***/

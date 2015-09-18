@@ -3,6 +3,7 @@
 const ACTION_CONNECT="connect_error";//имя события - не удалось подключится к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
 const ACTION_GET_TASKS="get_tasks";//имя события - получить данные задачи
+const ACTION_GET_COMPLETE_TASKS="get_complete_tasks";//имя события - получить список завершенных задач
 const ACTION_GET_USERS="get_users";//имя события - список пользователей с дополнительной информацией
 const ACTION_GET_GROUPS="get_groups";//имя события - группы
 const ACTION_AUTH="auth";//имя события - авторизация
@@ -10,6 +11,7 @@ const ACTION_TASK_IMAGE="task_image";//имя события - картинка 
 const ACTION_GET_INFO="get_info";//имя события - получить id групп, задач и пользователей
 const ACTION_ADD_USER="add_user";//имя события - добавить пользователя
 const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
+
 //------------события
 var cookie;
 var tabs;
@@ -23,6 +25,7 @@ function init(){
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;
+	parser_handlers[ACTION_GET_COMPLETE_TASKS] = updateCompleteTasks;
 	parser_handlers[ACTION_GET_GROUPS] = showGroups;
 	parser_handlers[ACTION_AUTH] = showLoginForm;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
@@ -35,6 +38,25 @@ function init(){
 	}else {
 		showLogin();
 		sendAction(ACTION_GET_INFO);	
+	}
+}
+/**получить данные для текущей вкладки - пользователи/задачи/группы/...*/
+function getData(){
+	for (var i = 0; i < tabs.length; i++)	{
+		if(tabs[i].checked == true)
+			break;
+	}
+	switch(tabs[i].id){
+		case 'tasks-tab':
+				sendAction(ACTION_GET_TASKS);
+			break;
+		case 'users-tab':
+					sendAction(ACTION_GET_USERS);
+				break;
+		case 'groups-tab':
+				sendAction(ACTION_GET_GROUPS);
+			break;
+		default:;
 	}
 }
 //инициализация обработчиков событий

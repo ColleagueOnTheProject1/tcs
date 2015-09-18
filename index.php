@@ -120,8 +120,8 @@
 							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
 							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '5';">переоткрыть</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">завершить</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
+							<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
 						</div>
 						<div class="inline">
 							затрачено времени:<br/><input name="lead_time"/>
@@ -151,7 +151,7 @@
 					<input type="hidden" name="users"/>
 					<input type="hidden" name="action" value="remove_users"/>
 				</form>
-				<table id="users-table" class="sortable">
+				<table id="users-table" class="sortable" active_f="userActive">
 					<tr main="login">
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
 						<th name="login" to_up="1">Логин</th>
@@ -169,6 +169,15 @@
 					<input type="hidden" name="action" value="add_user"/>
 				</form>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
+				</form>
+				<form class="tasks-completed" id="tasks-completed" name="tasks_completed" action="php/action.php" method="post" enctype="application/x-www-form-urlencoded">
+					<h2>Завершенные задачи</h2>
+					<div class="wrapper">
+						<div id="tasks-check">
+						</div>
+						<p id="tasks-titles">
+						</p>
+					</div>
 				</form>
 			</div>
 			<div class="groups page">

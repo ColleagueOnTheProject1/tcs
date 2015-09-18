@@ -116,6 +116,9 @@ function tableUpdate(table, data){
 	}
 	if(i == table.rows.length && !more)
 		table.rows[1].click();
+	if(more){
+		taskEdit();
+	}
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){
@@ -195,7 +198,7 @@ function getInfo(data){
 }
 //возвращает состояние задания по его id
 function getState(id){
-	var states = ['не начата','начата', 'приостановлена','на проверке','переоткрыта', 'приостановлена'];
+	var states = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
 	return states[id];
 }
 //

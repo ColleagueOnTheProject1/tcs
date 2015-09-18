@@ -101,7 +101,18 @@ function getTasks($ids=null){
 	global $response, $user, $config;
 	if(!$ids)
 		$ids = $user['id'];
-	$query = "SELECT * FROM ".$config['tasks_table']."";
+	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE `state` != 5";
+	$result = mysql_query($query);
+	$data = array();
+	while($row = mysql_fetch_assoc($result)){
+		$data[] = $row;
+	}
+	$response['data'] = $data;
+}
+//получаем список завершенных задач
+function getCompleteTasks(){
+	global $response, $user, $config;
+	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE state=5";
 	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
@@ -137,15 +148,16 @@ function saveTask(){
 		//$query.="lead_time=lead_time + ".time()." - start_time,";
 		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
 	}
-	elseif($_POST['state'] == 4 && $_POST['id']){//состояние-завершить
+	elseif($_POST['state'] == 5 && $_POST['id']){//состояние-завершить
 		//увеличиваем количесво завершенных задач пользователя на 1
 		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `login`='".$_POST['assigned']."';";
 		$result = mysql_query($query);
-		$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
+		//$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
+		$query = "UPDATE `".$config['tasks_table']."` SET `state`=5 WHERE `id`=".$_POST['id'].";";
 		$result = mysql_query($query);
 		return;
 	}
-	$query = substr($query,0,-1)." WHERE id='".$_POST['id']."';";
+	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
 }
 
