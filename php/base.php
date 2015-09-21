@@ -72,6 +72,7 @@ function tasksTableCreate(){
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NULL,
 	`start_time` INT(10) UNSIGNED DEFAULT '0',
+	`end_time` INT(10) UNSIGNED DEFAULT '0',
 	`lead_time` TIME NULL DEFAULT '0',
 	`priority` INT(11) UNSIGNED DEFAULT '0',
 	`state` INT(11) UNSIGNED DEFAULT '0',
@@ -153,7 +154,7 @@ function saveTask(){
 		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `login`='".$_POST['assigned']."';";
 		$result = mysql_query($query);
 		//$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
-		$query = "UPDATE `".$config['tasks_table']."` SET `state`=5 WHERE `id`=".$_POST['id'].";";
+		$query = "UPDATE `".$config['tasks_table']."` SET `state`=5, `end_time`=".time()." WHERE `id`=".$_POST['id'].";";
 		$result = mysql_query($query);
 		return;
 	}

@@ -119,6 +119,7 @@ function tableUpdate(table, data){
 	if(more){
 		taskEdit();
 	}
+	tableSort(table);
 }
 /**сортировка таблицы по указанному столбцу. Первый ряд не учавствует в сортировке, - там лежат названия столбцов.*/
 function tableSort(table, cell){

@@ -172,12 +172,14 @@
 				</form>
 				<form class="tasks-completed" id="tasks-completed" name="tasks_completed" action="php/action.php" method="post" enctype="application/x-www-form-urlencoded">
 					<h2>Завершенные задачи</h2>
-					<div class="wrapper">
-						<div id="tasks-check">
-						</div>
-						<p id="tasks-titles">
-						</p>
-					</div>
+					<table class="sortable">
+						<tr main="title">
+							<th name="title">название задачи</th>
+							<th class="active" to_up="0" name="end_time" name_f="getDate">дата завершения</th>
+							<th name="lead_time">затрачено времени</th>
+							<th name="choose">выбрать</th>
+						</tr>
+					</table>
 				</form>
 			</div>
 			<div class="groups page">

@@ -136,12 +136,6 @@ function usersRemove(event, form){
 }
 //обновить список завершенных задач
 function updateCompleteTasks(data){
-	var tasks_check = document.getElementById('tasks-check');
-	var tasks_titles = document.getElementById('tasks-titles');
-	tasks_check.innerHTML = '';
-	tasks_titles.innerHTML = '';
-	for(var i = 0; i < data.length; i++){
-		tasks_check.innerHTML += '<input type="checkbox" name="id[]" value="'+data[i]['id']+'"/><br/>';
-		tasks_titles.innerHTML += data[i]['title'] + '<br/>';
-	}
+	var table = document.getElementById('tasks-completed').getElementsByTagName('table')[0];
+	tableUpdate(table, data);
 }
