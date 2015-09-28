@@ -169,7 +169,7 @@ function tableSort(table, cell){
 function getTaskData(id, field_name){
 	var val;
 	switch(field_name){
-		case 'tasks':val = getTaskCount(tasks[id][field_name]);break;
+		case 'tasks':val = getCountInList(tasks[id][field_name]);break;
 		default:val = tasks[id][field_name];break;
 	}
 	return val;
@@ -180,11 +180,12 @@ function getTypeName(type){
 	return types[type];
 }
 //возвращает количество задачи из строки, в которой они расположены через запятую
-function getTaskCount(tasks){
+function getCountInList(tasks){
 	var k = 1;
-	if (!tasks.length)	{
+	if (!tasks || !tasks.length)	{
 		return 0;
 	}
+	
 	for (var i = 0; i < tasks.length; i++)	{
 		if(tasks[i] == ','){
 			k++;
@@ -195,7 +196,8 @@ function getTaskCount(tasks){
 //сохраняем необходимые данные по задачам, пользователям и группам.
 function getInfo(data){
 	info = data;
-	sendAction(ACTION_AUTH);
+	getData();
+//	sendAction(ACTION_AUTH);
 }
 //возвращает состояние задания по его id
 function getState(id){

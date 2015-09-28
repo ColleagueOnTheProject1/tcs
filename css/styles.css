@@ -26,7 +26,7 @@ button{cursor:pointer;}
 .hidden{display:none !important;}
 /**компоненты*/
 .detail h2{display:inline-block;line-height:16px;}
-.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;}
+.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding-top:10px;}
 .detail input[type="text"]{
 	width:400px;
 	height:16px;
@@ -35,11 +35,14 @@ button{cursor:pointer;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input{background-color:transparent;border:none;}
 .detail .images,
-.detail textArea{height:250px;overflow-y:scroll;}
+.detail textArea{height:200px;overflow-y:scroll;}
 .detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:scroll;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
+.detail .field1{width:400px;}
+.detail .actions{border:1px solid black;margin-bottom:2px;}
+
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
 .active-task .state-buttons input[value="0"] ~ button:nth-of-type(1){display:inline;}/*не начата-начать*/
@@ -51,6 +54,10 @@ button{cursor:pointer;}
 .active-task .state-buttons input[value="3"] ~ button:nth-of-type(6){display:inline;}
 .active-task .state-buttons input[value="4"] ~ button:nth-of-type(3){display:inline;}
 .active-task .lead-time:before{content:"затрачено времени:";}
+.active-task .comment:before{content:"комментарии:";}
+.active-task.edit .comment:before{content:"добавить комментарий:";}
+.active-task .no-edit{font-style:italic;color:gray;}
+.active-task .text{font:12px "Verdana";padding:3px;}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}
@@ -164,6 +171,9 @@ table tr{
 .tasks-completed .wrapper > *{display:inline-block;vertical-align:top;}
 .tasks-completed #tasks-check{line-height:21px;}
 
+.create-form input,
+.create-form textArea
+{vertical-align:top;}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}

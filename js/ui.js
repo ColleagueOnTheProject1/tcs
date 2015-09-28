@@ -43,13 +43,17 @@ function activeTask(taskId){
 	cur_task = taskId;
 	form['title'].value = tasks[taskId]['title'];
 	form['text'].value = tasks[taskId]['text'];
+
 	form['priority'][tasks[taskId]['priority']].checked = true;
 	form['images'].value = tasks[taskId]['images'];
 	form['id'].value = tasks[taskId]['id'];
 	form['state'].value = tasks[taskId]['state'];
 	form['old_state'].value = tasks[taskId]['state'];
 	form['lead_time'].value = tasks[taskId]['lead_time'];
+	form['last_comment'].value = '';
+	form['comment'].value = tasks[taskId]['comment'];
 
+	document.getElementById('task-text').innerHTML = form['text'].value;
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -133,6 +137,13 @@ function taskAddImage(data){
 function usersRemove(event, form){
 	event.preventDefault();
 	form['users'].value = document.getElementById('selected-users').innerHTML;
+}
+//добавить значение поля в первую строку другого поля
+function addToField(field, value){
+	if (value)
+	{
+		field.value = '\n' + value;
+	}
 }
 //обновить список завершенных задач
 function updateCompleteTasks(data){

@@ -93,14 +93,14 @@
 					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать задачу</button>
 					<input type="hidden" name="action" value="add_task"/>
 				</form>
-				<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(document.forms['active-task']);">
+				<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
 					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
 					<div id="edit-buttons" class="edit-buttons">
 						<img src="../design/edit.jpg" onclick="taskEdit()">
 						<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
 						<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 					</div>
-					<div class="wrapper">
+					<div class="actions">
 						<div class="inline">
 							<div class="">приоритет</div>
 							<input type="radio" name="priority" disabled="disabled" value="0"/>
@@ -126,7 +126,17 @@
 						<div class="inline">
 							затрачено времени:<br/><input name="lead_time"/>
 						</div>
-						<br/><textArea name="text"  readonly="readonly"></textArea>
+					</div>
+					<div class="wrapper">
+
+						<div class="inline">
+							<div id="task-text" class="text"></div>
+							<textArea name="text"  readonly="readonly"></textArea>
+							<br/><div class="comment"></div>
+							<input class="field1" name="last_comment"/>
+							<br/><br/><textArea class="no-edit" name="comment"></textArea>
+						</div>
+
 						<div id="task-images" class="images"></div>
 						<input type="hidden" name="old_state" value="0"/>
 						<input type="hidden" name="images" value=""/>
@@ -183,17 +193,26 @@
 				</form>
 			</div>
 			<div class="groups page">
-				<h2>Пользователи</h2>
-				<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
+				<h2>Группы</h2>
+				<span class="">Выбранные группы:&nbsp;</span><span id="selected-groups"></span><br/>
 				<button>Удалить выбранных</button>
 				<table id="groups-table" class="sortable">
 					<tr main="login">
 						<th name="title" class="active" to_up="1">название</th>
+						<th name="description" to_up="1">описание</th>
+						<th name="users" to_up="1" name_f="getCountInList">число участников</th>
 						<th name="choose" choose_f="chooseGroup">Выбрать</th>
 					</tr>
 				</table>
-			</div>
+				<form id="group-create" class="group-create create-form" name="group_create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+					<h2>Новая группа</h2>
+					<input type="text" name="title"/> название&nbsp;&nbsp;&nbsp;
+					<textArea type="text" name="description"/></textArea> описание
+					<button type="submit">Создать</button>
+					<input type="hidden" name="action" value="add_group"/>
+				</form>
 
+			</div>
 			<div id="footer" class="footer">
 			</div>
 		</div>

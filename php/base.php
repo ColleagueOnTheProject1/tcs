@@ -50,7 +50,7 @@ function groupsTableCreate(){
 	`id` INT(10) UNSIGNED NOT NULL,
 	`title` VARCHAR(64) NULL DEFAULT NULL,
 	`description` VARCHAR(255) NULL DEFAULT NULL,
-	`users` VARCHAR(255) NULL DEFAULT NULL,
+	`users` VARCHAR(255) NOT NULL DEFAULT '',
 	PRIMARY KEY (`id`));";
 	mysql_query($query);
 	if($config['test_groups']==1){
@@ -130,9 +130,10 @@ function addTask(){
 //сохранить задачу
 function saveTask(){
 	global $config;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state');
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'comment');
 	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
+	$_POST['comment'] = '\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n'.$_POST['comment'];
 	if($_POST['priority'] == 3){
 		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 LIMIT 1;";
 		$result = mysql_query($query);
@@ -172,6 +173,12 @@ function getGroups(){
 		$data[] = $row;
 	}
 	$response['data'] = $data;
+}
+//добавляем группу
+function groupAdd(){
+	global $response, $user, $config;
+	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`) VALUES (".time().", '".$_POST['title']."','".$_POST['description']."');";
+	$result = mysql_query($query);
 }
 function getUsers(){
 	global $response, $user, $config;

@@ -10,6 +10,7 @@ const ACTION_AUTH="auth";//имя события - авторизация
 const ACTION_TASK_IMAGE="task_image";//имя события - картинка сохранена на сервер
 const ACTION_GET_INFO="get_info";//имя события - получить id групп, задач и пользователей
 const ACTION_ADD_USER="add_user";//имя события - добавить пользователя
+const ACTION_ADD_GROUP="add_group";//имя события - добавить группу
 const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
 
 //------------события
@@ -20,8 +21,7 @@ var groups;
 var users;
 var cur_task;
 var info;
-function init(){
-	
+function init(){	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;

@@ -121,16 +121,6 @@ function addTask(){
 	function completeHandler(data){
 		update();
 	}
-	/*
-	var caption = new_task.getElementsByTagName("input")[0].value;
-	var priority_name = new_task.getElementsByTagName("select")[0].value;
-	var priority = 0;
-	var i = 0;
-	while(i < PRIORITY.length && PRIORITY[i] != priority_name)	
-		i++;
-	if (i < PRIORITY.length)
-		priority = i;
-	sendRequest("?name=add_task&caption=" + caption+"&priority=" + priority, completeHandler);*/
 }
 /**собирает строку из массива для get запроса*/
 function getRString(arr){

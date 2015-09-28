@@ -60,6 +60,13 @@ elseif($_POST["action"] == "get_info"){
 }elseif($_POST["action"] == "get_complete_tasks"){
 	$response['action'] = 'get_complete_tasks';
 	getCompleteTasks();
+}elseif($_POST["action"] == "get_groups"){
+	$response['action'] = 'get_groups';
+	getGroups();
+}elseif($_POST["action"] == "add_group"){
+	$response['action'] = 'get_groups';
+	groupAdd();
+	getGroups();
 }
 /*
 if(defined('JSON_NUMERIC_CHECK'))
