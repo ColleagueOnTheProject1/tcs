@@ -124,7 +124,7 @@
 							<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
 						</div>
 						<div class="inline">
-							затрачено времени:<br/><input name="lead_time"/>
+							затрачено времени:<br/><input type="text" name="lead_time"/>
 						</div>
 					</div>
 					<div class="wrapper">
@@ -133,7 +133,8 @@
 							<div id="task-text" class="text"></div>
 							<textArea name="text"  readonly="readonly"></textArea>
 							<br/><div class="comment"></div>
-							<input class="field1" name="last_comment"/>
+							<input type="text" class="field1" name="last_comment"/>
+							<div id="task-comments" class="text comments"></div>
 							<br/><br/><textArea class="no-edit" name="comment"></textArea>
 						</div>
 

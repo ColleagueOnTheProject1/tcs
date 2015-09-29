@@ -54,6 +54,8 @@ function activeTask(taskId){
 	form['comment'].value = tasks[taskId]['comment'];
 
 	document.getElementById('task-text').innerHTML = form['text'].value;
+	document.getElementById('task-comments').innerHTML = form['comment'].value;
+
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){

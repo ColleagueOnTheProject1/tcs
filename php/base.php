@@ -131,9 +131,9 @@ function addTask(){
 function saveTask(){
 	global $config;
 	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'comment');
-	//UPDATE `tcs_base`.`tasks` SET `title`='задача 4' WHERE  `id`=3;
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
-	$_POST['comment'] = '\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n'.$_POST['comment'];
+	if($_POST['last_comment'])
+		$_POST['comment'] = '\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n'.$_POST['comment'];
 	if($_POST['priority'] == 3){
 		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 LIMIT 1;";
 		$result = mysql_query($query);

@@ -33,10 +33,10 @@ button{cursor:pointer;}
 	text-transform:uppercase;}
 .detail textArea{width:600px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
-.detail:not(.edit) input{background-color:transparent;border:none;}
+.detail:not(.edit) input[type="text"]{background-color:transparent;border:none;display:none;}
 .detail .images,
 .detail textArea{height:200px;overflow-y:scroll;}
-.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:scroll;}
+.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:auto;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
@@ -56,8 +56,13 @@ button{cursor:pointer;}
 .active-task .lead-time:before{content:"затрачено времени:";}
 .active-task .comment:before{content:"комментарии:";}
 .active-task.edit .comment:before{content:"добавить комментарий:";}
-.active-task .no-edit{font-style:italic;color:gray;}
-.active-task .text{font:12px "Verdana";padding:3px;}
+.active-task .no-edit{display:none;}
+.active-task .text{font-size:12px;width:600px;white-space:pre-line;}
+.active-task .comments{font-style:italic;color:gray;}
+.active-task .comments:empty:before{content:"пусто";}
+.active-task.edit .text{display:none;}
+#task-text:before{content:"Описание задачи:\000A";font-size:14px;}
+#task-text:after{content:"отсутствует"}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}
