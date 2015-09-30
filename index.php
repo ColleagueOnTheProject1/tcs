@@ -75,6 +75,8 @@
 			<div class="page">
 				<div id="case-task">
 					<h2>Задачи</h2>
+					<div id="task-list" class="list1">
+					</div>
 					<span id="selected-tasks" class="active-list"></span>
 					<br/>
 					<button class="btn btn1" onclick="removeSelectedFields();">удалить</button>

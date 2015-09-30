@@ -30,6 +30,27 @@ function showTasks(data){
 	tasks = data;
 	tableUpdate(document.getElementById('tasks-table'), data);	
 	tableSort(document.getElementById('tasks-table'));
+	taskListUpdate(data);
+}
+/*обновить список задач в каталоге*/
+function taskListUpdate(data){
+	var taskList = document.getElementById('task-list');
+	var li;
+	var ch;
+	taskList.innerHTML = "";
+	for(var i = 0; i < data.length; i++){
+		if(data[i]['owner_task'] == 0){
+			ch = document.createElement('input');
+			ch.setAttribute('type', 'checkbox');
+			ch.setAttribute('id', 't-l-line-id'+i);
+			ch.checked = false;
+			taskList.appendChild(ch);
+			li = document.createElement('label');
+			li.setAttribute('for', 't-l-line-id'+i);
+			li.innerHTML = data[i]['title'];
+			taskList.appendChild(li);
+		}
+	}
 }
 //активировать пользователя для просмотра информации о нем
 function userActive(userId){

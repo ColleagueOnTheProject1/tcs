@@ -65,6 +65,7 @@ function tasksTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
+	`owner_task` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
 	`owner` INT(11) UNSIGNED DEFAULT '0',

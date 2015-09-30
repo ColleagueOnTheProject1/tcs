@@ -62,7 +62,7 @@ button{cursor:pointer;}
 .active-task .comments:empty:before{content:"пусто";}
 .active-task.edit .text{display:none;}
 #task-text:before{content:"Описание задачи:\000A";font-size:14px;}
-#task-text:after{content:"отсутствует"}
+#task-text:empty:after{content:"отсутствует"}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}
@@ -179,6 +179,12 @@ table tr{
 .create-form input,
 .create-form textArea
 {vertical-align:top;}
+
+.list1{padding:10px;border:1px solid black;background:rgba(0,0,0,0.3);}
+.list1 input{display:none;}
+.list1 label{display:block;cursor:pointer;line-height:20px;padding-left:10px;}
+.list1 label:hover{background-color:rgba(255,255,255,0.3);}
+.list1 input:checked + label{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}
