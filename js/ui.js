@@ -37,18 +37,46 @@ function taskListUpdate(data){
 	var taskList = document.getElementById('task-list');
 	var li;
 	var ch;
+	var sub;
+	var subs = [];
+	function createItem(index){
+		ch = document.createElement('input');
+		ch.setAttribute('type', 'radio');
+		ch.setAttribute('name', 'task-group');
+		ch.setAttribute('id', 't-l-line-id'+index);
+		ch.checked = false;		
+		li = document.createElement('label');
+		li.setAttribute('for', 't-l-line-id'+index);
+		li.setAttribute('n',index);
+		li.innerHTML = data[index]['title'];	
+		li.addEventListener('click', function(e){activeTask(this.getAttribute('n'))});
+	}
 	taskList.innerHTML = "";
-	for(var i = 0; i < data.length; i++){
-		if(data[i]['owner_task'] == 0){
-			ch = document.createElement('input');
-			ch.setAttribute('type', 'checkbox');
-			ch.setAttribute('id', 't-l-line-id'+i);
-			ch.checked = false;
+	for(var i = 0; i < data.length; i++){	
+		if(data[i]['owner_task'] == 0){//добавляем задачу
+			createItem(i);
 			taskList.appendChild(ch);
-			li = document.createElement('label');
-			li.setAttribute('for', 't-l-line-id'+i);
-			li.innerHTML = data[i]['title'];
 			taskList.appendChild(li);
+		}
+	}
+	for(var i = 0; i < data.length; i++){
+		if(data[i]['owner_task'] > 0){//добавляем подзадачу
+			createItem(i);
+			for(var j = 0; j < subs.length; j++){
+				if(subs[j].getAttribute('owner') == data[i]['owner_task'])
+					break;
+			}			
+			if(j == subs.length){
+				sub = document.createElement('div');
+				sub.classList.add('sub');
+				sub.setAttribute('owner', data[i]['owner_task']);
+				subs.push(sub);
+				taskList.appendChild(sub);
+			}else{
+				sub = subs[j];
+			}
+			sub.appendChild(ch);
+			sub.appendChild(li);
 		}
 	}
 }

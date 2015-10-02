@@ -20,23 +20,27 @@ button{cursor:pointer;}
 .td{display:table-cell;}
 .tr{display:table-row;}
 .inline{display:inline-block;}
+.allocate{text-align:justify;}
+.allocate > *{display:inline-block;text-align:left;vertical-align:top;}
+.allocate:after{content:"";width:100%;display:inline-block;}
 .content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
 .hidden{display:none !important;}
 /**компоненты*/
+.detail{}
 .detail h2{display:inline-block;line-height:16px;}
 .detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding-top:10px;}
 .detail input[type="text"]{
 	width:400px;
 	height:16px;
 	text-transform:uppercase;}
-.detail textArea{width:600px;box-sizing:border-box;resize:none;}
+.detail textArea{width:400px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input[type="text"]{background-color:transparent;border:none;display:none;}
 .detail .images,
 .detail textArea{height:200px;overflow-y:scroll;}
-.detail .images{display:inline-block;width:350px;vertical-align:top;overflow-y:auto;}
+.detail .images{display:inline-block;width:300px;vertical-align:top;overflow-y:auto;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
@@ -57,7 +61,7 @@ button{cursor:pointer;}
 .active-task .comment:before{content:"комментарии:";}
 .active-task.edit .comment:before{content:"добавить комментарий:";}
 .active-task .no-edit{display:none;}
-.active-task .text{font-size:12px;width:600px;white-space:pre-line;}
+.active-task .text{font-size:12px;width:400px;white-space:pre-line;}
 .active-task .comments{font-style:italic;color:gray;}
 .active-task .comments:empty:before{content:"пусто";}
 .active-task.edit .text{display:none;}
@@ -182,9 +186,10 @@ table tr{
 
 .list1{padding:10px;border:1px solid black;background:rgba(0,0,0,0.3);}
 .list1 input{display:none;}
-.list1 label{display:block;cursor:pointer;line-height:20px;padding-left:10px;}
+.list1 label{display:block;cursor:pointer;line-height:20px;padding:0 10px;}
 .list1 label:hover{background-color:rgba(255,255,255,0.3);}
 .list1 input:checked + label{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
+.list1 .sub{padding-left:20px;}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}

@@ -75,7 +75,69 @@
 			<div class="page">
 				<div id="case-task">
 					<h2>Задачи</h2>
-					<div id="task-list" class="list1">
+					<div class="allocate">
+						<div id="task-list" class="list1">
+						</div>
+						<div class="">
+							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
+								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
+								<div id="edit-buttons" class="edit-buttons">
+									<img src="../design/edit.jpg" onclick="taskEdit()">
+									<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
+									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
+								</div>
+								<div class="actions">
+									<div class="inline">
+										<div class="">приоритет</div>
+										<input type="radio" name="priority" disabled="disabled" value="0"/>
+										<input type="radio" name="priority" disabled="disabled" value="1"/>
+										<input type="radio" name="priority" disabled="disabled" value="2"/>
+										<input type="radio" name="priority" disabled="disabled" value="3"/>
+									</div>
+									<div class="inline">
+										<div class="">Назначено на</div>
+										<select name="assigned" disabled="disabled">
+											<option>никого</option>
+										</select>
+									</div>
+									<div id="task-state-btns" class="state-buttons inline">
+										<input type="hidden" name="state" value="0"/>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
+										<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
+									</div>
+									<div class="inline">
+										затрачено времени:<br/><input type="text" name="lead_time"/>
+									</div>
+								</div>
+								<div class="wrapper">
+
+									<div class="inline">
+										<div id="task-text" class="text"></div>
+										<textArea name="text"  readonly="readonly"></textArea>
+										<br/><div class="comment"></div>
+										<input type="text" class="field1" name="last_comment"/>
+										<div id="task-comments" class="text comments"></div>
+										<br/><br/><textArea class="no-edit" name="comment"></textArea>
+									</div>
+
+									<div id="task-images" class="images"></div>
+									<input type="hidden" name="old_state" value="0"/>
+									<input type="hidden" name="images" value=""/>
+									<input type="hidden" name="id" value=""/>
+									<input type="hidden" name="action" value="save_task"/>
+								</div>
+							</form>
+							<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
+								<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>
+
+								<input type="hidden" name="action" value="save_images"/>
+								<button type="submit" onclick="">загрузить</button>
+							</form>
+						</div>
 					</div>
 					<span id="selected-tasks" class="active-list"></span>
 					<br/>
@@ -95,65 +157,7 @@
 					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать задачу</button>
 					<input type="hidden" name="action" value="add_task"/>
 				</form>
-				<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
-					<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
-					<div id="edit-buttons" class="edit-buttons">
-						<img src="../design/edit.jpg" onclick="taskEdit()">
-						<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
-						<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
-					</div>
-					<div class="actions">
-						<div class="inline">
-							<div class="">приоритет</div>
-							<input type="radio" name="priority" disabled="disabled" value="0"/>
-							<input type="radio" name="priority" disabled="disabled" value="1"/>
-							<input type="radio" name="priority" disabled="disabled" value="2"/>
-							<input type="radio" name="priority" disabled="disabled" value="3"/>
-						</div>
-						<div class="inline">
-							<div class="">Назначено на</div>
-							<select name="assigned" disabled="disabled">
-								<option>никого</option>
-							</select>
-						</div>
-						<div id="task-state-btns" class="state-buttons inline">
-							<input type="hidden" name="state" value="0"/>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
-							<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
-						</div>
-						<div class="inline">
-							затрачено времени:<br/><input type="text" name="lead_time"/>
-						</div>
-					</div>
-					<div class="wrapper">
 
-						<div class="inline">
-							<div id="task-text" class="text"></div>
-							<textArea name="text"  readonly="readonly"></textArea>
-							<br/><div class="comment"></div>
-							<input type="text" class="field1" name="last_comment"/>
-							<div id="task-comments" class="text comments"></div>
-							<br/><br/><textArea class="no-edit" name="comment"></textArea>
-						</div>
-
-						<div id="task-images" class="images"></div>
-						<input type="hidden" name="old_state" value="0"/>
-						<input type="hidden" name="images" value=""/>
-						<input type="hidden" name="id" value=""/>
-						<input type="hidden" name="action" value="save_task"/>
-
-					</div>
-				</form>
-				<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
-					<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>
-
-					<input type="hidden" name="action" value="save_images"/>
-					<button type="submit" onclick="">загрузить</button>
-				</form>
 			</div>
 
 			<div class="users page">
