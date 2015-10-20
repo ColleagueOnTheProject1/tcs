@@ -110,7 +110,7 @@
 										<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
 									</div>
 									<div class="inline">
-										затрачено времени:<br/><input type="text" name="lead_time"/>
+										затрачено времени:<br/><input class="m1" type="text" name="lead_time"/>
 									</div>
 								</div>
 								<div class="wrapper">
