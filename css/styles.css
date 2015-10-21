@@ -19,7 +19,7 @@ button{cursor:pointer;}
 .tb{display:table;}
 .td{display:table-cell;}
 .tr{display:table-row;}
-.inline{display:inline-block;}
+.inline{display:inline-block;vertical-align:top;}
 .allocate{text-align:justify;}
 .allocate > *{display:inline-block;text-align:left;vertical-align:top;}
 .allocate:after{content:"";width:100%;display:inline-block;}
@@ -35,7 +35,7 @@ button{cursor:pointer;}
 	width:400px;
 	height:16px;
 	text-transform:uppercase;}
-.detail input.m1{width:200px;}
+.detail input.m1{width:120px;}
 .detail textArea{width:400px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input[type="text"]{background-color:transparent;border:none;}

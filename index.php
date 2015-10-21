@@ -76,8 +76,7 @@
 				<div id="case-task">
 					<h2>Задачи</h2>
 					<div class="allocate">
-						<div id="task-list" class="list1">
-						</div>
+						<div id="task-list" class="list1"></div>
 						<div class="">
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
@@ -87,6 +86,13 @@
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 								</div>
 								<div class="actions">
+									<div class="inline">
+										дата создания:<br/><input class="m1" type="text" name="create_date"/>
+									</div>&nbsp;
+									<div class="inline">
+										затрачено времени:<br/><input class="m1" type="text" name="lead_time"/>
+									</div>&nbsp;
+
 									<div class="inline">
 										<div class="">приоритет</div>
 										<input type="radio" name="priority" disabled="disabled" value="0"/>
@@ -102,16 +108,14 @@
 									</div>
 									<div id="task-state-btns" class="state-buttons inline">
 										<input type="hidden" name="state" value="0"/>
+
 										<button type="submit" onclick="getParentForm(this)['state'].value = '1';">начать</button>
 										<button type="submit" onclick="getParentForm(this)['state'].value = '2';">приостановить</button>
 										<button type="submit" onclick="getParentForm(this)['state'].value = '1';">продолжить</button>
 										<button type="submit" onclick="getParentForm(this)['state'].value = '3';">на проверку</button>
 										<button type="submit" onclick="getParentForm(this)['state'].value = '4';">переоткрыть</button>
 										<button type="submit" onclick="getParentForm(this)['state'].value = '5';">завершить</button>
-									</div>
-									<div class="inline">
-										затрачено времени:<br/><input class="m1" type="text" name="lead_time"/>
-									</div>
+									</div>&nbsp;
 								</div>
 								<div class="wrapper">
 
@@ -153,8 +157,10 @@
 						<th name="choose" choose_f="chooseRow" choose_list="selected-tasks">Выбрать</th>
 					</tr>
 				</table>
-				<form class="create-task" id="create-task" name="create-task" action="" method="post" enctype="application/x-www-form-urlencoded">
-					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать задачу</button>
+				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<button onclick="event.preventDefault();getParentForm(this)['subtask'].value = 0;sendForm(getParentForm(this));">Создать задачу</button>
+					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать подзадачу</button>
+					<input type="hidden" name="subtask" value=""/>
 					<input type="hidden" name="action" value="add_task"/>
 				</form>
 

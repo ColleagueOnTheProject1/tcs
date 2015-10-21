@@ -16,7 +16,8 @@ const ACTION_REMOVE_USER="remove_user";//имя события - удалить 
 //------------события
 var cookie;
 var tabs;
-var tasks;
+var tasks;//данные задач
+var task_status = 0;//1 - задачи получены, 2 - задача обновлена, 3 - задача создана, 4 - задача закрыта
 var groups;
 var users;
 var cur_task;
