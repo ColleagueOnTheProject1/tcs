@@ -147,16 +147,6 @@
 					<br/>
 					<button class="btn btn1" onclick="removeSelectedFields();">удалить</button>
 				</div>
-				<table id="tasks-table" class="tasks sortable" active_f="activeTask">
-					<tr main="title">
-						<th name="id" name_f="getDate" to_up="1" class="active">дата создания</th>
-						<th name="title" to_up="1">задание</th>
-						<th name="priority" name_f="getPriority" to_up="1">приоритет</th>
-						<th name="assigned" name_f="getAssigned" to_up="1">назначено на</th>
-						<th name="state" name_f="getState" to_up="1">состояние</th>
-						<th name="choose" choose_f="chooseRow" choose_list="selected-tasks">Выбрать</th>
-					</tr>
-				</table>
 				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
 					<button onclick="event.preventDefault();getParentForm(this)['subtask'].value = 0;sendForm(getParentForm(this));">Создать задачу</button>
 					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать подзадачу</button>

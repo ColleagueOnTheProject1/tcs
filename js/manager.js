@@ -21,6 +21,7 @@ var task_status = 0;//1 - задачи получены, 2 - задача обн
 var groups;
 var users;
 var cur_task;
+var last_task_id;//id последней выбранной задачи в списке задач
 var info;
 function init(){	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;

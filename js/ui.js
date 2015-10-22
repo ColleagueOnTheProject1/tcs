@@ -36,8 +36,6 @@ function showTasks(data){
 	else
 		task_status = 4
 	tasks = data;
-	tableUpdate(document.getElementById('tasks-table'), data);	
-	tableSort(document.getElementById('tasks-table'));
 	taskListUpdate(data);
 }
 /*обновить список задач в каталоге*/
@@ -48,9 +46,18 @@ function taskListUpdate(data){
 	var sub;
 	var subs = [];
 	var li_arr = [];
-	var last_task;
+	var last_item;
 	var last_date;
+	var list;//список задач вместе с подзадачами, подзадачи идут сразу под основной задачей.
 	function choose(e){
+		
+		for (var i = 0; i < list.length; i++){
+			if(list[i] == this)
+				break;
+		}
+		if(i == list.length)
+			i = 0;
+		last_task_id = i;
 		activeTask(this.getAttribute('n'));
 		if(this.parentNode.classList.contains('sub')){
 			document.getElementById('create-task').getElementsByTagName('button')[1].setAttribute('disabled', 'disabled');
@@ -71,7 +78,7 @@ function taskListUpdate(data){
 		li.addEventListener('click', choose);
 		if(!last_date || (last_date < data[index]['id'])){
 			last_date = parseInt(data[index]['id']);
-			last_task = li;
+			last_item = li;
 		}
 	}
 	taskList.innerHTML = "";
@@ -107,11 +114,14 @@ function taskListUpdate(data){
 			sub.appendChild(li);
 		}
 	}
-	if(task_status == 1)
+	list = taskList.getElementsByTagName('label');
+	if(task_status == 1 || task_status == 4)
 		taskList.getElementsByTagName('label')[0].click();
 	else if(task_status == 2){
+		list[last_task_id].click();
 	}else if(task_status == 3){
-		last_task.click();
+		last_item.click();
+		taskEdit();
 	}
 }
 //активировать пользователя для просмотра информации о нем
@@ -139,7 +149,6 @@ function activeTask(taskId){
 
 	document.getElementById('task-text').innerHTML = form['text'].value;
 	document.getElementById('task-comments').innerHTML = form['comment'].value;
-
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -157,6 +166,15 @@ function activeTask(taskId){
 	taskCancelEdit();
 	setSubTask(taskId);
 }
+//обновляем список пользователей 
+function updateUsersList(data){
+	if(!data.length)
+		return;
+	info['users'] = data[0]['login'];
+	for(var i = 1; i < data.length; i++){
+		info['users'] += ',' + data[i]['login'];
+	}
+}
 //установить подзадачу
 function setSubTask(taskId){
 	document.forms['create_task']['subtask'].value = tasks[taskId]['id'];
@@ -166,6 +184,7 @@ function showUsers(data){
 	users = data;
 	tableUpdate(document.getElementById('users-table'), data);
 	tableSort(document.getElementById('users-table'));
+	updateUsersList(data);
 	sendAction(ACTION_GET_COMPLETE_TASKS);
 }
 /*
