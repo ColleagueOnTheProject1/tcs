@@ -79,7 +79,7 @@
 						<div id="task-list" class="list1"></div>
 						<div class="">
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
-								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input name="title" type="text" readonly="readonly"/>
+								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input class="field2" name="title" type="text" readonly="readonly"/>
 								<div id="edit-buttons" class="edit-buttons">
 									<img src="../design/edit.jpg" onclick="taskEdit()">
 									<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
@@ -143,14 +143,12 @@
 							</form>
 						</div>
 					</div>
-					<span id="selected-tasks" class="active-list"></span>
-					<br/>
-					<button class="btn btn1" onclick="removeSelectedFields();">удалить</button>
 				</div>
 				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
-					<button onclick="event.preventDefault();getParentForm(this)['subtask'].value = 0;sendForm(getParentForm(this));">Создать задачу</button>
+					<button onclick="event.preventDefault();clearSubTask();sendForm(getParentForm(this));">Создать задачу</button>
 					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать подзадачу</button>
 					<input type="hidden" name="subtask" value=""/>
+					<input type="hidden" name="assigned" value=""/>
 					<input type="hidden" name="action" value="add_task"/>
 				</form>
 

@@ -125,7 +125,7 @@ function getCompleteTasks(){
 //добавить задачу
 function addTask(){
 	global $config;
-	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`owner_task`) VALUES (".time().",".$_POST['subtask'].");";
+	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`owner_task`,`assigned`) VALUES (".time().",".$_POST['subtask'].",'".$_POST['assigned']."');";
 	$result = mysql_query($query);
 }
 //сохранить задачу

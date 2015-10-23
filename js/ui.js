@@ -74,7 +74,9 @@ function taskListUpdate(data){
 		li = document.createElement('label');
 		li.setAttribute('for', 't-l-line-id'+index);
 		li.setAttribute('n',index);
-		li.innerHTML = data[index]['title'];	
+		li.setAttribute('state',data[index]['state']);
+		li.setAttribute('priority',data[index]['priority']);
+		li.innerHTML = '<div class="icon1 priority-icon" title="'+getPriority(data[index]['priority'])+' приоритет"></div>' + data[index]['title'] + '<div class="icon1 state-icon" title="'+getState(data[index]['state'])+'"></div>';	
 		li.addEventListener('click', choose);
 		if(!last_date || (last_date < data[index]['id'])){
 			last_date = parseInt(data[index]['id']);
@@ -178,6 +180,11 @@ function updateUsersList(data){
 //установить подзадачу
 function setSubTask(taskId){
 	document.forms['create_task']['subtask'].value = tasks[taskId]['id'];
+	document.forms['create_task']['assigned'].value = tasks[taskId]['assigned'];
+}
+function clearSubTask(){
+	document.forms['create_task']['subtask'].value = 0;
+	document.forms['create_task']['assigned'].value = '';
 }
 //обновляет таблицу пользователей
 function showUsers(data){
@@ -186,6 +193,7 @@ function showUsers(data){
 	tableSort(document.getElementById('users-table'));
 	updateUsersList(data);
 	sendAction(ACTION_GET_COMPLETE_TASKS);
+	document.getElementById('selected-users').innerHTML = '';
 }
 /*
 Обновляет список выбора.

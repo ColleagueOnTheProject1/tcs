@@ -27,15 +27,23 @@ button{cursor:pointer;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
 .hidden{display:none !important;}
+/**/
+.icon1{/**маленькая иконка, которая не занимает пространства*/
+	content:"";
+	width:16px;
+	height:16px;
+	position:absolute;
+	top:0;
+	bottom:0;
+	margin:auto;}
 /**компоненты*/
 .detail{}
 .detail h2{display:inline-block;line-height:16px;}
 .detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding-top:10px;}
 .detail input[type="text"]{
 	width:400px;
-	height:16px;
-	text-transform:uppercase;}
-.detail input.m1{width:120px;}
+	height:16px;}
+.detail input.m1{width:120px;text-transform:uppercase;}
 .detail textArea{width:400px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input[type="text"]{background-color:transparent;border:none;}
@@ -47,6 +55,7 @@ button{cursor:pointer;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
 .detail .field1{width:400px;}
+.detail .field2{text-transform:uppercase;}
 .detail .actions{border:1px solid black;margin-bottom:2px;}
 
 .active-task .state-buttons{display:inline;}
@@ -186,10 +195,25 @@ table tr{
 .create-form textArea
 {vertical-align:top;}
 
-.list1{padding:10px;border:1px solid black;background:rgba(0,0,0,0.3);}
+.list1{padding:10px 30px 10px;border:1px solid black;background:rgba(0,0,0,0.3);}
 .list1 input{display:none;}
-.list1 label{display:block;cursor:pointer;line-height:20px;padding:0 10px;}
+.list1 label{display:block;cursor:pointer;line-height:20px;padding:0 10px;position:relative;}
 .list1 label:hover{background-color:rgba(255,255,255,0.3);}
+.list1 label .state-icon{
+	background:url(../design/states.png)no-repeat;
+	right:-20px;}
+.list1 label[state="0"] .state-icon{background-position:-48px 0;}
+.list1 label[state="1"] .state-icon{background-position:-32px 0;}
+.list1 label[state="2"] .state-icon{background-position:0 0;}
+.list1 label[state="3"] .state-icon{background-position:-16px 0;}
+.list1 label .priority-icon{
+	background:url(../design/priorities.png)no-repeat;
+	left:-20px;}
+.list1 label[priority="0"] .priority-icon{background-position:0 0;display:none;}
+.list1 label[priority="1"] .priority-icon{background-position:-16px 0;display:none;}
+.list1 label[priority="2"] .priority-icon{background-position:-32px 0;display:none;}
+.list1 label[priority="3"] .priority-icon{background-position:-48px 0;}
+
 .list1 input:checked + label{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 .list1 .sub{padding-left:20px;}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
