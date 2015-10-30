@@ -110,6 +110,7 @@ function getTasks($ids=null){
 		$data[] = $row;
 	}
 	$response['data'] = $data;
+	$response['tasks_info'] = Array('0'=>count($data));
 }
 //получаем список завершенных задач
 function getCompleteTasks(){
@@ -136,7 +137,7 @@ function saveTask(){
 	if($_POST['last_comment'])
 		$_POST['comment'] = '\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n'.$_POST['comment'];
 	if($_POST['priority'] == 3){
-		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 LIMIT 1;";
+		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 AND `assigned`='".$_POST['assigned']."' LIMIT 1;";
 		$result = mysql_query($query);
 	}
 

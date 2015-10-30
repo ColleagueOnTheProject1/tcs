@@ -151,6 +151,7 @@ function activeTask(taskId){
 
 	document.getElementById('task-text').innerHTML = form['text'].value;
 	document.getElementById('task-comments').innerHTML = form['comment'].value;
+//	document.getElementById('tasks-count').innerHTML = tasks[taskId]['tasks_count'];
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
