@@ -104,13 +104,31 @@ function getTasks($ids=null){
 	if(!$ids)
 		$ids = $user['id'];
 	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE `state` != 5";
+	if(isset($_POST['u_filter'])&& $_POST['u_filter'] != 'all'){
+		$query .= " AND assigned = '".$_POST['u_filter']."'";
+	}
+	if(isset($_POST['g_filter'])&& $_POST['g_filter'] != 'all'){
+		//$query .= " AND assigned = '".$_POST['g_filter']."'";
+	}
+
 	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
 	$response['data'] = $data;
-	$response['tasks_info'] = Array('0'=>count($data));
+	$nc = 0;//новых задач
+	$rc = 0;//переоткрыто задач
+	for($i = 0; $i < count($data); $i++){
+		if($data[$i]['state']==0){
+			$nc++;
+		}elseif($data[$i]['state']==4){
+			$rc++;
+		}
+	}
+
+
+	$response['tasks_info'] = Array('0'=>count($data), '1'=>0, '2'=>$nc,'3'=>$rc);
 }
 //получаем список завершенных задач
 function getCompleteTasks(){
@@ -222,11 +240,11 @@ function getInfo(){
 		$s .= $row['login'].',';
 	}
 	$data['users'] = substr($s, 0, - 1);
-	$query = "SELECT `id` FROM ".$config['groups_table'].";";
+	$query = "SELECT `title` FROM ".$config['groups_table'].";";
 	$result = mysql_query($query);
 	$s = '';
 	while($row = mysql_fetch_assoc($result)){
-		$s .= $row['id'].',';
+		$s .= $row['title'].',';
 	}
 	$data['groups'] = substr($s, 0, - 1);
 	$response['data'] = $data;

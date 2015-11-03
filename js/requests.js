@@ -55,7 +55,7 @@ function sendFormData(form){
 }
 //
 
-function sendAction(action){
+function sendAction(action, getStr){
 	function responseHandler(){
 		if(xmlhttp.readyState == 4)
 			parse(xmlhttp.responseText);
@@ -64,7 +64,12 @@ function sendAction(action){
 	xmlhttp.open("post",'php/action.php',true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.onreadystatechange = responseHandler;
-	xmlhttp.send('action='+action);	
+	if(!getStr){
+		getStr = '';
+	}else{
+		getStr = '&' + getStr;
+	}
+	xmlhttp.send('action='+action + getStr);
 	//parse(xmlhttp.responseText);
 }
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/
@@ -162,4 +167,11 @@ function setConfig(){
 	}
 	sendRequest("?name=config&" + getRString(config), update);
 }
+//сохраняем необходимые данные по задачам, пользователям и группам.
+function getInfo(data){
+	info = data;
+	updateFilters();
+	getData();
+}
+
 /***/

@@ -52,7 +52,7 @@ function getData(){
 	}
 	switch(tabs[i].id){
 		case 'tasks-tab':
-				sendAction(ACTION_GET_TASKS);
+				sendAction(ACTION_GET_TASKS, getFiltersStr());
 			break;
 		case 'users-tab':
 					sendAction(ACTION_GET_USERS);

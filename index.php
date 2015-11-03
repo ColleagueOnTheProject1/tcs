@@ -74,6 +74,21 @@
 			<label for="groups-tab">Группы</label>
 			<div class="page">
 				<div id="case-task">
+					<form class="filters" id="filters" name="filters" action="" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="wrapper">
+							<h2>фильтры</h2>
+							<div class="inline-top item">пользователи
+								<select name="users" onchange="getData();">
+									<option>Все</option>
+								</select>
+							</div>
+							<div class="inline-top item">группы
+								<select name="groups">
+									<option>Все</option>
+								</select>
+							</div>
+						</div>
+					</form>
 					<h2>Задачи</h2>
 					<div class="allocate">
 						<div id="task-list" class="list1"></div>
@@ -92,21 +107,21 @@
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 								</div>
 								<div class="actions">
-									<div class="inline">
+									<div class="inline-top">
 										дата создания:<br/><input class="m1" type="text" name="create_date"/>
 									</div>&nbsp;
-									<div class="inline">
+									<div class="inline-top">
 										затрачено времени:<br/><input class="m1" type="text" name="lead_time"/>
 									</div>&nbsp;
 
-									<div class="inline">
+									<div class="inline-top">
 										<div class="">приоритет</div>
 										<input type="radio" name="priority" disabled="disabled" value="0"/>
 										<input type="radio" name="priority" disabled="disabled" value="1"/>
 										<input type="radio" name="priority" disabled="disabled" value="2"/>
 										<input type="radio" name="priority" disabled="disabled" value="3"/>
 									</div>
-									<div class="inline">
+									<div class="inline-top">
 										<div class="">Назначено на</div>
 										<select name="assigned" disabled="disabled">
 											<option>никого</option>
@@ -125,7 +140,7 @@
 								</div>
 								<div class="wrapper">
 
-									<div class="inline">
+									<div class="inline-top">
 										<div id="task-text" class="text"></div>
 										<textArea name="text"  readonly="readonly"></textArea>
 										<br/><div class="comment"></div>

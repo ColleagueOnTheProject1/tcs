@@ -46,11 +46,11 @@ function taskListUpdate(data){
 	var sub;
 	var subs = [];
 	var li_arr = [];
+	var posEl;
 	var last_item;
 	var last_date;
 	var list;//список задач вместе с подзадачами, подзадачи идут сразу под основной задачей.
-	function choose(e){
-		
+	function choose(e){		
 		for (var i = 0; i < list.length; i++){
 			if(list[i] == this)
 				break;
@@ -84,6 +84,8 @@ function taskListUpdate(data){
 		}
 	}
 	taskList.innerHTML = "";
+	if(!data.length)
+		return;
 	for(var i = 0; i < data.length; i++){	
 		if(data[i]['owner_task'] == 0){//добавляем задачу
 			createItem(i);
@@ -108,7 +110,8 @@ function taskListUpdate(data){
 					if(subs[j].getAttribute('owner') == data[li_arr[k].getAttribute('n')]['id'])
 						break;
 				}			
-				taskList.insertBefore(sub, li_arr[k+1]);
+				posEl = document.getElementById(li_arr[k+1].getAttribute('for'));
+				taskList.insertBefore(sub, posEl);
 			}else{
 				sub = subs[j];
 			}
@@ -174,9 +177,43 @@ function updateUsersList(data){
 	if(!data.length)
 		return;
 	info['users'] = data[0]['login'];
+	u_filters.innerHTML = '<option value="all">Все</option>';
 	for(var i = 1; i < data.length; i++){
 		info['users'] += ',' + data[i]['login'];
-	}
+		opt = document.createElement('option');
+		opt.value = data[i]['login'];
+		u_filters.appendChild(opt);
+	}	
+}
+//обновляет списки фильтров
+function updateFilters(){
+	var u_filters = document.forms['filters']['users'];
+	var u_groups = document.forms['filters']['groups'];
+	var opt;
+	var arr;
+	arr = info['users'].split(',');
+	u_filters.innerHTML = '<option value="all">Все</option>';	
+	for(var i = 0; i < arr.length; i++){
+		opt = document.createElement('option');
+		opt.value = arr[i];
+		opt.innerHTML = arr[i];
+		u_filters.appendChild(opt);
+	}	
+	arr = info['groups'].split(',');
+	u_groups.innerHTML = '<option value="all">Все</option>';
+	for(i = 0; i < arr.length; i++){
+		opt = document.createElement('option');
+		opt.value = arr[i];
+		opt.innerHTML = arr[i];
+		u_groups.appendChild(opt);
+	}		
+}
+//возвращает строку с фильтрами для get запроса
+function getFiltersStr(){
+	var s;
+	s = 'u_filter=' + document.forms['filters']['users'].value + '&u_groups=' + 
+		document.forms['filters']['groups'].value;
+	return s;
 }
 //установить подзадачу
 function setSubTask(taskId){

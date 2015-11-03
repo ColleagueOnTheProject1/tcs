@@ -193,12 +193,6 @@ function getCountInList(tasks){
 	}
 	return k;
 }
-//сохраняем необходимые данные по задачам, пользователям и группам.
-function getInfo(data){
-	info = data;
-	getData();
-//	sendAction(ACTION_AUTH);
-}
 //возвращает состояние задания по его id
 function getState(id){
 	var states = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
