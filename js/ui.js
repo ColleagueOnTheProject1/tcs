@@ -151,9 +151,11 @@ function activeTask(taskId){
 	form['create_date'].value = getDate(tasks[taskId]['id']);
 	form['last_comment'].value = '';
 	form['comment'].value = tasks[taskId]['comment'];
-
+	form['type'].value = tasks[taskId]['type'];
 	document.getElementById('task-text').innerHTML = form['text'].value;
-	document.getElementById('task-comments').innerHTML = form['comment'].value;
+	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
+	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
+	
 //	document.getElementById('tasks-count').innerHTML = tasks[taskId]['tasks_count'];
 	var logins;
 	logins = info['users'].split(',');
@@ -188,7 +190,8 @@ function updateUsersList(data){
 //обновляет списки фильтров
 function updateFilters(){
 	var u_filters = document.forms['filters']['users'];
-	var u_groups = document.forms['filters']['groups'];
+	var g_filters = document.forms['filters']['groups'];
+	var s_filters = document.forms['filters']['state'];
 	var opt;
 	var arr;
 	arr = info['users'].split(',');
@@ -200,19 +203,23 @@ function updateFilters(){
 		u_filters.appendChild(opt);
 	}	
 	arr = info['groups'].split(',');
-	u_groups.innerHTML = '<option value="all">Все</option>';
+	g_filters.innerHTML = '<option value="all">Все</option>';
 	for(i = 0; i < arr.length; i++){
 		opt = document.createElement('option');
 		opt.value = arr[i];
 		opt.innerHTML = arr[i];
-		u_groups.appendChild(opt);
-	}		
+		g_filters.appendChild(opt);
+	}	
+	arr = s_filters.getElementsByTagName('option');
+	for(i = 0; i < arr.length; i++){
+		arr[i].value = i;
+	}
 }
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
 	var s;
-	s = 'u_filter=' + document.forms['filters']['users'].value + '&u_groups=' + 
-		document.forms['filters']['groups'].value;
+	s = 'u_filter=' + document.forms['filters']['users'].value + '&g_filters=' + 
+		document.forms['filters']['groups'].value + '&s_filter=' + document.forms['filters']['state'].value;
 	return s;
 }
 //установить подзадачу
@@ -258,13 +265,18 @@ function chooseRow(row, list){
 
 //открывает редактирование задачи
 function taskEdit(){
+	var i;
 	var form = document.getElementById('active-task');
 	form.classList.add('edit');
 	form['title'].readOnly = false;
 	form['text'].readOnly = false;
-	form['assigned'].disabled = false;
+	//form['assigned'].disabled = false;
+	selects = form.getElementsByTagName('select');
+	for(i = 0; i< selects.length; i++){
+		selects[i].disabled = false;
+	}
 	document.getElementById('task-state-btns').classList.add('hidden');
-	for(var i =0; i < form['priority'].length; i++){
+	for(i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = false;
 	}
 	document.forms['image-form'].style.display = 'block';
@@ -272,12 +284,18 @@ function taskEdit(){
 
 function taskCancelEdit(){
 	var form = document.getElementById('active-task');
+	var selects;
+	var i;
 	form.classList.remove('edit');
 	form['title'].readOnly = true;
 	form['text'].readOnly = true;		
-	form['assigned'].disabled = true;
+	//form['assigned'].disabled = true;
+	selects = form.getElementsByTagName('select');
+	for(i = 0; i< selects.length; i++){
+		selects[i].disabled = true;
+	}
 	document.getElementById('task-state-btns').classList.remove('hidden');
-	for(var i =0; i < form['priority'].length; i++){
+	for(i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = true;
 	}
 	document.forms['image-form'].style.display = 'none';
@@ -305,4 +323,12 @@ function addToField(field, value){
 function updateCompleteTasks(data){
 	var table = document.getElementById('tasks-completed').getElementsByTagName('table')[0];
 	tableUpdate(table, data);
+}
+//добавить комментарий в список последних комментариев
+function updateLastComment(){
+	var form = document.getElementById('active-task');
+	/*
+	if(form['last_comment'].value != ''){
+		form['last_comment'].value = form['last_comment'].value +'\n'+ document.getElementById('last-comment').innerHTML;
+	}*/
 }

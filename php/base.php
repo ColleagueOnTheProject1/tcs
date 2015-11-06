@@ -65,6 +65,7 @@ function tasksTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
+	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
 	`owner_task` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
@@ -72,11 +73,12 @@ function tasksTableCreate(){
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NULL,
+	`last_comment` TEXT NULL,
 	`start_time` INT(10) UNSIGNED DEFAULT '0',
 	`end_time` INT(10) UNSIGNED DEFAULT '0',
 	`lead_time` TIME NULL DEFAULT '0',
 	`priority` INT(11) UNSIGNED DEFAULT '0',
-	`state` INT(11) UNSIGNED DEFAULT '0',
+	`state` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта',
 	PRIMARY KEY (`id`))";
 	mysql_query($query);
 	if($config['test_tasks']==1){
@@ -150,10 +152,11 @@ function addTask(){
 //сохранить задачу
 function saveTask(){
 	global $config;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'comment');
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'type');
+	if($_POST['last_comment']){
+		$_POST['last_comment'] = date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n';
+	}
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
-	if($_POST['last_comment'])
-		$_POST['comment'] = '\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n'.$_POST['comment'];
 	if($_POST['priority'] == 3){
 		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 AND `assigned`='".$_POST['assigned']."' LIMIT 1;";
 		$result = mysql_query($query);
@@ -162,6 +165,11 @@ function saveTask(){
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
 		$query.=$fields[$i]."='".$_POST[$fields[$i]]."',";
+	}
+	if($_POST['last_comment'] == '' && $_POST['state'] != 4){//сменили состояние задачи, но задача не была переоткрыта
+		$query.= "`comment`=CONCAT(`last_comment`, `comment`), `last_comment`='',";
+	}else{//если прислали комментарий
+		$query.="`comment`='".$_POST['comment']."', `last_comment`=CONCAT(`last_comment`, '\n".$_POST['last_comment']."'),";
 	}
 	if($_POST['state'] == 1){//состояние-начать
 		$query.= "start_time=".time().",";

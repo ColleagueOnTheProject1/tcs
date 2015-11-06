@@ -87,6 +87,16 @@
 									<option>Все</option>
 								</select>
 							</div>
+							<div class="inline-top item">по состоянию
+								<select name="state" onchange="">
+									<option>не начата</option>
+									<option>начата</option>
+									<option>приостановлена</option>
+									<option>на проверке</option>
+									<option>переоткрыта</option>
+								</select>
+							</div>
+
 						</div>
 					</form>
 					<h2>Задачи</h2>
@@ -103,10 +113,10 @@
 								</div>
 								<div id="edit-buttons" class="edit-buttons">
 									<img src="../design/edit.jpg" onclick="taskEdit()">
-									<img src="../design/apply.jpg" onclick="sendForm(document.forms['active-task']);">
+									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task']);">
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 								</div>
-								<div class="actions">
+								<div class="frame">
 									<div class="inline-top">
 										дата создания:<br/><input class="m1" type="text" name="create_date"/>
 									</div>&nbsp;
@@ -127,6 +137,17 @@
 											<option>никого</option>
 										</select>
 									</div>
+									<div class="inline-top">
+										<div class="">тип задачи</div>
+										<select name="type" disabled="disabled">
+											<option value="0">новинка</option>
+											<option value="1">улучшение</option>
+											<option value="2">ошибка</option>
+										</select>
+									</div>
+								</div>
+								<div class="actions frame">
+
 									<div id="task-state-btns" class="state-buttons inline">
 										<input type="hidden" name="state" value="0"/>
 
@@ -142,10 +163,11 @@
 
 									<div class="inline-top">
 										<div id="task-text" class="text"></div>
-										<textArea name="text"  readonly="readonly"></textArea>
+										<textArea name="text"  class="field3" readonly="readonly"></textArea>
 										<br/><div class="comment"></div>
-										<input type="text" class="field1" name="last_comment"/>
-										<div id="task-comments" class="text comments"></div>
+										<textArea type="text" class="field4" name="last_comment"></textArea>
+										<div id="last-comment" class="text last-comment"></div>
+										<div id="task-comment" class="text comments"></div>
 										<br/><br/><textArea class="no-edit" name="comment"></textArea>
 									</div>
 

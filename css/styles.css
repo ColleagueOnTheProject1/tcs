@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6{margin:0;font-weight:normal;}
 h1{font-family:"Courier";font-size:20px;text-transform:uppercase;text-align:center;margin:20px 0;}/*заголовок страницы*/
 h2{line-height:30px;text-transform:uppercase;font-size:14px;}
 p{line-height:21px;margin:0;}/*текст основного блока*/
-textarea{margin:0;}
+textarea{margin:0;overflow-y:scroll;}
 textarea:focus, input:focus, select:focus{outline: none;}
 textarea:active, input:active, select:active{outline: none;}
 input::-ms-clear {width : 0;height: 0;}
@@ -49,14 +49,15 @@ button{cursor:pointer;}
 .detail:not(.edit) input[type="text"]{background-color:transparent;border:none;}
 .detail:not(.edit) textArea{display:none;}
 .detail .images,
-.detail textArea{height:200px;overflow-y:scroll;}
 .detail .images{display:inline-block;width:300px;vertical-align:top;overflow-y:auto;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
 .detail .field1{width:400px;}
 .detail .field2{text-transform:uppercase;}
-.detail .actions{border:1px solid black;margin-bottom:2px;}
+.detail .field3{height:200px;}
+.detail .field4{height:50px;}
+.detail .frame{border:1px solid black;margin-bottom:2px;}
 
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
@@ -74,7 +75,8 @@ button{cursor:pointer;}
 .active-task .no-edit{display:none;}
 .active-task .text{font-size:12px;width:400px;white-space:pre-line;}
 .active-task .comments{font-style:italic;color:gray;}
-.active-task .comments:empty:before{content:"пусто";}
+.active-task .last-comment{font-style:italic;color:green;}
+.active-task .comment:empty:before{content:"пусто";}
 .active-task.edit .text{display:none;}
 #task-text:before{content:"Описание задачи:\000A";font-size:14px;}
 #task-text:empty:after{content:"отсутствует"}
@@ -206,6 +208,7 @@ table tr{
 .list1 label[state="1"] .state-icon{background-position:-32px 0;}
 .list1 label[state="2"] .state-icon{background-position:0 0;}
 .list1 label[state="3"] .state-icon{background-position:-16px 0;}
+.list1 label[state="4"] .state-icon{background-position:-64px 0;}
 .list1 label .priority-icon{
 	background:url(../design/priorities.png)no-repeat;
 	left:-20px;}
