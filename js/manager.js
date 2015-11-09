@@ -25,6 +25,7 @@ var users;
 var cur_task;
 var last_task_id;//id последней выбранной задачи в списке задач
 var info;
+var filter = false;
 function init(){	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
@@ -41,11 +42,14 @@ function init(){
 		showLoginForm();
 	}else {
 		showLogin();
-		sendAction(ACTION_GET_INFO);	
+		sendAction(ACTION_GET_TASKS, getFiltersStr());	
 	}
 }
 /**получить данные для текущей вкладки - пользователи/задачи/группы/...*/
-function getData(){
+function getData(use_filter){
+	if(use_filter)
+		filter = true;
+	console.log(filter);
 	for (var i = 0; i < tabs.length; i++)	{
 		if(tabs[i].checked == true)
 			break;

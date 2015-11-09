@@ -26,9 +26,11 @@ if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
 if($_POST["action"] == "auth"){
 	$response['action'] = 'get_tasks';
+	getInfo();
 	getTasks();
 }elseif($_POST["action"] == "get_tasks"){
 	$response['action'] = 'get_tasks';
+	getInfo();
 	getTasks();
 }elseif($_POST["action"] == "get_users"){
 	$response['action'] = 'get_users';

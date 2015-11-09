@@ -17,7 +17,7 @@ function getXmlHttp(){
 }
 //
 /**отправка формы*/
-function sendForm(form){
+function sendForm(form, getStr){
 	var fields = {};
 	var json;
 	var s = "";
@@ -34,6 +34,13 @@ function sendForm(form){
 		}
 	}
 	s = s.substr(1);
+	if(!getStr){
+		getStr = '';
+	}else{
+		getStr = '&' + getStr;
+	}
+	s = s + getStr;
+
 	json = JSON.stringify(fields);
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',false);
@@ -171,7 +178,6 @@ function setConfig(){
 function getInfo(data){
 	info = data;
 	updateFilters();
-	getData();
 }
 
 /***/

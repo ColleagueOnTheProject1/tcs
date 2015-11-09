@@ -72,8 +72,8 @@ function tasksTableCreate(){
 	`owner` INT(11) UNSIGNED DEFAULT '0',
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
-	`comment` TEXT NULL,
-	`last_comment` TEXT NULL,
+	`comment` TEXT NOT NULL,
+	`last_comment` TEXT NOT NULL,
 	`start_time` INT(10) UNSIGNED DEFAULT '0',
 	`end_time` INT(10) UNSIGNED DEFAULT '0',
 	`lead_time` TIME NULL DEFAULT '0',
@@ -105,14 +105,18 @@ function getTasks($ids=null){
 	global $response, $user, $config;
 	if(!$ids)
 		$ids = $user['id'];
-	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE `state` != 5";
+	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE true";
 	if(isset($_POST['u_filter'])&& $_POST['u_filter'] != 'all'){
 		$query .= " AND assigned = '".$_POST['u_filter']."'";
+	}
+	if(isset($_POST['s_filter'])){
+		if($_POST['s_filter'] != '9'){
+			$query .= " AND state = '".$_POST['s_filter']."'";
+		}else $query .= " AND state != 5";
 	}
 	if(isset($_POST['g_filter'])&& $_POST['g_filter'] != 'all'){
 		//$query .= " AND assigned = '".$_POST['g_filter']."'";
 	}
-
 	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
@@ -151,10 +155,10 @@ function addTask(){
 }
 //сохранить задачу
 function saveTask(){
-	global $config;
+	global $config, $login;
 	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'type');
 	if($_POST['last_comment']){
-		$_POST['last_comment'] = date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n';
+		$_POST['last_comment'] = $login.'\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n';
 	}
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
 	if($_POST['priority'] == 3){
@@ -169,7 +173,7 @@ function saveTask(){
 	if($_POST['last_comment'] == '' && $_POST['state'] != 4){//сменили состояние задачи, но задача не была переоткрыта
 		$query.= "`comment`=CONCAT(`last_comment`, `comment`), `last_comment`='',";
 	}else{//если прислали комментарий
-		$query.="`comment`='".$_POST['comment']."', `last_comment`=CONCAT(`last_comment`, '\n".$_POST['last_comment']."'),";
+		$query.="`comment`='".$_POST['comment']."', `last_comment`=CONCAT('".$_POST['last_comment']."\n',`last_comment`),";
 	}
 	if($_POST['state'] == 1){//состояние-начать
 		$query.= "start_time=".time().",";
@@ -255,7 +259,7 @@ function getInfo(){
 		$s .= $row['title'].',';
 	}
 	$data['groups'] = substr($s, 0, - 1);
-	$response['data'] = $data;
+	$response['get_info'] = $data;
 }
 //подключаемся к хосту и к бузу
 function connect(){

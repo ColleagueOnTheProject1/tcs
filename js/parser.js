@@ -9,13 +9,13 @@ function parse(json_data){
 	obj = JSON.parse(json_data);
 	
 	showLogin();
-	if(parser_handlers[obj.action])
-		parser_handlers[obj.action](obj.data);
 	for(var s in obj){
 		if(parser_handlers[s]){
-			parser_handlers[ACTION_TASKS_INFO](obj[s]);
+			parser_handlers[s](obj[s]);
 		}
 	}
+	if(parser_handlers[obj.action])
+		parser_handlers[obj.action](obj.data);
 }
 function showServerForm(){
 

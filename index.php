@@ -37,7 +37,7 @@
 				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
@@ -78,8 +78,8 @@
 						<div class="wrapper">
 							<h2>фильтры</h2>
 							<div class="inline-top item">пользователи
-								<select name="users" onchange="getData();">
-									<option>Все</option>
+								<select name="users" onchange="getData(true);">
+									<option value="all">Все</option>
 								</select>
 							</div>
 							<div class="inline-top item">группы
@@ -88,12 +88,14 @@
 								</select>
 							</div>
 							<div class="inline-top item">по состоянию
-								<select name="state" onchange="">
-									<option>не начата</option>
-									<option>начата</option>
-									<option>приостановлена</option>
-									<option>на проверке</option>
-									<option>переоткрыта</option>
+								<select name="state" onchange="getData(true);">
+									<option value="0">не начата</option>
+									<option value="1">начата</option>
+									<option value="2">приостановлена</option>
+									<option value="3">на проверке</option>
+									<option value="4">переоткрыта</option>
+									<option value="5">завершенные</option>
+									<option value="9" selected="selected">не завершенные</option>
 								</select>
 							</div>
 
@@ -103,7 +105,7 @@
 					<div class="allocate">
 						<div id="task-list" class="list1"></div>
 						<div class="">
-							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task']);">
+							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input class="field2" name="title" type="text" readonly="readonly"/>
 								<div class="tasks-info">
 									<span id="tasks-count" title="осталось задач">10</span>
@@ -113,8 +115,9 @@
 								</div>
 								<div id="edit-buttons" class="edit-buttons">
 									<img src="../design/edit.jpg" onclick="taskEdit()">
-									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task']);">
+									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());">
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
+									<img src="../design/basket.jpg" onclick="">
 								</div>
 								<div class="frame">
 									<div class="inline-top">
@@ -188,8 +191,8 @@
 					</div>
 				</div>
 				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
-					<button onclick="event.preventDefault();clearSubTask();sendForm(getParentForm(this));">Создать задачу</button>
-					<button onclick="event.preventDefault();sendForm(getParentForm(this));">Создать подзадачу</button>
+					<button onclick="event.preventDefault();clearSubTask();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
+					<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать подзадачу</button>
 					<input type="hidden" name="subtask" value=""/>
 					<input type="hidden" name="assigned" value=""/>
 					<input type="hidden" name="action" value="add_task"/>
@@ -251,7 +254,7 @@
 				<form id="group-create" class="group-create create-form" name="group_create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
 					<h2>Новая группа</h2>
 					<input type="text" name="title"/> название&nbsp;&nbsp;&nbsp;
-					<textArea type="text" name="description"/></textArea> описание
+					<textArea type="text" name="description"></textArea> описание
 					<button type="submit">Создать</button>
 					<input type="hidden" name="action" value="add_group"/>
 				</form>

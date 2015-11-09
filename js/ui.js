@@ -110,8 +110,12 @@ function taskListUpdate(data){
 					if(subs[j].getAttribute('owner') == data[li_arr[k].getAttribute('n')]['id'])
 						break;
 				}			
-				posEl = document.getElementById(li_arr[k+1].getAttribute('for'));
-				taskList.insertBefore(sub, posEl);
+				if(li_arr.length > k + 1){
+					posEl = document.getElementById(li_arr[k+1].getAttribute('for'));
+					taskList.insertBefore(sub, posEl);
+				}else{
+					taskList.appendChild(sub);
+				}
 			}else{
 				sub = subs[j];
 			}
@@ -120,7 +124,7 @@ function taskListUpdate(data){
 		}
 	}
 	list = taskList.getElementsByTagName('label');
-	if(task_status == 1 || task_status == 4)
+	if(task_status == 1 || task_status == 4 || filter)
 		taskList.getElementsByTagName('label')[0].click();
 	else if(task_status == 2){
 		list[last_task_id].click();
@@ -128,6 +132,7 @@ function taskListUpdate(data){
 		last_item.click();
 		taskEdit();
 	}
+	filter = false;
 }
 //активировать пользователя для просмотра информации о нем
 function userActive(userId){
@@ -138,6 +143,12 @@ function activeTask(taskId){
 	var form = document.getElementById('active-task');
 	var imgs = [];
 	var task_images = document.getElementById('task-images');
+	if(tasks[taskId]['state']==5){
+		document.getElementById('edit-buttons').classList.add('closed');
+	}else
+	{
+		document.getElementById('edit-buttons').classList.remove('closed');
+	}
 	cur_task = taskId;
 	form['title'].value = tasks[taskId]['title'];
 	form['text'].value = tasks[taskId]['text'];
@@ -210,10 +221,6 @@ function updateFilters(){
 		opt.innerHTML = arr[i];
 		g_filters.appendChild(opt);
 	}	
-	arr = s_filters.getElementsByTagName('option');
-	for(i = 0; i < arr.length; i++){
-		arr[i].value = i;
-	}
 }
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
