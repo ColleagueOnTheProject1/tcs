@@ -200,27 +200,38 @@ table tr{
 {vertical-align:top;}
 
 .list1{padding:10px 20px 10px;border:1px solid black;background:rgba(0,0,0,0.3);width:230px;min-height:386px;}
-.list1 input{display:none;}
-.list1 label{display:block;cursor:pointer;line-height:20px;padding:0 10px;position:relative;}
-.list1 label:hover{background-color:rgba(255,255,255,0.3);}
-.list1 label .state-icon{
+.list1 .c{display:block;cursor:pointer;line-height:20px;padding:0 10px;position:relative;}
+.list1 .t{padding:0 10px;cursor:pointer;position:relative;}
+.list1 .t.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
+.list1 .t:after{
+	content:"";
+	right:-20px;
+	position:absolute;
+	top:0;
 	background:url(../design/states.png)no-repeat;
-	right:-20px;}
-.list1 label[state="0"] .state-icon{background-position:-48px 0;}
-.list1 label[state="1"] .state-icon{background-position:-32px 0;}
-.list1 label[state="2"] .state-icon{background-position:0 0;}
-.list1 label[state="3"] .state-icon{background-position:-16px 0;}
-.list1 label[state="4"] .state-icon{background-position:-64px 0;}
-.list1 label .priority-icon{
+	width:16px;
+	height:16px;}
+.list1 .t[state="0"]:after{background-position:-48px 0;}
+.list1 .t[state="1"]:after{background-position:-32px 0;}
+.list1 .t[state="2"]:after{background-position:0 0;}
+.list1 .t[state="3"]:after{background-position:-16px 0;}
+.list1 .t[state="4"]:after{background-position:-64px 0;}
+.list1 .t[state="5"]:after{background-position:-80px 0;}
+.list1 .t:before{
+	content:"";
+	width:16px;
+	height:16px;
+	position:absolute;
 	background:url(../design/priorities.png)no-repeat;
-	left:-20px;}
-.list1 label[priority="0"] .priority-icon{background-position:0 0;display:none;}
-.list1 label[priority="1"] .priority-icon{background-position:-16px 0;display:none;}
-.list1 label[priority="2"] .priority-icon{background-position:-32px 0;display:none;}
-.list1 label[priority="3"] .priority-icon{background-position:-48px 0;}
+	left:-20px;
+	top:0;}
+.list1 .t[priority="0"]:before{background-position:0 0;display:none;}
+.list1 .t[priority="1"]:before{background-position:-16px 0;display:none;}
+.list1 .t[priority="2"]:before{background-position:-32px 0;display:none;}
+.list1 .t[priority="3"]:before{background-position:-48px 0;}
 
-.list1 input:checked + label{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
-.list1 .sub{padding-left:20px;}
+.list1 .c.active{background-image:linear-gradient(to bottom, #dde4f4, #aabce0);}
+.list1 .sub{padding:0 20px;}
 
 .tasks-info{display:table;margin:5px auto -27px;}
 .tasks-info span{border:1px solid white;padding:3px 5px;display:inline-block;cursor:default;

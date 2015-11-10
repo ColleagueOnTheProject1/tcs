@@ -55,8 +55,8 @@ function groupsTableCreate(){
 	mysql_query($query);
 	if($config['test_groups']==1){
 		$query = "INSERT INTO `".$config['groups_table']."` (`id`, `title`, `description`, `users`) VALUES
-		(1, 'сайтостроение', 'все задачи по сайтам', '1,2,3'),
-		(2, 'другие', 'остальные задачи', '1,2');";
+		(0, 'без категории', 'задачи которые не попали в другие группы', ''),
+		(1, 'сайтостроение', 'все задачи по сайтам', '1,2,3')";
 		mysql_query($query);
 	}
 }
@@ -252,13 +252,16 @@ function getInfo(){
 		$s .= $row['login'].',';
 	}
 	$data['users'] = substr($s, 0, - 1);
-	$query = "SELECT `title` FROM ".$config['groups_table'].";";
+	$query = "SELECT `id`, `title` FROM ".$config['groups_table'].";";
 	$result = mysql_query($query);
-	$s = '';
+	$s = Array();
+	$s2 = Array();
 	while($row = mysql_fetch_assoc($result)){
-		$s .= $row['title'].',';
+		$s[]= $row['title'];
+		$s2[] .= $row['id'];
 	}
-	$data['groups'] = substr($s, 0, - 1);
+	$data['group_titles'] = $s;
+	$data['group_ids'] = $s2;
 	$response['get_info'] = $data;
 }
 //подключаемся к хосту и к бузу

@@ -41,8 +41,15 @@ function showTasks(data){
 /*обновить список задач в каталоге*/
 function taskListUpdate(data){
 	var taskList = document.getElementById('task-list');
+	var i;
 	var li;
 	var ch;
+	var el,el2;
+	var gr;//группа
+	var gt_arr = [];//список заголовков групп
+	var g_arr = [];//массив групп
+	var t_arr = [];//массив задач
+	var og;//основная группа
 	var sub;
 	var subs = [];
 	var li_arr = [];
@@ -65,64 +72,61 @@ function taskListUpdate(data){
 			document.getElementById('create-task').getElementsByTagName('button')[1].removeAttribute('disabled');
 		}
 	}
-	function createItem(index){
-		ch = document.createElement('input');
-		ch.setAttribute('type', 'radio');
-		ch.setAttribute('name', 'task-group');
-		ch.setAttribute('id', 't-l-line-id'+index);
-		ch.checked = false;		
-		li = document.createElement('label');
-		li.setAttribute('for', 't-l-line-id'+index);
-		li.setAttribute('n',index);
-		li.setAttribute('state',data[index]['state']);
-		li.setAttribute('priority',data[index]['priority']);
-		li.innerHTML = '<div class="icon1 priority-icon" title="'+getPriority(data[index]['priority'])+' приоритет"></div>' + data[index]['title'] + '<div class="icon1 state-icon" title="'+getState(data[index]['state'])+'"></div>';	
-		li.addEventListener('click', choose);
-		if(!last_date || (last_date < data[index]['id'])){
-			last_date = parseInt(data[index]['id']);
-			last_item = li;
+	function selGroup(e){
+		for(i = 0; i < gt_arr.length; i++){
+			gt_arr[i].classList.remove('active');
 		}
+		e.target.classList.add('active');
+	}
+	function selTask(e){
+		var n;
+		var p;
+		p = e.target.parentNode;
+		for(i = 0; i < t_arr.length; i++){
+			t_arr[i].classList.remove('active');
+		}
+		for(i = 0; i < g_arr.length; i++){
+			if(p == g_arr[i])
+				break;
+		}
+		e.target.classList.add('active');
+		activeTask(e.target.getAttribute('n'));
+		selGroup({target:gt_arr[i]});		
 	}
 	taskList.innerHTML = "";
 	if(!data.length)
 		return;
-	for(var i = 0; i < data.length; i++){	
-		if(data[i]['owner_task'] == 0){//добавляем задачу
-			createItem(i);
-			taskList.appendChild(ch);
-			taskList.appendChild(li);
-			li_arr.push(li);
-		}
+	for(i = 0; i < info['group_ids'].length; i++){//добавляем группы
+		el = document.createElement('div');		
+		el.classList.add('c');
+		el.innerHTML = info['group_titles'][i];
+		el.click(selGroup);
+		gt_arr.push(el);
+		taskList.appendChild(el);
+		el = document.createElement('div');
+		el.setAttribute('id', 'group_id_'+info['group_ids'][i]);
+		el.classList.add('sub');
+		g_arr.push(el);
+		taskList.appendChild(el);
 	}
-	for(var i = 0; i < data.length; i++){
-		if(data[i]['owner_task'] > 0){//добавляем подзадачу
-			createItem(i);
-			for(var j = 0; j < subs.length; j++){
-				if(subs[j].getAttribute('owner') == data[i]['owner_task'])
-					break;
-			}			
-			if(j == subs.length){
-				sub = document.createElement('div');
-				sub.classList.add('sub');
-				sub.setAttribute('owner', data[i]['owner_task']);
-				subs.push(sub);
-				for(var k = 0; k < li_arr.length; k++){
-					if(subs[j].getAttribute('owner') == data[li_arr[k].getAttribute('n')]['id'])
-						break;
-				}			
-				if(li_arr.length > k + 1){
-					posEl = document.getElementById(li_arr[k+1].getAttribute('for'));
-					taskList.insertBefore(sub, posEl);
-				}else{
-					taskList.appendChild(sub);
-				}
-			}else{
-				sub = subs[j];
-			}
-			sub.appendChild(ch);
-			sub.appendChild(li);
+	og = document.getElementById('group_id_0');
+	for(i = 0; i < data.length; i++){//добавляем задачи
+		el = document.createElement('div');
+		el.classList.add('t');
+		el.setAttribute('n', i);
+		el.setAttribute('state', data[i]['state']);
+		el.setAttribute('priority', data[i]['priority']);
+		el.innerHTML = data[i]['title'];
+		el.addEventListener('click', selTask);
+		t_arr.push(el);
+		el2 = document.getElementById('group_id_' + data[i]['owner_group']);
+		if(!el2){
+			el2 = og;
 		}
+		el2.appendChild(el);
 	}
+	t_arr[0].click();
+/*
 	list = taskList.getElementsByTagName('label');
 	if(task_status == 1 || task_status == 4 || filter)
 		taskList.getElementsByTagName('label')[0].click();
@@ -132,6 +136,7 @@ function taskListUpdate(data){
 		last_item.click();
 		taskEdit();
 	}
+	*/
 	filter = false;
 }
 //активировать пользователя для просмотра информации о нем
@@ -187,6 +192,7 @@ function activeTask(taskId){
 }
 //обновляем список пользователей 
 function updateUsersList(data){
+	var u_filters = document.forms['filters']['users'];
 	if(!data.length)
 		return;
 	info['users'] = data[0]['login'];
@@ -213,7 +219,7 @@ function updateFilters(){
 		opt.innerHTML = arr[i];
 		u_filters.appendChild(opt);
 	}	
-	arr = info['groups'].split(',');
+	arr = info['group_titles'];
 	g_filters.innerHTML = '<option value="all">Все</option>';
 	for(i = 0; i < arr.length; i++){
 		opt = document.createElement('option');

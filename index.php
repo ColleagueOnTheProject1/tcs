@@ -117,7 +117,7 @@
 									<img src="../design/edit.jpg" onclick="taskEdit()">
 									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());">
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
-									<img src="../design/basket.jpg" onclick="">
+									<img src="../design/basket.jpg" onclick="" title="удалить">
 								</div>
 								<div class="frame">
 									<div class="inline-top">
