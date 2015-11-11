@@ -124,7 +124,7 @@
 										дата создания:<br/><input class="m1" type="text" name="create_date"/>
 									</div>&nbsp;
 									<div class="inline-top">
-										затрачено времени:<br/><input class="m1" type="text" name="lead_time"/>
+										затрачено:<br/><input class="m2" type="text" name="lead_time"/>
 									</div>&nbsp;
 
 									<div class="inline-top">
@@ -146,6 +146,11 @@
 											<option value="0">новинка</option>
 											<option value="1">улучшение</option>
 											<option value="2">ошибка</option>
+										</select>
+									</div>
+									<div class="inline-top">
+										<div class="">группа</div>
+										<select name="group" disabled="disabled">
 										</select>
 									</div>
 								</div>
@@ -191,9 +196,8 @@
 					</div>
 				</div>
 				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
-					<button onclick="event.preventDefault();clearSubTask();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
-					<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать подзадачу</button>
-					<input type="hidden" name="subtask" value=""/>
+					<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
+					<input type="hidden" name="group" value="0"/>
 					<input type="hidden" name="assigned" value=""/>
 					<input type="hidden" name="action" value="add_task"/>
 				</form>

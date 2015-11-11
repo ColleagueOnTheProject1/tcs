@@ -66,7 +66,7 @@ function tasksTableCreate(){
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
 	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
-	`owner_task` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+	`group` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
 	`owner` INT(11) UNSIGNED DEFAULT '0',
@@ -150,13 +150,13 @@ function getCompleteTasks(){
 //добавить задачу
 function addTask(){
 	global $config;
-	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`owner_task`,`assigned`) VALUES (".time().",".$_POST['subtask'].",'".$_POST['assigned']."');";
+	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`group`,`assigned`) VALUES (".time().",".$_POST['group'].",'".$_POST['assigned']."');";
 	$result = mysql_query($query);
 }
 //сохранить задачу
 function saveTask(){
 	global $config, $login;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'type');
+	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'type', 7=>'group');
 	if($_POST['last_comment']){
 		$_POST['last_comment'] = $login.'\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n';
 	}
@@ -168,7 +168,7 @@ function saveTask(){
 
 	$query = "UPDATE ".$config['tasks_table']." SET ";
 	for($i = 0; $i < count($fields); $i++){
-		$query.=$fields[$i]."='".$_POST[$fields[$i]]."',";
+		$query.="`".$fields[$i]."`='".$_POST[$fields[$i]]."',";
 	}
 	if($_POST['last_comment'] == '' && $_POST['state'] != 4){//сменили состояние задачи, но задача не была переоткрыта
 		$query.= "`comment`=CONCAT(`last_comment`, `comment`), `last_comment`='',";
