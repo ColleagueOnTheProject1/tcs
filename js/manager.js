@@ -49,7 +49,6 @@ function init(){
 function getData(use_filter){
 	if(use_filter)
 		filter = true;
-	console.log(filter);
 	for (var i = 0; i < tabs.length; i++)	{
 		if(tabs[i].checked == true)
 			break;
@@ -69,9 +68,19 @@ function getData(use_filter){
 }
 //инициализация обработчиков событий
 function initListeners(){
+	var objs;
+	var i;
+	//сброс информации о последней выбранной задаче
+	function resetLastTask(){
+		last_task_id = null;;
+	}
 	tabs = document.getElementsByClassName('tab1');
-	for (var i = 0; i < tabs.length; i++)	{
+	for (i = 0; i < tabs.length; i++){
 		tabs[i].addEventListener('click', getData);
+	}
+	objs = document.forms["filters"].getElementsByTagName('select');
+	for (i = 0; i < objs.length; i++){
+		objs[i].addEventListener('change',resetLastTask);
 	}
 }
 //отменяет последнюю авторизацию

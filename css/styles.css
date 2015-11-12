@@ -202,7 +202,13 @@ table tr{
 {vertical-align:top;}
 
 .list1{padding:10px 20px 10px;border:1px solid black;background:rgba(0,0,0,0.3);width:230px;min-height:386px;}
-.list1 .c{display:block;cursor:pointer;line-height:20px;padding:0 10px;position:relative;}
+.list1 .c{
+	display:block;
+	line-height:20px;
+	padding:0 10px;
+	position:relative;
+	background-image:linear-gradient(to bottom, #dde4f4, #aabce0);
+	margin:3px 0;}
 .list1 .t{padding:0 10px;cursor:pointer;position:relative;}
 .list1 .t.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 .list1 .t:after{
@@ -232,7 +238,6 @@ table tr{
 .list1 .t[priority="2"]:before{background-position:-32px 0;display:none;}
 .list1 .t[priority="3"]:before{background-position:-48px 0;}
 
-.list1 .c.active{background-image:linear-gradient(to bottom, #dde4f4, #aabce0);}
 .list1 .sub{padding:0 20px;}
 
 .tasks-info{display:table;margin:5px auto -27px;}

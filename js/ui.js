@@ -112,10 +112,11 @@ function taskListUpdate(data){
 	if(!last_task_id){
 		i = 0;
 	}else if(task_status == 3){
-		i = tasks.length;
+		i = tasks.length - 1;
 	}else
 		i = getTaskNum(last_task_id);
-	t_arr[i].click();	
+	console.log(i);
+	t_arr[i].click();
 	filter = false;
 }
 //активировать пользователя для просмотра информации о нем
@@ -198,21 +199,30 @@ function updateFilters(){
 	var t_g = document.forms['active-task']['group'];
 	var opt;
 	var arr;
+	var old_v;
 	arr = info['users'].split(',');
-	u_filters.innerHTML = '<option value="all">Все</option>';	
+	old_v = u_filters.value;
+	u_filters.innerHTML = '<option value="all">Все</option>';
 	for(var i = 0; i < arr.length; i++){
 		opt = document.createElement('option');
 		opt.value = arr[i];
 		opt.innerHTML = arr[i];
+		if(opt.value == old_v){
+			opt.selected = true;
+		}
 		u_filters.appendChild(opt);
 	}	
 	arr = info['group_titles'];
+	old_v = g_filters.value;
 	g_filters.innerHTML = '<option value="all">Все</option>';
 	t_g.innerHTML = '';
 	for(i = 0; i < arr.length; i++){
 		opt = document.createElement('option');
 		opt.value = arr[i];
 		opt.innerHTML = arr[i];
+		if(opt.value == old_v){
+			opt.selected = true;
+		}
 		g_filters.appendChild(opt);
 		opt = document.createElement('option');
 		opt.value = info['group_ids'][i];
@@ -223,7 +233,7 @@ function updateFilters(){
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
 	var s;
-	s = 'u_filter=' + document.forms['filters']['users'].value + '&g_filters=' + 
+	s = 'u_filter=' + document.forms['filters']['users'].value + '&g_filter=' + 
 		document.forms['filters']['groups'].value + '&s_filter=' + document.forms['filters']['state'].value;
 	return s;
 }
