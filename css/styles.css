@@ -209,6 +209,7 @@ table tr{
 	position:relative;
 	background-image:linear-gradient(to bottom, #dde4f4, #aabce0);
 	margin:3px 0;}
+.list1 .c.active{background-image:linear-gradient(to bottom, #ddf4e4, #aae0bc);}
 .list1 .t{padding:0 10px;cursor:pointer;position:relative;}
 .list1 .t.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 .list1 .t:after{
@@ -240,8 +241,12 @@ table tr{
 
 .list1 .sub{padding:0 20px;}
 
-.tasks-info{display:table;margin:5px auto -27px;}
-.tasks-info span{border:1px solid white;padding:3px 5px;display:inline-block;cursor:default;
+.tasks-info{position:absolute;text-align:center;width:100%;}
+.tasks-info span{
+	border:1px solid white;
+	padding:3px 5px;
+	display:inline-block;
+	cursor:default;
 	font-weight:bold;}
 .tasks-info span:nth-child(1){color:yellow;}
 .tasks-info span:nth-child(2){color:blue;}

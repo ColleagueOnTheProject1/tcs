@@ -25,7 +25,7 @@ function showGroups(data){
 	tableUpdate(document.getElementById('groups-table'), data);	
 	tableSort(document.getElementById('groups-table'));
 }
-//обновляет таблицу задач
+//обновляет таблицу задач и статус
 function showTasks(data){
 	if(!tasks)
 		task_status = 1
@@ -34,7 +34,7 @@ function showTasks(data){
 	else if(data.length > tasks.length)
 		task_status = 3
 	else
-		task_status = 4
+		task_status = 4//удалена
 	tasks = data;
 	taskListUpdate(data);
 }
@@ -73,9 +73,11 @@ function taskListUpdate(data){
 				break;
 		}
 		e.target.classList.add('active');
-		last_task_id = data[e.target.getAttribute('n')]['id'];
-		activeTask(e.target.getAttribute('n'));
+		n = e.target.getAttribute('n');
+		last_task_id = data[n]['id'];
+		activeTask(n);
 		selGroup({target:gt_arr[i]});
+		document.forms['create_task']['group'].value = tasks[n]['group'];
 	}
 	taskList.innerHTML = "";
 	if(!data.length)
@@ -109,13 +111,12 @@ function taskListUpdate(data){
 		}
 		el2.appendChild(el);	
 	}
-	if(!last_task_id){
+	if(!last_task_id || task_status == 4){
 		i = 0;
 	}else if(task_status == 3){
 		i = tasks.length - 1;
 	}else
 		i = getTaskNum(last_task_id);
-	console.log(i);
 	t_arr[i].click();
 	filter = false;
 }

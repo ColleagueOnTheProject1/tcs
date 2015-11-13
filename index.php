@@ -57,6 +57,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="tasks-info">
+			<span id="tasks-count" title="осталось задач">10</span>
+			<span id="tasks-complete" title="выполнено задач">10</span>
+			<span id="tasks-new" title="новых задач">10</span>
+			<span id="tasks-reopen" title="переоткрыто задач">10</span>
+		</div>
+
 		<div id="user" class="user content">
 			Здравствуй <span id="login" class="login">Админ</span>!
 			<br/>
@@ -107,12 +114,6 @@
 						<div class="">
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input class="field2" name="title" type="text" readonly="readonly"/>
-								<div class="tasks-info">
-									<span id="tasks-count" title="осталось задач">10</span>
-									<span id="tasks-complete" title="выполнено задач">10</span>
-									<span id="tasks-new" title="новых задач">10</span>
-									<span id="tasks-reopen" title="переоткрыто задач">10</span>
-								</div>
 								<div id="edit-buttons" class="edit-buttons">
 									<img src="../design/edit.jpg" onclick="taskEdit()">
 									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());">
