@@ -94,7 +94,7 @@
 									<option>Все</option>
 								</select>
 							</div>
-							<div class="inline-top item">по состоянию
+							<div class="inline-top item">состояние
 								<select name="state" onchange="getData(true);">
 									<option value="0">не начата</option>
 									<option value="1">начата</option>
@@ -120,21 +120,7 @@
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
 									<img src="../design/basket.jpg" onclick="" title="удалить">
 								</div>
-								<div class="frame">
-									<div class="inline-top">
-										дата создания:<br/><input class="m1" type="text" name="create_date"/>
-									</div>&nbsp;
-									<div class="inline-top">
-										затрачено:<br/><input class="m2" type="text" name="lead_time"/>
-									</div>&nbsp;
-
-									<div class="inline-top">
-										<div class="">приоритет</div>
-										<input type="radio" name="priority" disabled="disabled" value="0"/>
-										<input type="radio" name="priority" disabled="disabled" value="1"/>
-										<input type="radio" name="priority" disabled="disabled" value="2"/>
-										<input type="radio" name="priority" disabled="disabled" value="3"/>
-									</div>
+								<div class="frame1">
 									<div class="inline-top">
 										<div class="">Назначено на</div>
 										<select name="assigned" disabled="disabled">
@@ -153,6 +139,22 @@
 										<div class="">группа</div>
 										<select name="group" disabled="disabled">
 										</select>
+									</div>
+								</div>
+								<div class="frame">
+									<div class="inline-top">
+										дата создания:<br/><input class="m1" type="text" name="create_date"/>
+									</div>&nbsp;
+									<div class="inline-top">
+										затрачено:<br/><input class="m2" type="text" name="lead_time"/>
+									</div>&nbsp;
+
+									<div class="inline-top">
+										<div class="">приоритет</div>
+										<input type="radio" name="priority" disabled="disabled" value="0"/>
+										<input type="radio" name="priority" disabled="disabled" value="1"/>
+										<input type="radio" name="priority" disabled="disabled" value="2"/>
+										<input type="radio" name="priority" disabled="disabled" value="3"/>
 									</div>
 								</div>
 								<div class="actions frame">
@@ -231,17 +233,6 @@
 					<input type="hidden" name="action" value="add_user"/>
 				</form>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
-				</form>
-				<form class="tasks-completed" id="tasks-completed" name="tasks_completed" action="php/action.php" method="post" enctype="application/x-www-form-urlencoded">
-					<h2>Завершенные задачи</h2>
-					<table class="sortable">
-						<tr main="title">
-							<th name="title">название задачи</th>
-							<th class="active" to_up="0" name="end_time" name_f="getDate">дата завершения</th>
-							<th name="lead_time">затрачено времени</th>
-							<th name="choose">выбрать</th>
-						</tr>
-					</table>
 				</form>
 			</div>
 			<div class="groups page">

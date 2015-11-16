@@ -80,6 +80,7 @@ button{cursor:pointer;}
 .active-task .comments{font-style:italic;color:gray;}
 .active-task .last-comment{font-style:italic;color:green;}
 .active-task.edit .text{display:none;}
+.active-task .frame1{position:relative;margin:-40px auto 0;display:table;padding:0 0 2px;}
 #task-text:before{content:"Описание задачи:\000A";font-size:14px;}
 #task-text:empty:after{content:"отсутствует"}
 
@@ -87,7 +88,7 @@ button{cursor:pointer;}
 .img-actions img{max-width:400px;max-height:400px;}
 .img-actions > div{display:table;margin:10px auto;}
 
-.edit-buttons{text-align:justify;font-size:0;display:table;width:100%;margin-bottom:5px;}
+.edit-buttons{text-align:justify;font-size:0;display:table;width:100%;margin:5px 0;}
 .edit-buttons:after{width:100%;display:inline-block;content:"";}
 .edit-buttons img{
 	height:30px;
@@ -201,7 +202,7 @@ table tr{
 .create-form textArea
 {vertical-align:top;}
 
-.list1{padding:10px 20px 10px;border:1px solid black;background:rgba(0,0,0,0.3);width:230px;min-height:386px;}
+.list1{padding:10px 20px 10px;border:1px solid black;background:rgba(0,0,0,0.3);width:240px;min-height:386px;}
 .list1 .c{
 	display:block;
 	line-height:20px;
@@ -212,7 +213,7 @@ table tr{
 .list1 .c.active{background-image:linear-gradient(to bottom, #ddf4e4, #aae0bc);}
 .list1 .t{padding:0 10px;cursor:pointer;position:relative;}
 .list1 .t.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
-.list1 .t:after{
+.list1 .t .state-icon{
 	content:"";
 	right:-20px;
 	position:absolute;
@@ -220,13 +221,15 @@ table tr{
 	background:url(../design/states.png)no-repeat;
 	width:16px;
 	height:16px;}
-.list1 .t[state="0"]:after{background-position:-48px 0;}
-.list1 .t[state="1"]:after{background-position:-32px 0;}
-.list1 .t[state="2"]:after{background-position:0 0;}
-.list1 .t[state="3"]:after{background-position:-16px 0;}
-.list1 .t[state="4"]:after{background-position:-64px 0;}
-.list1 .t[state="5"]:after{background-position:-80px 0;}
-.list1 .t:before{
+
+.list1 .t[state="0"] .state-icon{background-position:-48px 0;}
+.list1 .t[state="1"] .state-icon{background-position:-32px 0;}
+.list1 .t[state="2"] .state-icon{background-position:0 0;}
+.list1 .t[state="3"] .state-icon{background-position:-16px 0;}
+.list1 .t[state="4"] .state-icon{background-position:-64px 0;}
+.list1 .t[state="5"] .state-icon{background-position:-80px 0;}
+
+.list1 .t .priority-icon{
 	content:"";
 	width:16px;
 	height:16px;
@@ -234,10 +237,10 @@ table tr{
 	background:url(../design/priorities.png)no-repeat;
 	left:-20px;
 	top:0;}
-.list1 .t[priority="0"]:before{background-position:0 0;display:none;}
-.list1 .t[priority="1"]:before{background-position:-16px 0;display:none;}
-.list1 .t[priority="2"]:before{background-position:-32px 0;display:none;}
-.list1 .t[priority="3"]:before{background-position:-48px 0;}
+.list1 .t[priority="0"] .priority-icon{background-position:0 0;display:none;}
+.list1 .t[priority="1"] .priority-icon{background-position:-16px 0;display:none;}
+.list1 .t[priority="2"] .priority-icon{background-position:-32px 0;display:none;}
+.list1 .t[priority="3"] .priority-icon{background-position:-48px 0;}
 
 .list1 .sub{padding:0 20px;}
 

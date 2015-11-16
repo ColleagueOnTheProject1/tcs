@@ -42,7 +42,7 @@ function showTasks(data){
 function taskListUpdate(data){
 	var taskList = document.getElementById('task-list');
 	var i;
-	var el,el2;
+	var el,el2,icon;
 	var gr;//группа
 	var gt_arr = [];//список заголовков групп
 	var g_arr = [];//массив групп
@@ -103,6 +103,14 @@ function taskListUpdate(data){
 		el.setAttribute('state', data[i]['state']);
 		el.setAttribute('priority', data[i]['priority']);
 		el.innerHTML = data[i]['title'];
+		icon = document.createElement('div');
+		icon.classList.add('state-icon');
+		icon.setAttribute('title', STATES[data[i]['state']]);
+		el.appendChild(icon);
+		icon = document.createElement('div');
+		icon.classList.add('priority-icon');
+		icon.setAttribute('title', PRIORITIES[data[i]['priority']] + ' приоритет');
+		el.appendChild(icon);
 		el.addEventListener('click', selTask);
 		t_arr.push(el);
 		el2 = document.getElementById('group_id_' + data[i]['group']);
@@ -323,11 +331,6 @@ function addToField(field, value){
 	{
 		field.value = '\n' + value;
 	}
-}
-//обновить список завершенных задач
-function updateCompleteTasks(data){
-	var table = document.getElementById('tasks-completed').getElementsByTagName('table')[0];
-	tableUpdate(table, data);
 }
 //добавить комментарий в список последних комментариев
 function updateLastComment(){

@@ -1,4 +1,6 @@
 /*скрипт распределяет задачи между скриптами. подключается в последнюю очередь*/
+const STATES = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
+const PRIORITIES = ['низкий', 'средний', 'высокий', 'наивысший'];
 //события------------
 const ACTION_CONNECT="connect_error";//имя события - не удалось подключится к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
@@ -30,7 +32,6 @@ function init(){
 	parser_handlers[ACTION_CONNECT] = showConnectForm;
 	parser_handlers[ACTION_BASE] = showBaseForm;
 	parser_handlers[ACTION_GET_TASKS] = showTasks;
-	parser_handlers[ACTION_GET_COMPLETE_TASKS] = updateCompleteTasks;
 	parser_handlers[ACTION_GET_GROUPS] = showGroups;
 	parser_handlers[ACTION_AUTH] = showLoginForm;
 	parser_handlers[ACTION_GET_USERS] = showUsers;
