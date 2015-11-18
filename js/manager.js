@@ -2,7 +2,7 @@
 const STATES = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
 const PRIORITIES = ['низкий', 'средний', 'высокий', 'наивысший'];
 //события------------
-const ACTION_CONNECT="connect_error";//имя события - не удалось подключится к серверу
+const ACTION_CONNECT="connect";//имя события - подключение к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
 const ACTION_GET_TASKS="get_tasks";//имя события - получить данные задачи
 const ACTION_GET_COMPLETE_TASKS="get_complete_tasks";//имя события - получить список завершенных задач
@@ -37,14 +37,8 @@ function init(){
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	parser_handlers[ACTION_TASK_IMAGE] = taskAddImage;
 	parser_handlers[ACTION_GET_INFO] = getInfo;
-
-	cookie = cookieToArr();
-	if(!cookie['login'] || !cookie['password']){
-		showLoginForm();
-	}else {
-		showLogin();
-		sendAction(ACTION_GET_TASKS, getFiltersStr());	
-	}
+	parser_handlers[ACTION_TASKS_INFO] = tasksInfoUpdate;
+    sendAction(ACTION_CONNECT);
 }
 /**получить данные для текущей вкладки - пользователи/задачи/группы/...*/
 function getData(use_filter){

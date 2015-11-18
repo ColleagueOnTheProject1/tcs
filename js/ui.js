@@ -1,7 +1,23 @@
 /**скрипт для работы с интерфейсом*/
 //показать форму настроек сервера
-function showConnectForm(){
+function showConnectForm(data){
+	var form = document.forms['connect_form'];
 	document.getElementById("connect-form").style.display = "block";
+	for(var s in data){
+		if(form[s]){
+			if(form[s].type != 'checkbox')
+				form[s].value = data[s];
+		}
+	}
+	if(!data['host_connect']){
+		form.querySelector('.c').innerHTML = 'не удается подключится к серверу, попробуйте изменить наcтройки';
+	}else if(!data['base_connect']){
+		if(data['base_create'] == 1){
+			form.querySelector('.c').innerHTML = 'не удается создать базу, возможно у Вас нет привелегий';
+		}else{
+			form.querySelector('.c').innerHTML = 'не удается подключится к базе,  попробуйте изменить наcтройки';
+		}		
+	}
 }
 //показать форму настроек базы
 function showBaseForm(){
@@ -335,4 +351,11 @@ function addToField(field, value){
 //добавить комментарий в список последних комментариев
 function updateLastComment(){
 	var form = document.getElementById('active-task');
+}
+/*обновить информацию о задачах*/
+function tasksInfoUpdate(data){
+	var fields = document.getElementById('tasks-info').getElementsByTagName('span');
+	for(var i = 0; i < fields.length; i++){
+		fields[i].innerHTML = data[i];
+	}
 }

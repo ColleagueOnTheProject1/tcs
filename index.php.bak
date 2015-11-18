@@ -17,27 +17,24 @@
 		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 			<div class="wrapper">
 				<div class="c">не удается подключится к серверу, изменить наcтройки?</div>
-				<table>
-					<tr>
-						<td>сервер</td>
-						<td><input name="host" placeholder="сервер"/></td>
-					</tr>
-					<tr>
-						<td>пользователь</td>
-						<td><input name="user" placeholder="пользователь"/></td>
-					</tr>
-					<tr>
-						<td>пароль</td>
-						<td><input name="password" placeholder="пароль"/></td>
-					</tr>
-					<tr>
-						<td>база данных</td>
-						<td><input name="base" placeholder="база данных"/></td>
-					</tr>
-				</table>
-				cоздать базу при ее отсутствии <input type="checkbox" name="create_base" value="1"/><br/><br/>
-				<button type="submit">А теперь?</button>
-				<input type="hidden" name="action" value="set_config"/>
+				сервер<br/>
+				<input name="host" placeholder="сервер"/><br/>
+				пользователь<br/>
+				<input name="user" placeholder="пользователь"/><br/>
+				пароль<br/>
+				<input name="password" placeholder="пароль"/><br/>
+				<button onclick="event.preventDefault();setConfig();">Изменить</button>
+				<button>А теперь?</button>
+			</div>
+		</form>
+		<form class="connect-form modal" id="base-form" name="base_form">
+			<div class="wrapper">
+				<div class="c">база данных не найдена, выбрать другую?</div>
+				<button onclick="event.preventDefault();createBase();">Создать её!</button>
+				<br/><br/>
+				или выбрать базу<br/>
+				<input name="base" placeholder="имя базы"/><br/>
+				<button onclick="event.preventDefault();setConfig();">Выбрать</button>
 			</div>
 		</form>
 		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">

@@ -2,23 +2,42 @@
 //подключаемся к хосту, затем к базе, или возвращаем ошибки
 //подключаемся к хосту
 function hostConnect(){
-	global $response;
 	global $config;
-	$connect = mysql_connect($config['host'], $config['user'], $config['pass']);
+		$connect = @mysql_connect($config['host'], $config['user'], $config['password']);
 	if(!$connect){
-		$response['action'] = 'connect';
-		$response['error_text'] = mysql_error($connect);
-		exit(json_encode($response));
+		return false;
 	}
+	return true;
 }
 //подключаемся к базе
 function baseConnect() {
 	global $config;
 	if(!mysql_select_db($config['base'])) {
-		$response['action'] = 'base_error';
-		$response['error_text'] = mysql_error();
-		exit(json_encode($response));
-	}else mysql_query("SET NAMES 'utf8'");
+		return false;
+	}else {
+		mysql_query("SET NAMES 'utf8'");
+	}
+	return true;
+}
+//создаем базу
+function baseCreate(){
+		global $config;
+		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+		$result = mysql_query($query);
+		baseConnect();
+		tablesCreate();
+		return true;
+}
+//создаем таблицы
+function tablesCreate(){
+	//если нет таблиц, то создаем их
+	$query = "SHOW TABLES;";
+	$result = mysql_query($query);
+    if(mysql_num_rows($result) == 0){
+		usersTableCreate();
+		groupsTableCreate();
+		tasksTableCreate();
+	}
 }
 //создаем таблицу пользователей
 function usersTableCreate(){
@@ -89,17 +108,7 @@ function tasksTableCreate(){
 		mysql_query($query);
 	}
 }
-//создаем базу
-function baseCreate(){
-		global $config;
-		$connect = mysql_connect($config['host'], $config['user'], $config['pass']);
-		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-		$result = mysql_query($query);
-		mysql_select_db($config['base']);
-		usersTableCreate();
-		groupsTableCreate();
-		tasksTableCreate();
-}
+
 //получаем массив задач
 function getTasks($ids=null){
 	global $response, $user, $config;
@@ -109,11 +118,9 @@ function getTasks($ids=null){
 	if(isset($_POST['u_filter'])&& $_POST['u_filter'] != 'all'){
 		$query .= " AND assigned = '".$_POST['u_filter']."'";
 	}
-	if(isset($_POST['s_filter'])){
-		if($_POST['s_filter'] != '9'){
-			$query .= " AND state = '".$_POST['s_filter']."'";
-		}else $query .= " AND state != 5";
-	}
+	if(isset($_POST['s_filter']) && $_POST['s_filter'] != '9'){
+		$query .= " AND state = '".$_POST['s_filter']."'";
+	}else $query .= " AND state != 5";
 	if(isset($_POST['g_filter'])&& $_POST['g_filter'] != 'all'){
 		//$query .= " AND assigned = '".$_POST['g_filter']."'";
 	}
@@ -264,10 +271,37 @@ function getInfo(){
 	$data['group_ids'] = $s2;
 	$response['get_info'] = $data;
 }
-//подключаемся к хосту и к бузу
+//подключаемся к хосту и к базе
 function connect(){
-	hostConnect();
-	baseConnect();
+	global $response, $config;
+	$data = Array();
+	$data['host'] = $config['host'];
+	$data['user'] = $config['user'];
+	$data['password'] = $config['password'];
+	$data['base'] = $config['base'];
+	if(isset($_POST['create_base'])){
+		$data['create_base'] = $_POST['create_base'];
+	}else{
+		$data['create_base'] = 0;
+	}
+	if(hostConnect() == 0){
+		$data['host_connect'] = 0;
+	}else
+	if(baseConnect() == 0){
+		if($data['create_base'] == 1){
+			baseCreate();
+		}
+	}
+	if(baseConnect() == 0){
+		$data['host_connect'] = 1;
+		$data['base_connect'] = 0;
+	}
+	if(isset($data['host_connect']) || isset($data['base_connect'])) {
+		$response['connect'] = $data;
+		exit(json_encode($response));
+	}
+	if($data['create_base'] != 1)
+		tablesCreate();
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){
