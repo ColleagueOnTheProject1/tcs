@@ -111,7 +111,7 @@ function tasksTableCreate(){
 
 //получаем массив задач
 function getTasks($ids=null){
-	global $response, $user, $config;
+	global $response, $user, $config,$login;
 	if(!$ids)
 		$ids = $user['id'];
 	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE true";
@@ -132,16 +132,28 @@ function getTasks($ids=null){
 	$response['data'] = $data;
 	$nc = 0;//новых задач
 	$rc = 0;//переоткрыто задач
-	for($i = 0; $i < count($data); $i++){
-		if($data[$i]['state']==0){
-			$nc++;
-		}elseif($data[$i]['state']==4){
-			$rc++;
+	$cc = 0;//выполнено задач
+	$oc = 0;//не закрытых задач
+	$ac = 0;//всего задач
+	$query = "SELECT `state`,COUNT(*) FROM `".$config['tasks_table']."` WHERE `assigned`='$login' GROUP BY `state`;";
+	$result = mysql_query($query);
+	while($row = mysql_fetch_row($result)){
+		if($row[0] == 0){
+			$nc += $row[1];
+		}elseif($row[0] == 4){
+			$rc += $row[1];
+		}elseif($row[0] == 5){
+			$cc += $row[1];
 		}
+		$ac += $row[1];
 	}
-
-
-	$response['tasks_info'] = Array('0'=>count($data), '1'=>0, '2'=>$nc,'3'=>$rc);
+	/*для задач текущего пользователя
+	0 - осталось задач
+	1 - выполненых задач
+	2 - новых задач
+	3 - задач переоткрыто
+	*/
+	$response['u_task_count'] = Array('0'=>$ac - $cc, '1'=>$cc, '2'=>$nc,'3'=>$rc);
 }
 //получаем список завершенных задач
 function getCompleteTasks(){

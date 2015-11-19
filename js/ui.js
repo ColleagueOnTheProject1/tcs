@@ -72,28 +72,44 @@ function taskListUpdate(data){
 		return i;
 	}
 	function selGroup(e){
+		var gr = e.target.getAttribute('data-group');
+		var at = document.getElementById('active-task');
 		for(i = 0; i < gt_arr.length; i++){
 			gt_arr[i].classList.remove('active');
 		}
 		e.target.classList.add('active');
+		if(document.getElementById('group_id_' + gr).childNodes.length == 0) {
+			at.style.display = 'none';
+		}
+		active_group = e.target;
+		unselTask();
+		document.forms['create_task']['group'].value = gr;
 	}
 	function selTask(e){
 		var n;
 		var p;
 		p = e.target.parentNode;
-		for(i = 0; i < t_arr.length; i++){
+		for(var i = 0; i < t_arr.length; i++){
 			t_arr[i].classList.remove('active');
 		}
 		for(i = 0; i < g_arr.length; i++){
 			if(p == g_arr[i])
 				break;
 		}
+		active_task = e.target;
 		e.target.classList.add('active');
 		n = e.target.getAttribute('n');
 		last_task_id = data[n]['id'];
 		activeTask(n);
 		selGroup({target:gt_arr[i]});
-		document.forms['create_task']['group'].value = tasks[n]['group'];
+	}
+	//снимает выделение с задачи, если она не принадлежит выбранной группе
+	function unselTask(){
+		if(active_task.parentNode.getAttribute('data-group') != active_group.getAttribute('data-group') ){
+			active_task.classList.remove('active');
+			active_task = null;
+		}
+
 	}
 	taskList.innerHTML = "";
 	if(!data.length)
@@ -101,12 +117,14 @@ function taskListUpdate(data){
 	for(i = 0; i < info['group_ids'].length; i++){//добавляем группы
 		el = document.createElement('div');		
 		el.classList.add('c');
+		el.setAttribute('data-group',info['group_ids'][i]);
 		el.innerHTML = info['group_titles'][i];
-		el.click(selGroup);
+		el.addEventListener('click', selGroup);
 		gt_arr.push(el);
 		taskList.appendChild(el);
 		el = document.createElement('div');
 		el.setAttribute('id', 'group_id_'+info['group_ids'][i]);
+		el.setAttribute('data-group',info['group_ids'][i]);
 		el.classList.add('sub');
 		g_arr.push(el);
 		taskList.appendChild(el);
@@ -201,6 +219,8 @@ function activeTask(taskId){
 		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
 	}
 	taskCancelEdit();
+	if(form.style.display == 'none')
+		form.style.display = 'block';
 }
 //обновляем список пользователей 
 function updateUsersList(data){

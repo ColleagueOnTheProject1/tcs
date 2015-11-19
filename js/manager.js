@@ -15,6 +15,7 @@ const ACTION_ADD_USER="add_user";//имя события - добавить по
 const ACTION_ADD_GROUP="add_group";//имя события - добавить группу
 const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
 const ACTION_TASKS_INFO="tasks_info";//имя события - пришла информация о задачах
+const ACTION_U_TASK_COUNT="u_task_count";//имя события - пришла информация о количестве задач текущего пользователя
 
 
 //------------события
@@ -25,6 +26,8 @@ var task_status = 0;//1 - задачи получены, 2 - задача обн
 var groups;
 var users;
 var cur_task;
+var active_task;//активная задача в списке задач
+var active_group;//активная группа в списке задач
 var last_task_id;//id последней выбранной задачи в списке задач
 var info;
 var filter = false;
@@ -37,7 +40,7 @@ function init(){
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	parser_handlers[ACTION_TASK_IMAGE] = taskAddImage;
 	parser_handlers[ACTION_GET_INFO] = getInfo;
-	parser_handlers[ACTION_TASKS_INFO] = tasksInfoUpdate;
+	parser_handlers[ACTION_U_TASK_COUNT] = tasksInfoUpdate;	
     sendAction(ACTION_CONNECT);
 }
 /**получить данные для текущей вкладки - пользователи/задачи/группы/...*/

@@ -218,7 +218,7 @@
 					<input type="hidden" name="users"/>
 					<input type="hidden" name="action" value="remove_users"/>
 				</form>
-				<table id="users-table" class="sortable" active_f="userActive">
+				<table id="users-table" class="sortable table" active_f="userActive">
 					<tr main="login">
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
 						<th name="login" to_up="1">Логин</th>
