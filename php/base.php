@@ -23,7 +23,7 @@ function baseConnect() {
 function baseCreate(){
 		global $config;
 		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-		$result = mysql_query($query);
+		$result = mysql_query($query);		
 		baseConnect();
 		tablesCreate();
 		return true;
@@ -294,26 +294,31 @@ function connect(){
 	if(isset($_POST['create_base'])){
 		$data['create_base'] = $_POST['create_base'];
 	}else{
-		$data['create_base'] = 0;
+		$data['create_base'] = 0;//не создавать базу
 	}
-	if(hostConnect() == 0){
-		$data['host_connect'] = 0;
-	}else
-	if(baseConnect() == 0){
+	$data['host_connect'] = 1;
+	$data['base_connect'] = 1;
+	//подключаемся к серверу
+	if(!hostConnect()){
+		$data['host_connect'] = 0;			
+	}else//подключаемся к базе
+	if(!baseConnect()){
 		if($data['create_base'] == 1){
 			baseCreate();
+			if(!baseConnect()){
+				$data['host_connect'] = 1;
+				$data['base_connect'] = 0;
+			}else{
+				tablesCreate();
+			}			
+		}else{
+			$data['base_connect'] = 0;
 		}
 	}
-	if(baseConnect() == 0){
-		$data['host_connect'] = 1;
-		$data['base_connect'] = 0;
-	}
-	if(isset($data['host_connect']) || isset($data['base_connect'])) {
+	if($data['base_connect'] == 0) {
 		$response['connect'] = $data;
 		exit(json_encode($response));
-	}
-	if($data['create_base'] != 1)
-		tablesCreate();
+	}	
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){

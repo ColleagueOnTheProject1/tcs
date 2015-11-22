@@ -14,9 +14,9 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
-		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded">
+		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
 			<div class="wrapper">
-				<div class="c">не удается подключится к серверу, изменить наcтройки?</div>
+				<div class="c"></div>
 				<table>
 					<tr>
 						<td>сервер</td>

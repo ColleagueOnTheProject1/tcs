@@ -1,6 +1,6 @@
 /**скрипт для работы с интерфейсом*/
 //показать форму настроек сервера
-function showConnectForm(data){
+function showConnectForm(data){	
 	var form = document.forms['connect_form'];
 	document.getElementById("connect-form").style.display = "block";
 	for(var s in data){
@@ -9,14 +9,13 @@ function showConnectForm(data){
 				form[s].value = data[s];
 		}
 	}
-	if(!data['host_connect']){
+	if(data['host_connect'] == 0){
 		form.querySelector('.c').innerHTML = 'не удается подключится к серверу, попробуйте изменить наcтройки';
-	}else if(!data['base_connect']){
-		if(data['base_create'] == 1){
-			form.querySelector('.c').innerHTML = 'не удается создать базу, возможно у Вас нет привелегий';
-		}else{
-			form.querySelector('.c').innerHTML = 'не удается подключится к базе,  попробуйте изменить наcтройки';
-		}		
+	}else if(data['base_connect'] == 0){
+		form.querySelector('.c').innerHTML = 'не удается подключится к базе,  попробуйте изменить наcтройки';
+			
+	}else if(data['create_base'] == 1){
+		form.querySelector('.c').innerHTML = 'не удается создать базу, возможно у Вас нет привелегий';
 	}
 }
 //показать форму настроек базы
