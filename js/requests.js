@@ -26,6 +26,8 @@ function sendForm(form, getStr){
 		if(form.elements[i].value != undefined){
 			if(form.elements[i].type == 'radio' && form.elements[i].checked == false)
 				continue;
+			if(form.elements[i].type == 'checkbox' && form.elements[i].checked == false)
+				continue;
 			key = form.elements[i].name;
 			if(form.elements[i].tagName="select" && form.elements[i].selectedIndex == 0)
 				fields[key] = '';

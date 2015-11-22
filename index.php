@@ -14,7 +14,7 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
-		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
+		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">
 			<div class="wrapper">
 				<div class="c"></div>
 				<table>
