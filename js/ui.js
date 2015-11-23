@@ -81,7 +81,9 @@ function taskListUpdate(data){
 			at.style.display = 'none';
 		}
 		active_group = e.target;
-		unselTask();
+		if(unselTask()){
+			at.style.display = 'none';
+		}
 		document.forms['create_task']['group'].value = gr;
 	}
 	function selTask(e){
@@ -104,11 +106,12 @@ function taskListUpdate(data){
 	}
 	//снимает выделение с задачи, если она не принадлежит выбранной группе
 	function unselTask(){
-		if(active_task.parentNode.getAttribute('data-group') != active_group.getAttribute('data-group') ){
+		if(active_task && active_task.parentNode.getAttribute('data-group') != active_group.getAttribute('data-group') ){
 			active_task.classList.remove('active');
 			active_task = null;
+			return true
 		}
-
+		return false;
 	}
 	taskList.innerHTML = "";
 	if(!data.length)
@@ -156,9 +159,13 @@ function taskListUpdate(data){
 		i = 0;
 	}else if(task_status == 3){
 		i = tasks.length - 1;
+
 	}else
 		i = getTaskNum(last_task_id);
 	t_arr[i].click();
+	if(task_status == 3){
+		taskEdit();
+	}
 	filter = false;
 }
 //активировать пользователя для просмотра информации о нем
@@ -374,7 +381,21 @@ function updateLastComment(){
 /*обновить информацию о задачах*/
 function tasksInfoUpdate(data){
 	var fields = document.getElementById('tasks-info').getElementsByTagName('span');
-	for(var i = 0; i < fields.length; i++){
-		fields[i].innerHTML = data[i];
+	var st;
+	var rc = 0;//осталось задач
+	var i;
+	for (i = 0; i < data.length; i++){
+		if(i != 3 && i != 5){
+			console.log(data[i]);
+			rc += parseInt(data[i]);
+		}
+	}
+	for(i = 0; i < fields.length; i++){
+		st = fields[i].getAttribute('data-state');
+		if(st < 6){
+			fields[i].innerHTML = data[st];
+		}else if(st == 6){
+			fields[i].innerHTML = rc;
+		}
 	}
 }

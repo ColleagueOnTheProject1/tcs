@@ -23,7 +23,7 @@ function baseConnect() {
 function baseCreate(){
 		global $config;
 		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-		$result = mysql_query($query);		
+		$result = mysql_query($query);
 		baseConnect();
 		tablesCreate();
 		return true;
@@ -135,16 +135,16 @@ function getTasks($ids=null){
 	$cc = 0;//выполнено задач
 	$oc = 0;//не закрытых задач
 	$ac = 0;//всего задач
+	$ic = 0;//задач на проверке
+
+	$c_arr = Array();
+	for($i = 0 ; $i < 6; $i++){
+		$c_arr[$i] = 0;
+	}
 	$query = "SELECT `state`,COUNT(*) FROM `".$config['tasks_table']."` WHERE `assigned`='$login' GROUP BY `state`;";
 	$result = mysql_query($query);
 	while($row = mysql_fetch_row($result)){
-		if($row[0] == 0){
-			$nc += $row[1];
-		}elseif($row[0] == 4){
-			$rc += $row[1];
-		}elseif($row[0] == 5){
-			$cc += $row[1];
-		}
+		$c_arr[$row[0]] = $row[1];
 		$ac += $row[1];
 	}
 	/*для задач текущего пользователя
@@ -153,7 +153,7 @@ function getTasks($ids=null){
 	2 - новых задач
 	3 - задач переоткрыто
 	*/
-	$response['u_task_count'] = Array('0'=>$ac - $cc, '1'=>$cc, '2'=>$nc,'3'=>$rc);
+	$response['u_task_count'] = $c_arr;
 }
 //получаем список завершенных задач
 function getCompleteTasks(){
@@ -300,7 +300,7 @@ function connect(){
 	$data['base_connect'] = 1;
 	//подключаемся к серверу
 	if(!hostConnect()){
-		$data['host_connect'] = 0;			
+		$data['host_connect'] = 0;
 	}else//подключаемся к базе
 	if(!baseConnect()){
 		if($data['create_base'] == 1){
@@ -310,7 +310,7 @@ function connect(){
 				$data['base_connect'] = 0;
 			}else{
 				tablesCreate();
-			}			
+			}
 		}else{
 			$data['base_connect'] = 0;
 		}
@@ -318,7 +318,7 @@ function connect(){
 	if($data['base_connect'] == 0) {
 		$response['connect'] = $data;
 		exit(json_encode($response));
-	}	
+	}
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){

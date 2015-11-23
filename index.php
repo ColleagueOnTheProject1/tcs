@@ -61,10 +61,11 @@
 			</div>
 		</div>
 		<div id="tasks-info" class="tasks-info">
-			<span id="tasks-count" title="осталось задач">10</span>
-			<span id="tasks-complete" title="выполнено задач">10</span>
-			<span id="tasks-new" title="новых задач">10</span>
-			<span id="tasks-reopen" title="переоткрыто задач">10</span>
+			<span id="tasks-count" title="осталось задач" data-state="6">10</span>
+			<span id="tasks-complete" title="выполнено задач" data-state="5">10</span>
+			<span id="tasks-new" title="новых задач" data-state="0">10</span>
+			<span id="tasks-reopen" title="переоткрыто задач" data-state="4">10</span>
+			<span id="tasks-rest" title="задач на проверке" data-state="3">10</span>
 		</div>
 
 		<div id="user" class="user content">
@@ -112,6 +113,12 @@
 						</div>
 					</form>
 					<h2>Задачи</h2>
+					<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
+						<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
+						<input type="hidden" name="group" value="0"/>
+						<input type="hidden" name="assigned" value=""/>
+						<input type="hidden" name="action" value="add_task"/>
+					</form>
 					<div class="allocate">
 						<div id="task-list" class="list1"></div>
 						<div class="">
@@ -201,12 +208,6 @@
 						</div>
 					</div>
 				</div>
-				<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
-					<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
-					<input type="hidden" name="group" value="0"/>
-					<input type="hidden" name="assigned" value=""/>
-					<input type="hidden" name="action" value="add_task"/>
-				</form>
 
 			</div>
 

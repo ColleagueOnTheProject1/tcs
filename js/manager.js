@@ -91,7 +91,7 @@ function exit(){
 function showLogin(){
 	document.getElementById("user").style.display = 'block';
 	cookie = cookieToArr();
-	document.getElementById("login").innerHTML = cookie['login'];
+	document.getElementById("login").innerHTML = decodeURI(cookie['login']);
 	document.getElementById("exit").innerHTML = cookie['login'];
 }
 document.addEventListener('DOMContentLoaded', function() {

@@ -204,7 +204,14 @@ button{cursor:pointer;}
 .create-form textArea
 {vertical-align:top;}
 
-.list1{padding:10px 20px 10px;border:1px solid black;background:rgba(0,0,0,0.3);width:240px;min-height:386px;}
+.list1{
+	padding:10px 20px 10px;
+	border:1px solid black;
+	background:rgba(0,0,0,0.3);
+	width:240px;
+	min-height:386px;
+	max-height:410px;
+	overflow-y:auto;}
 .list1 .c{
 	display:block;
 	line-height:20px;
