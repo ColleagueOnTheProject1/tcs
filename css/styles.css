@@ -261,10 +261,11 @@ button{cursor:pointer;}
 	display:inline-block;
 	cursor:default;
 	font-weight:bold;}
-.tasks-info span:nth-child(1){color:yellow;}
-.tasks-info span:nth-child(2){color:blue;}
-.tasks-info span:nth-child(3){color:red;}
-.tasks-info span:nth-child(4){color:white;}
+
+.tasks-info span[data-state="6"]{color:blue;}
+.tasks-info span[data-state="0"]{color:red;}
+.tasks-info span[data-state="3"]{color:yellow;}
+.tasks-info span[data-state="4"]{color:white;}
 
 .filters{}
 .filters .item{margin-right:20px;}

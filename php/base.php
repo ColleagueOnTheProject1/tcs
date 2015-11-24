@@ -124,19 +124,13 @@ function getTasks($ids=null){
 	if(isset($_POST['g_filter'])&& $_POST['g_filter'] != 'all'){
 		//$query .= " AND assigned = '".$_POST['g_filter']."'";
 	}
+	$query .= " ORDER BY `id` DESC;";
 	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
 	$response['data'] = $data;
-	$nc = 0;//новых задач
-	$rc = 0;//переоткрыто задач
-	$cc = 0;//выполнено задач
-	$oc = 0;//не закрытых задач
-	$ac = 0;//всего задач
-	$ic = 0;//задач на проверке
-
 	$c_arr = Array();
 	for($i = 0 ; $i < 6; $i++){
 		$c_arr[$i] = 0;
@@ -145,14 +139,7 @@ function getTasks($ids=null){
 	$result = mysql_query($query);
 	while($row = mysql_fetch_row($result)){
 		$c_arr[$row[0]] = $row[1];
-		$ac += $row[1];
 	}
-	/*для задач текущего пользователя
-	0 - осталось задач
-	1 - выполненых задач
-	2 - новых задач
-	3 - задач переоткрыто
-	*/
 	$response['u_task_count'] = $c_arr;
 }
 //получаем список завершенных задач
@@ -168,7 +155,11 @@ function getCompleteTasks(){
 }
 //добавить задачу
 function addTask(){
-	global $config;
+	global $config, $login;
+	if($_POST['assigned']==''){
+		$_POST['assigned'] = $login;
+	}
+
 	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`group`,`assigned`) VALUES (".time().",".$_POST['group'].",'".$_POST['assigned']."');";
 	$result = mysql_query($query);
 }

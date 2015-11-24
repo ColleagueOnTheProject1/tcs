@@ -158,7 +158,8 @@ function taskListUpdate(data){
 	if(!last_task_id || task_status == 4){
 		i = 0;
 	}else if(task_status == 3){
-		i = tasks.length - 1;
+		//i = tasks.length - 1;
+		i = 0;
 
 	}else
 		i = getTaskNum(last_task_id);
