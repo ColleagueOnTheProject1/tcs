@@ -5,6 +5,7 @@ require_once 'config.php';
 
 $login = '';
 $password = '';
+$connect;
 if(isset($_POST['host'])&&isset($_POST['user'])&&isset($_POST['password'])&&isset($_POST['base'])){
 	$config['host'] = $_POST['host'];
 	$config['user'] = $_POST['user'];
@@ -34,10 +35,13 @@ init();
 //не найден пользователь - уходим отсюда
 if(!isset($user['id']) || !isset($user['type']))
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
+
 if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	$response['action'] = 'get_tasks';
 	getInfo();
 	getTasks();
+}elseif($_POST["action"] == "export"){
+	export();
 }elseif($_POST["action"] == "get_tasks"){
 	$response['action'] = 'get_tasks';
 	getInfo();

@@ -67,7 +67,6 @@
 			<span id="tasks-reopen" title="переоткрыто задач" data-state="4">10</span>
 			<span id="tasks-rest" title="задач на проверке" data-state="3">10</span>
 		</div>
-
 		<div id="user" class="user content">
 			Здравствуй <span id="login" class="login">Админ</span>!
 			<br/>
@@ -76,6 +75,11 @@
 				<a class="" href="" onclick="exit();preventDefault();">выйти</a>
 			</span>
 		</div>
+		<div class="d-base">
+			<a class=""><img src="design/export.png" alt="" title="экспорт базы" onclick="sendAction(ACTION_EXPORT)"/></a>&nbsp;
+			<a class=""><img src="design/import.png" alt="" title="импорт базы"/></a>
+		</div>
+
 		<div id="tabulator" class="content">
 			<input class="tab1" id="tasks-tab" type="radio" name="tab1" checked="checked"/>
 			<label for="tasks-tab">Задачи</label>

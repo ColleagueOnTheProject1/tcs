@@ -16,6 +16,7 @@ const ACTION_ADD_GROUP="add_group";//имя события - добавить г
 const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
 const ACTION_TASKS_INFO="tasks_info";//имя события - пришла информация о задачах
 const ACTION_U_TASK_COUNT="u_task_count";//имя события - пришла информация о количестве задач текущего пользователя
+const ACTION_EXPORT="export";//имя события - экспорт базы
 
 
 //------------события

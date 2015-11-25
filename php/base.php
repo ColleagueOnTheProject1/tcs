@@ -2,7 +2,7 @@
 //подключаемся к хосту, затем к базе, или возвращаем ошибки
 //подключаемся к хосту
 function hostConnect(){
-	global $config;
+	global $config,$connect;
 		$connect = @mysql_connect($config['host'], $config['user'], $config['password']);
 	if(!$connect){
 		return false;
@@ -320,5 +320,20 @@ function init(){
 		$user = mysql_fetch_assoc($result);
 	}
 	else exit(mysql_num_rows($result));
+}
+//экспорт базы в файл
+function export(){
+	global $response, $config, $connect;
+	include 'export.php';
+	$query = "SHOW TABLES;";
+	$result = mysql_query($query);
+	$tables=Array();
+    if(mysql_num_rows($result) != 0){
+		while($row = mysql_fetch_row($result)){
+			$tables[] = $row[0];
+		}
+	}
+	get_dump($connect, $tables);
+	$response['export'] = 'dump.sql';
 }
 ?>

@@ -1,47 +1,83 @@
-&lt;?php
- $export = fopen(dirname(__FILE__).'/export.sql','w');
- function export($sql) {
- global $export;
- fwrite($export,$sql);
- ob_flush();
- }
- function trace($msg){
- echo $msg.'&lt;br&gt;';
- ob_flush();
- }
- mysql_connect('localhost','root','');
- mysql_select_db('baza');
- mysql_query('set names utf8');
+<?php
+function get_dump($db,$tables) {
 
- $res=mysql_query('show tables');
+	if(is_array($tables)) {
+		$fp = fopen("../dump.sql","w");
 
- while($tbl=mysql_fetch_array($res)){
- $table=$tbl[0];
- $r=mysql_query('show create table `'
- .mysql_real_escape_string($table).'`');
- $struct=mysql_fetch_array($r);
- $sql_struct[$table]=$struct[1].';';
- }
+		$text = "-- SQL Dump
+-- my_ version: 1.234
+--
+-- База дынных: `Без имени`
+--
+-- ---------------------------------------------------
+-- ---------------------------------------------------
+";
+		fwrite($fp,$text);
 
- export(&quot;set names utf8;\n&quot;);
+		foreach($tables as $item) {
 
- foreach($sql_struct as $tbl_name=&gt;$crt_str){
- trace('Идет экспорт '.$tbl_name);
- export(&quot;DROP TABLE IF EXISTS `&quot;.$tbl_name.&quot;`;\n&quot;);
- export($crt_str.&quot;\n&quot;);
- export(&quot;LOCK TABLES `&quot;.$tbl_name.&quot;` WRITE;\n&quot;);
- mysql_query('LOCK TABLES `'.$tbl_name.'` READ');
- $res=mysql_query('select * from `'.$tbl_name.'`');
- $insert_str='insert into `'.$tbl_name.'` values ';
- while($item=mysql_fetch_assoc($res)){
- foreach($item as $k=&gt;$v){
- $item[$k]=mysql_real_escape_string($v);
- }
- export($insert_str.'(&quot;'.implode('&quot;,&quot;',$item).'&quot;);'.&quot;\n&quot;);
- }
- export(&quot;UNLOCK TABLES;\n&quot;);
- mysql_query('UNLOCK TABLES');
- }
- export('-- end of export');
- trace('База была успешно экспортирована');
-?&gt;
+				$text = "
+--
+-- Структура таблицы - ".$item."
+--
+";
+		fwrite($fp,$text);
+
+
+			$text = "";
+
+			$sql = "SHOW CREATE TABLE ".$item;
+			$result = mysql_query($sql);
+			if(!$result) {
+				exit(mysql_error($db));
+			}
+			$row = mysql_fetch_row($result);
+
+			$text .= "\n".$row[1].";";
+			fwrite($fp,$text);
+
+			$text = "";
+			$text .=
+			"
+--
+-- Dump BD - tables :".$item."
+--
+			";
+
+			$text .= "\nINSERT INTO `".$item."` VALUES";
+			fwrite($fp,$text);
+
+			$sql2 = "SELECT * FROM ".$item."`";
+			$result2 = mysql_query($sql2);
+			if(!$result2) {
+				exit(mysql_error($db));
+			}
+			$text = "";
+
+			for($i = 0; $i < mysql_num_rows($result2); $i++) {
+				$row = mysql_fetch_row($result2);
+
+				if($i == 0) $text .= "(";
+					else  $text .= ",(";
+
+				foreach($row as $v) {
+					$text .= "\"".mysql_real_escape_string($v)."\",";
+				}
+				$text = rtrim($text,",");
+				$text .= ")";
+
+				if($i > 10) {
+					fwrite($fp,$text);
+					$text = "";
+				}
+
+			}
+			$text .= ";\n";
+			fwrite($fp,$text);
+
+
+		}
+		fclose($fp);
+	}
+
+}?>
