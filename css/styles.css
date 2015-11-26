@@ -271,7 +271,10 @@ button{cursor:pointer;}
 .filters .item{margin-right:20px;}
 
 .d-base{display:table;left:0;right:0;margin:0 auto -35px;position:relative;z-index:10;}
-.d-base img{cursor:pointer;}
+.d-base a{display:inline-block;cursor:pointer;}
+.d-base img{}
+
+.import-form input[type="file"]{border:1px solid silver;}
 
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 

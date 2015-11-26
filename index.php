@@ -14,6 +14,22 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
+		<form class="import-form connect-form modal" id="import-form" name="import_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="this.style.display='none'; event.preventDefault();sendFormData(this);">
+			<div class="wrapper">
+				<div class="c">Импорт данных</div>
+				<input type="radio" name="import1" checked="checked" autocomplete="off" onchange="exportFieldsChose(false);"/>&nbsp;с другой базы
+				<input type="radio" name="import1" autocomplete="off" onchange="exportFieldsChose(true)"/>&nbsp;из файла
+				<div class="">
+					<input class="f-b" type="text" name="host" placeholder="сервер"/><br/>
+					<input class="f-b" type="text" name="user" placeholder="имя пользователя"/><br/>
+					<input class="f-b" type="text" name="password" placeholder="пароль"/><br/>
+					<input class="f-b" type="text" name="base" placeholder="Имя базы"/>
+				</div>
+				<input class="f-f" type="file" name="uploadfile" accept="text/sql" disabled="disabled"/><br/>
+				<input type="hidden" name="action" value="import"/><br/>
+				<button type="submit">импорт</button>
+			</div>
+		</form>
 		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">
 			<div class="wrapper">
 				<div class="c"></div>
@@ -77,7 +93,8 @@
 		</div>
 		<div class="d-base">
 			<a class=""><img src="design/export.png" alt="" title="экспорт базы" onclick="sendAction(ACTION_EXPORT)"/></a>&nbsp;
-			<a class=""><img src="design/import.png" alt="" title="импорт базы"/></a>
+			<a class=""><img src="design/import.png" alt="" title="импорт базы" onclick="document.forms['import-form'].style.display='block';"/></a>
+			<a id="download" class="" href=""  type="application/file" download></a>
 		</div>
 
 		<div id="tabulator" class="content">

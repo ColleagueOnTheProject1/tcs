@@ -41,7 +41,8 @@ function init(){
 	parser_handlers[ACTION_GET_USERS] = showUsers;
 	parser_handlers[ACTION_TASK_IMAGE] = taskAddImage;
 	parser_handlers[ACTION_GET_INFO] = getInfo;
-	parser_handlers[ACTION_U_TASK_COUNT] = tasksInfoUpdate;	
+	parser_handlers[ACTION_U_TASK_COUNT] = tasksInfoUpdate;
+	parser_handlers[ACTION_EXPORT] = download;
     sendAction(ACTION_CONNECT);
 }
 /**получить данные для текущей вкладки - пользователи/задачи/группы/...*/

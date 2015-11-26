@@ -53,6 +53,8 @@ if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	include 'images.php';
 	$response['action'] = 'task_image';
 	saveImages();
+}elseif($_POST["action"] == "import"){
+
 }elseif($_POST["action"] == "save_task"){
 	$response['action'] = 'get_tasks';
 	saveTask();

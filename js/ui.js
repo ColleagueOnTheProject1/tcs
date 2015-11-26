@@ -387,7 +387,6 @@ function tasksInfoUpdate(data){
 	var i;
 	for (i = 0; i < data.length; i++){
 		if(i != 3 && i != 5){
-			console.log(data[i]);
 			rc += parseInt(data[i]);
 		}
 	}
@@ -398,5 +397,29 @@ function tasksInfoUpdate(data){
 		}else if(st == 6){
 			fields[i].innerHTML = rc;
 		}
+	}
+}
+/**/
+function download(data){
+	var el = document.getElementById('download');
+	el.setAttribute('href', data);
+	el.click();
+
+}
+//закрыть или открыть для доступа поля, не заданные выбором в форме экспорта. @param flag = true - закрыть поля выбора сервера
+function exportFieldsChose(flag){
+	var fb = document.forms['import_form'].querySelectorAll('.f-b');
+	var ff = document.forms['import_form'].querySelector('.f-f');
+	for (var i = 0; i < fb.length; i++){
+		if(flag){
+			fb[i].setAttribute('disabled', 'disabled');
+		}else{
+			fb[i].removeAttribute('disabled');
+		}
+	}
+	if(flag){
+		ff.removeAttribute('disabled');
+	}else{
+		ff.setAttribute('disabled', 'disabled');
 	}
 }
