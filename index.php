@@ -20,14 +20,15 @@
 				<input type="radio" name="import1" checked="checked" autocomplete="off" onchange="exportFieldsChose(false);"/>&nbsp;с другой базы
 				<input type="radio" name="import1" autocomplete="off" onchange="exportFieldsChose(true)"/>&nbsp;из файла
 				<div class="">
-					<input class="f-b" type="text" name="host" placeholder="сервер"/><br/>
-					<input class="f-b" type="text" name="user" placeholder="имя пользователя"/><br/>
-					<input class="f-b" type="text" name="password" placeholder="пароль"/><br/>
-					<input class="f-b" type="text" name="base" placeholder="Имя базы"/>
+					<input class="f-b" type="text" name="i_host" placeholder="сервер"/><br/>
+					<input class="f-b" type="text" name="i_user" placeholder="имя пользователя"/><br/>
+					<input class="f-b" type="text" name="i_password" placeholder="пароль"/><br/>
+					<input class="f-b" type="text" name="i_base" placeholder="Имя базы"/>
 				</div>
 				<input class="f-f" type="file" name="uploadfile" accept="text/sql" disabled="disabled"/><br/>
 				<input type="hidden" name="action" value="import"/><br/>
-				<button type="submit">импорт</button>
+				<button type="submit">импорт</button>&nbsp;
+				<button type="reset" onclick="getParentForm(this).style.display='none';">отмена</button>
 			</div>
 		</form>
 		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">

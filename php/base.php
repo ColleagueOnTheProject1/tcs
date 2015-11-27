@@ -10,9 +10,12 @@ function hostConnect(){
 	return true;
 }
 //подключаемся к базе
-function baseConnect() {
+function baseConnect($base = null) {
 	global $config;
-	if(!mysql_select_db($config['base'])) {
+	if(!$base){
+		$base = $config['base'];
+	}
+	if(!mysql_select_db($base)) {
 		return false;
 	}else {
 		mysql_query("SET NAMES 'utf8'");
@@ -335,5 +338,30 @@ function export(){
 	}
 	get_dump($connect, $tables);
 	$response['export'] = 'dump.sql';
+}
+//импорт базы с другого сервера
+function importFS(){
+	global $config;
+	if(!isset($_POST['i_host'])||!isset($_POST['i_user'])||!isset($_POST['i_password'])||!isset($_POST['i_base'])){
+		return;
+	}
+	$t_names = Array(0=>$config['tasks_table'],1=>$config['users_table'],2=>$config['groups_table']);
+	$f_names = Array();
+	for($i=0;$i<$t_names;$i++){
+		//получаем имена полей наших таблиц
+		$query = "SELECT COLUMN_NAME
+		FROM information_schema.COLUMNS
+		WHERE TABLE_SCHEMA = DATABASE()
+		  AND TABLE_NAME = '".$t_names[$i]."'";
+		$result = mysql_query($query);
+		$f_names[] = Array();
+		while($row = mysql_fetch_row($result)){
+			$f_names[$i][] = $row[0];
+		}
+	}
+	if($_POST['i_host'] != $config['host'] || $_POST['i_user'] != $config['user'] || $_POST['i_password'] != $config['password']){
+		$connect2 = @mysql_connect($_POST['i_host'], $_POST['i_user'], $_POST['i_password']);
+	}else $connect2 = $connect;
+
 }
 ?>
