@@ -27,9 +27,6 @@ function baseCreate(){
 		global $config;
 		$query = "CREATE DATABASE `".$config['base']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 		$result = mysql_query($query);
-		baseConnect();
-		tablesCreate();
-		return true;
 }
 //создаем таблицы
 function tablesCreate(){
@@ -298,18 +295,24 @@ function connect(){
 	}else//подключаемся к базе
 	if(!baseConnect()){
 		if($data['create_base'] == 1){
-			baseCreate();
+			baseCreate();			
 			if(!baseConnect()){
 				$data['host_connect'] = 1;
-				$data['base_connect'] = 0;
-			}else{
+				$data['base_connect'] = 0;				
+			}else{			
 				tablesCreate();
 			}
 		}else{
 			$data['base_connect'] = 0;
 		}
+	}else{
+		$query = "SHOW TABLES;";
+		$result = mysql_query($query);	
+		if(!mysql_num_rows($result)){
+			tablesCreate();
+		}
 	}
-	if($data['base_connect'] == 0) {
+	if($data['base_connect'] == 0 || $data['host_connect'] == 0) {
 		$response['connect'] = $data;
 		exit(json_encode($response));
 	}
