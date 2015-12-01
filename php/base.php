@@ -84,7 +84,7 @@ function tasksTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
-	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - ошибка, 3 - тест, 100 - другое',
 	`group` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
@@ -223,12 +223,18 @@ function groupAdd(){
 	$result = mysql_query($query);
 }
 function getUsers(){
-	global $response, $user, $config;
+	global $response, $user, $config, $user;
 	$query = "SELECT * FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
 	$data = array();
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
+	}
+	if($user['type'] > 0){
+		for($i = 0; $i < count($data); $i++){
+			//unset($data[$i]['password']);
+			$data[$i]['password'] = "";
+		}
 	}
 	$response['data'] = $data;
 }
@@ -295,11 +301,11 @@ function connect(){
 	}else//подключаемся к базе
 	if(!baseConnect()){
 		if($data['create_base'] == 1){
-			baseCreate();			
+			baseCreate();
 			if(!baseConnect()){
 				$data['host_connect'] = 1;
-				$data['base_connect'] = 0;				
-			}else{			
+				$data['base_connect'] = 0;
+			}else{
 				tablesCreate();
 			}
 		}else{
@@ -307,7 +313,7 @@ function connect(){
 		}
 	}else{
 		$query = "SHOW TABLES;";
-		$result = mysql_query($query);	
+		$result = mysql_query($query);
 		if(!mysql_num_rows($result)){
 			tablesCreate();
 		}
@@ -319,7 +325,7 @@ function connect(){
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){
-	global $user, $config, $login, $password;
+	global $user, $config, $login,$u_info, $password;
 	$query = "SELECT * FROM ".$config['users_table']." WHERE `login`='$login' AND `password`='$password';";
 	$result = mysql_query($query);
 	if(mysql_num_rows($result) > 0){

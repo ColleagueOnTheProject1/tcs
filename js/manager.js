@@ -1,6 +1,7 @@
 /*скрипт распределяет задачи между скриптами. подключается в последнюю очередь*/
 const STATES = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
 const PRIORITIES = ['низкий', 'средний', 'высокий', 'наивысший'];
+const TASK_TYPES = ['новинка', 'улучшение', 'ошибка', 'тест', 'другое']//типы зыдач
 //события------------
 const ACTION_CONNECT="connect";//имя события - подключение к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
@@ -94,7 +95,7 @@ function showLogin(){
 	document.getElementById("user").style.display = 'block';
 	cookie = cookieToArr();
 	document.getElementById("login").innerHTML = decodeURI(cookie['login']);
-	document.getElementById("exit").innerHTML = cookie['login'];
+	document.getElementById("exit").innerHTML = decodeURI(cookie['login']);
 }
 document.addEventListener('DOMContentLoaded', function() {
 	init();

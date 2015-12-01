@@ -131,7 +131,6 @@
 									<option value="9" selected="selected">не завершенные</option>
 								</select>
 							</div>
-
 						</div>
 					</form>
 					<h2>Задачи</h2>
@@ -165,6 +164,9 @@
 											<option value="0">новинка</option>
 											<option value="1">улучшение</option>
 											<option value="2">ошибка</option>
+											<option value="3">тест</option>
+											<option value="100">другое</option>
+
 										</select>
 									</div>
 									<div class="inline-top">
@@ -245,7 +247,7 @@
 					<tr main="login">
 						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
 						<th name="login" to_up="1">Логин</th>
-						<th name="password">Пароль</th>
+						<th name="password" name_f="getPassword">Пароль</th>
 						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
 						<th name="finished" to_up="1">задач выполнено</th>
 						<th name="choose" choose_f="chooseRow" choose_list="selected-users">Выбрать</th>
@@ -265,7 +267,7 @@
 				<h2>Группы</h2>
 				<span class="">Выбранные группы:&nbsp;</span><span id="selected-groups"></span><br/>
 				<button>Удалить выбранных</button>
-				<table id="groups-table" class="sortable">
+				<table id="groups-table" class="sortable table">
 					<tr main="login">
 						<th name="title" class="active" to_up="1">название</th>
 						<th name="description" to_up="1">описание</th>

@@ -254,7 +254,7 @@ button{cursor:pointer;}
 
 .list1 .sub{padding:0 20px;}
 
-.tasks-info{position:absolute;text-align:center;width:100%;z-index:1;}
+.tasks-info{text-align:center;z-index:1;display:table;margin:0 auto -24px;position:relative;}
 .tasks-info span{
 	border:1px solid white;
 	padding:3px 5px;

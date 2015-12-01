@@ -173,6 +173,10 @@ function taskListUpdate(data){
 function userActive(userId){
 
 }
+//отрисовывает все необходимые элементы для панели задачи
+function activeTaskInit(){
+
+}
 //активировать задачу для просмотра. taskId - номер задачи в массиве задач.
 function activeTask(taskId){
 	var form = document.getElementById('active-task');
@@ -320,7 +324,15 @@ function chooseRow(row, list){
 	}
 	document.getElementById(list).innerHTML = arr.join(', ');
 }
+//определить пароль, если его нет, то отображать знак вопроса
+function getPassword(pass){
+	if(!pass){
+		return '?';
+	}else{
+		return pass;
+	}
 
+}
 //открывает редактирование задачи
 function taskEdit(){
 	var i;
