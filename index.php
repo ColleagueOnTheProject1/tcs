@@ -111,17 +111,17 @@
 						<div class="wrapper">
 							<h2>фильтры</h2>
 							<div class="inline-top item">пользователи
-								<select name="users" onchange="getData(true);">
+								<select name="users" onchange="getData(true)">
 									<option value="all">Все</option>
 								</select>
 							</div>
 							<div class="inline-top item">группы
-								<select name="groups">
+								<select name="groups" onchange="getData(true)">
 									<option>Все</option>
 								</select>
 							</div>
 							<div class="inline-top item">состояние
-								<select name="state" onchange="getData(true);">
+								<select name="state" onchange="getData(true)">
 									<option value="0">не начата</option>
 									<option value="1">начата</option>
 									<option value="2">приостановлена</option>
@@ -129,6 +129,10 @@
 									<option value="4">переоткрыта</option>
 									<option value="5">завершенные</option>
 									<option value="9" selected="selected">не завершенные</option>
+								</select>
+							</div>
+							<div class="inline-top">тип
+								<select name="type" onchange="getData(true)">
 								</select>
 							</div>
 						</div>
@@ -161,12 +165,6 @@
 									<div class="inline-top">
 										<div class="">тип задачи</div>
 										<select name="type" disabled="disabled">
-											<option value="0">новинка</option>
-											<option value="1">улучшение</option>
-											<option value="2">ошибка</option>
-											<option value="3">тест</option>
-											<option value="100">другое</option>
-
 										</select>
 									</div>
 									<div class="inline-top">

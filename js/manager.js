@@ -2,6 +2,9 @@
 const STATES = ['не начата','начата', 'приостановлена','на проверке', 'переоткрыта','закрыта'];
 const PRIORITIES = ['низкий', 'средний', 'высокий', 'наивысший'];
 const TASK_TYPES = ['новинка', 'улучшение', 'ошибка', 'тест', 'другое']//типы зыдач
+const TASK_OTHER_TYPE_ID = 100;
+const TASK_ALL_TYPES_ID = 127;
+const TASK_ALL_TYPES = 'все';
 //события------------
 const ACTION_CONNECT="connect";//имя события - подключение к серверу
 const ACTION_BASE="base_error";//имя события - не удалось подключится к базе
@@ -98,6 +101,7 @@ function showLogin(){
 	document.getElementById("exit").innerHTML = decodeURI(cookie['login']);
 }
 document.addEventListener('DOMContentLoaded', function() {
+	ui_init();
 	init();
 	initListeners();
 });

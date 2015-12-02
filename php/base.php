@@ -115,20 +115,30 @@ function getTasks($ids=null){
 	if(!$ids)
 		$ids = $user['id'];
 	$query = "SELECT * FROM `".$config['tasks_table']."` WHERE true";
-	if(isset($_POST['u_filter'])&& $_POST['u_filter'] != 'all'){
-		$query .= " AND assigned = '".$_POST['u_filter']."'";
-	}
-	if(isset($_POST['s_filter']) && $_POST['s_filter'] != '9'){
-		$query .= " AND state = '".$_POST['s_filter']."'";
+	if(isset($_POST['filters'])){
+		$filters = explode(',', $_POST['filters']);
+		if($filters[0]!= 'all'){//пользователь
+			$query .= " AND assigned = '".$filters[0]."'";
+		}
+		if($filters[1]!= 'all'){//группа
+			$query .= " AND group = ".$filters[1];
+		}
+		if($filters[2]!= '9'){//состояние
+			$query .= " AND state = '".$filters[2]."'";
+		}else{
+			$query .= " AND state != 5";
+		}
+		if($filters[3]!=127){//тип задачи
+			$query .= " AND type = ".$filters[3];
+		}
 	}else $query .= " AND state != 5";
-	if(isset($_POST['g_filter'])&& $_POST['g_filter'] != 'all'){
-		//$query .= " AND assigned = '".$_POST['g_filter']."'";
-	}
 	$query .= " ORDER BY `id` DESC;";
 	$result = mysql_query($query);
 	$data = array();
-	while($row = mysql_fetch_assoc($result)){
-		$data[] = $row;
+	if($result){
+		while($row = mysql_fetch_assoc($result)){
+			$data[] = $row;
+		}
 	}
 	$response['data'] = $data;
 	$c_arr = Array();

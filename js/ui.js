@@ -175,7 +175,16 @@ function userActive(userId){
 }
 //отрисовывает все необходимые элементы для панели задачи
 function activeTaskInit(){
-
+	var form = document.getElementById('active-task');
+	var child;
+	form['type'].innerHTML = '';
+	for(i = 0; i < TASK_TYPES.length; i++){
+		child = document.createElement('option');
+		child.innerHTML=TASK_TYPES[i];
+		child.value=i;
+		form['type'].appendChild(child);
+	}
+	form['type'].lastChild.value = TASK_OTHER_TYPE_ID;	
 }
 //активировать задачу для просмотра. taskId - номер задачи в массиве задач.
 function activeTask(taskId){
@@ -247,6 +256,23 @@ function updateUsersList(data){
 		u_filters.appendChild(opt);
 	}	
 }
+//инициализация фильтров
+function filtersInit(){
+	var form = document.forms['filters'];
+	var child;
+	for(i=0;i<TASK_TYPES.length;i++){
+		child = document.createElement('option');
+		child.innerHTML = TASK_TYPES[i];
+		child.value=i;
+		form['type'].appendChild(child);
+	}
+	form['type'].lastChild.value = TASK_OTHER_TYPE_ID;
+	child = document.createElement('option');
+	child.innerHTML = TASK_ALL_TYPES
+	child.value=TASK_ALL_TYPES_ID;
+	form['type'].appendChild(child);
+	form['type'].lastChild.selected = true;
+}
 //обновляет списки фильтров
 function updateFilters(){
 	var u_filters = document.forms['filters']['users'];
@@ -274,7 +300,7 @@ function updateFilters(){
 	t_g.innerHTML = '';
 	for(i = 0; i < arr.length; i++){
 		opt = document.createElement('option');
-		opt.value = arr[i];
+		opt.value = info['group_ids'][i];
 		opt.innerHTML = arr[i];
 		if(opt.value == old_v){
 			opt.selected = true;
@@ -288,8 +314,18 @@ function updateFilters(){
 }
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
-	var s;
-	s = 'u_filter=' + document.forms['filters']['users'].value + '&g_filter=' + 
+	var s="";
+	var form = document.forms['filters'];
+	var fields = form.getElementsByTagName('select');
+	var filters='';
+	for(i=0;i<fields.length;i++){
+		filters[fields[i].name] = fields[i].value;
+		filters += fields[i].value;
+		if(i < fields.length - 1){
+			filters += ",";
+		}
+	}
+	s = 'filters='+filters+'&u_filter=' + document.forms['filters']['users'].value + '&g_filter=' + 
 		document.forms['filters']['groups'].value + '&s_filter=' + document.forms['filters']['state'].value;
 	return s;
 }
@@ -434,4 +470,9 @@ function exportFieldsChose(flag){
 	}else{
 		ff.setAttribute('disabled', 'disabled');
 	}
+}
+//инициализация интерфейса
+function ui_init(){
+	activeTaskInit();
+	filtersInit();
 }
