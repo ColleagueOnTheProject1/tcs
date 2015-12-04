@@ -14,6 +14,12 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
+		<form id="error-form" class="error-form modal connect-form" name="error_form" action="/" method="post" enctype="application/x-www-form-urlencoded">
+			<div class="wrapper">
+				<div class="c"></div>
+				<button type="button" onclick="getParentForm(this).style.display='none'">Ну ладно!</button>
+			</div>
+		</form>
 		<form class="import-form connect-form modal" id="import-form" name="import_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="this.style.display='none'; event.preventDefault();sendFormData(this);">
 			<div class="wrapper">
 				<div class="c">Импорт данных</div>
@@ -257,6 +263,7 @@
 					<input type="text" name="password"/> пароль
 					<button type="submit">Создать</button>
 					<input type="hidden" name="action" value="add_user"/>
+					<div class="ps">Для имени пользователя можно использовать русские и латинские буквы. Длина имени не должна быть меньше 4 и больше 32 символов.</div>
 				</form>
 				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
 				</form>
@@ -273,12 +280,15 @@
 						<th name="choose" choose_f="chooseGroup">Выбрать</th>
 					</tr>
 				</table>
-				<form id="group-create" class="group-create create-form" name="group_create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
-					<h2>Новая группа</h2>
-					<input type="text" name="title"/> название&nbsp;&nbsp;&nbsp;
-					<textArea type="text" name="description"></textArea> описание
-					<button type="submit">Создать</button>
-					<input type="hidden" name="action" value="add_group"/>
+				<button onclick="document.forms['group_create'].style.display='block';">Новая группа</button>
+				<form id="group-create" class="group-create connect" name="group_create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+					<div class="wrapper">
+						<div class="c">Новая группа</div>
+						<input type="text" name="title"/> название<br/>
+						<textArea type="text" name="description"></textArea> описание
+						<button type="submit">Создать</button>
+						<input type="hidden" name="action" value="add_group"/>
+					</div>
 				</form>
 
 			</div>

@@ -63,6 +63,7 @@ function taskListUpdate(data){
 	var g_arr = [];//массив групп
 	var t_arr = [];//массив задач
 	var og;//основная группа
+	var g_filter = document.forms['filters']['groups'].value;
 	function getTaskNum(task_id){
 		for(var i = 0; i < tasks.length; i++){
 			if(tasks[i]['id'] == task_id)
@@ -117,6 +118,9 @@ function taskListUpdate(data){
 	if(!data.length)
 		return;
 	for(i = 0; i < info['group_ids'].length; i++){//добавляем группы
+		if(g_filter != 'all' && info['group_ids'][i] != g_filter){
+			continue;
+		}
 		el = document.createElement('div');		
 		el.classList.add('c');
 		el.setAttribute('data-group',info['group_ids'][i]);
@@ -325,8 +329,7 @@ function getFiltersStr(){
 			filters += ",";
 		}
 	}
-	s = 'filters='+filters+'&u_filter=' + document.forms['filters']['users'].value + '&g_filter=' + 
-		document.forms['filters']['groups'].value + '&s_filter=' + document.forms['filters']['state'].value;
+	s = 'filters='+filters;
 	return s;
 }
 //обновляет таблицу пользователей
@@ -469,6 +472,12 @@ function exportFieldsChose(flag){
 		ff.removeAttribute('disabled');
 	}else{
 		ff.setAttribute('disabled', 'disabled');
+	}
+}
+function errorAlert(error){
+	if(ERROR_MESSAGES[error]){
+		document.forms['error_form'].querySelector('.c').innerHTML = ERROR_MESSAGES[error];
+		document.forms['error_form'].style.display = 'block';
 	}
 }
 //инициализация интерфейса

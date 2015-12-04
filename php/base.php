@@ -118,20 +118,20 @@ function getTasks($ids=null){
 	if(isset($_POST['filters'])){
 		$filters = explode(',', $_POST['filters']);
 		if($filters[0]!= 'all'){//пользователь
-			$query .= " AND assigned = '".$filters[0]."'";
+			$query .= " AND `assigned` = '".$filters[0]."'";
 		}
 		if($filters[1]!= 'all'){//группа
-			$query .= " AND group = ".$filters[1];
+			$query .= " AND `group` = ".$filters[1];
 		}
 		if($filters[2]!= '9'){//состояние
-			$query .= " AND state = '".$filters[2]."'";
+			$query .= " AND `state` = '".$filters[2]."'";
 		}else{
-			$query .= " AND state != 5";
+			$query .= " AND `state` != 5";
 		}
 		if($filters[3]!=127){//тип задачи
-			$query .= " AND type = ".$filters[3];
+			$query .= " AND `type` = ".$filters[3];
 		}
-	}else $query .= " AND state != 5";
+	}else $query .= " AND `state` != 5";
 	$query .= " ORDER BY `id` DESC;";
 	$result = mysql_query($query);
 	$data = array();
@@ -251,8 +251,17 @@ function getUsers(){
 //добавить пользователя
 function userAdd(){
 	global $response, $user, $config;
+	if(preg_match("/[^A-Za-zА-Яа-я_]/",$_POST['login']) || strlen($_POST['login']) < 4 || strlen($_POST['login']) > 32){
+		$response['error'] = 1;
+		exit(json_encode($response));
+	}
+
 	$query = "INSERT INTO `".$config['users_table']."` (`id`,`login`,`password`) VALUES (".time().", '".$_POST['login']."','".$_POST['password']."');";
 	$result = mysql_query($query);
+	if(!$result){
+		$response['error'] = 2;
+		exit(json_encode($response));
+	}
 }
 //
 function usersRemove(){

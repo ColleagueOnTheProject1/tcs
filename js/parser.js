@@ -14,8 +14,9 @@ function parse(json_data){
 			parser_handlers[s](obj[s]);
 		}
 	}
-	if(parser_handlers[obj.action])
+	if(parser_handlers[obj.action] && obj.data){
 		parser_handlers[obj.action](obj.data);
+	}
 }
 function showServerForm(){
 

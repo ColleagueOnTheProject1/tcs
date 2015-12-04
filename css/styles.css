@@ -28,6 +28,8 @@ button{cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
 .hidden{display:none !important;}
 /**/
+.ps{font-size:12px;}
+/**/
 .icon1{/**маленькая иконка, которая не занимает пространства*/
 	content:"";
 	width:16px;
