@@ -20,11 +20,11 @@
 				<button type="button" onclick="getParentForm(this).style.display='none'">Ну ладно!</button>
 			</div>
 		</form>
-		<form class="import-form connect-form modal" id="import-form" name="import_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="this.style.display='none'; event.preventDefault();sendFormData(this);">
+		<form class="import-form connect-form modal" id="import-form" name="import_form" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="this.style.display='none'; event.preventDefault();sendFormData(this);">
 			<div class="wrapper">
 				<div class="c">Импорт данных</div>
-				<input type="radio" name="import1" checked="checked" autocomplete="off" onchange="exportFieldsChose(false);"/>&nbsp;с другой базы
-				<input type="radio" name="import1" autocomplete="off" onchange="exportFieldsChose(true)"/>&nbsp;из файла
+				<input type="radio" name="import1" checked="checked" onchange="exportFieldsChose(false);"/>&nbsp;с другой базы
+				<input type="radio" name="import1" onchange="exportFieldsChose(true)"/>&nbsp;из файла
 				<div class="">
 					<input class="f-b" type="text" name="i_host" placeholder="сервер"/><br/>
 					<input class="f-b" type="text" name="i_user" placeholder="имя пользователя"/><br/>
@@ -37,7 +37,7 @@
 				<button type="reset" onclick="getParentForm(this).style.display='none';">отмена</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="connect-form" name="connect_form" action="" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">
+		<form class="connect-form modal" id="connect-form" name="connect_form" action="/" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">
 			<div class="wrapper">
 				<div class="c"></div>
 				<table>
@@ -63,11 +63,11 @@
 				<input type="hidden" name="action" value="set_config"/>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
+		<form class="connect-form modal" id="login-form" name="login_form" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input name="login" placeholder="имя пользователя"/>
-				<input name="password" placeholder="пароль" type=""/>
+				<input name="password" placeholder="пароль" type="text"/>
 				<button type="submit">Попробуем</button>
 				<div class="hint">не удалось войти!</div>
 				<input type="hidden" name="action" value='auth'/>
@@ -75,7 +75,6 @@
 		</form>
 		<div id="sureface">
 			<div id="img-actions" class="img-actions">
-				<img src=""/>
 				<div class="">
 					<button>заменить</button>
 					<button>удалить</button>
@@ -113,7 +112,7 @@
 			<label for="groups-tab">Группы</label>
 			<div class="page">
 				<div id="case-task">
-					<form class="filters" id="filters" name="filters" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<form class="filters" id="filters" name="filters" action="/" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="wrapper">
 							<h2>фильтры</h2>
 							<div class="inline-top item">пользователи
@@ -144,8 +143,9 @@
 						</div>
 					</form>
 					<h2>Задачи</h2>
-					<form class="create-task" id="create-task" name="create_task" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<form class="create-task" id="create-task" name="create_task" action="/" method="post" enctype="application/x-www-form-urlencoded">
 						<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
+						<button onclick="document.forms['group_create'].style.display='block';">Создать группу</button>
 						<input type="hidden" name="group" value="0"/>
 						<input type="hidden" name="assigned" value=""/>
 						<input type="hidden" name="action" value="add_task"/>
@@ -156,10 +156,10 @@
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input class="field2" name="title" type="text" readonly="readonly"/>
 								<div id="edit-buttons" class="edit-buttons">
-									<img src="../design/edit.jpg" onclick="taskEdit()">
-									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());">
-									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);">
-									<img src="../design/basket.jpg" onclick="" title="удалить">
+									<img src="../design/edit.jpg" onclick="taskEdit()" alt=""/>
+									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());" alt=""/>
+									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
+									<img src="../design/basket.jpg" onclick="" title="удалить" alt="">
 								</div>
 								<div class="frame1">
 									<div class="inline-top">
@@ -214,7 +214,7 @@
 										<div id="task-text" class="text"></div>
 										<textArea name="text"  class="field3" readonly="readonly"></textArea>
 										<br/><div class="comment"></div>
-										<textArea type="text" class="field4" name="last_comment"></textArea>
+										<textArea class="field4" name="last_comment"></textArea>
 										<div id="last-comment" class="text last-comment"></div>
 										<div id="task-comment" class="text comments"></div>
 										<br/><br/><textArea class="no-edit" name="comment"></textArea>
@@ -225,6 +225,22 @@
 									<input type="hidden" name="images" value=""/>
 									<input type="hidden" name="id" value=""/>
 									<input type="hidden" name="action" value="save_task"/>
+								</div>
+							</form>
+							<form id="active-group" class="active-group detail" name="active_group" action="/" method="post" enctype="application/x-www-form-urlencoded">
+								<div class="">
+									<h2>Группа:</h2>
+									<input type="text" name="title" class="field-name"/>
+								</div>
+								<div class="edit-buttons">
+									<img onclick="groupEdit()" src="../design/edit.jpg" alt=""/>
+									<img onclick="sendForm(document.forms['active-group']);" src="../design/apply.jpg" alt="">
+									<img onclick="" src="../design/cancel.jpg" alt=""/>
+									<img title="удалить" onclick="" src="../design/basket.jpg" alt=""/>
+								</div>
+								<div class="wrapper">
+									Описание
+									<textArea name="description"></textArea>
 								</div>
 							</form>
 							<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
@@ -241,23 +257,23 @@
 
 			<div class="users page">
 				<h2>Пользователи</h2>
-				<form class="users-remove" id="users-remove" name="users-remove" action="" method="post" enctype="application/x-www-form-urlencoded"  onsubmit="usersRemove(event, this);sendForm(this);">
+				<form class="users-remove" id="users-remove" name="users-remove" action="/" method="post" enctype="application/x-www-form-urlencoded"  onsubmit="usersRemove(event, this);sendForm(this);">
 					<span class="">Выбранные пользователи:&nbsp;</span><span id="selected-users"></span><br/>
 					<button type="submit">Удалить выбранных</button>
 					<input type="hidden" name="users"/>
 					<input type="hidden" name="action" value="remove_users"/>
 				</form>
-				<table id="users-table" class="sortable table" active_f="userActive">
-					<tr main="login">
-						<th name="type" name_f="getTypeName" class="active" to_up="1">Тип</th>
-						<th name="login" to_up="1">Логин</th>
-						<th name="password" name_f="getPassword">Пароль</th>
-						<th name="tasks" name_f="getTaskCount" to_up="1">задач осталось</th>
-						<th name="finished" to_up="1">задач выполнено</th>
-						<th name="choose" choose_f="chooseRow" choose_list="selected-users">Выбрать</th>
+				<table id="users-table" class="sortable table" data-active-f="userActive">
+					<tr data-main="login">
+						<th data-name="type" data-name-f="getTypeName" class="active" data-to-up="1">Тип</th>
+						<th data-name="login" data-to-up="1">Логин</th>
+						<th data-name="password" data-name-f="getPassword">Пароль</th>
+						<th data-name="tasks" data-name-f="getTaskCount" data-to-up="1">задач осталось</th>
+						<th data-name="finished" data-to-up="1">задач выполнено</th>
+						<th data-name="choose" data-choose-f="chooseRow" data-choose-list="selected-users">Выбрать</th>
 					</tr>
 				</table>
-				<form class="user-create" id="user-create" name="user-create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+				<form class="user-create" id="user-create" name="user-create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
 					<h2>Новый пользователь</h2>
 					<input type="text" name="login"/> логин&nbsp;&nbsp;&nbsp;
 					<input type="text" name="password"/> пароль
@@ -265,7 +281,7 @@
 					<input type="hidden" name="action" value="add_user"/>
 					<div class="ps">Для имени пользователя можно использовать русские и латинские буквы. Длина имени не должна быть меньше 4 и больше 32 символов.</div>
 				</form>
-				<form class="user-form" id="user-form" name="user-form" action="" method="POST" enctype="application/x-www-form-urlencoded">
+				<form class="user-form" id="user-form" name="user-form" action="/" method="POST" enctype="application/x-www-form-urlencoded">
 				</form>
 			</div>
 			<div class="groups page">
@@ -273,20 +289,24 @@
 				<span class="">Выбранные группы:&nbsp;</span><span id="selected-groups"></span><br/>
 				<button>Удалить выбранных</button>
 				<table id="groups-table" class="sortable table">
-					<tr main="login">
-						<th name="title" class="active" to_up="1">название</th>
-						<th name="description" to_up="1">описание</th>
-						<th name="users" to_up="1" name_f="getCountInList">число участников</th>
-						<th name="choose" choose_f="chooseGroup">Выбрать</th>
+					<tr data-main="login">
+						<th data-name="title" class="active" data-to-up="1">название</th>
+						<th data-name="description" data-to-up="1">описание</th>
+						<th data-name="users" data-to-up="1" data-name-f="getCountInList">число участников</th>
+						<th data-name="choose" data-choose-f="chooseGroup">Выбрать</th>
 					</tr>
 				</table>
-				<button onclick="document.forms['group_create'].style.display='block';">Новая группа</button>
-				<form id="group-create" class="group-create connect" name="group_create" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
+
+				<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
 					<div class="wrapper">
 						<div class="c">Новая группа</div>
-						<input type="text" name="title"/> название<br/>
-						<textArea type="text" name="description"></textArea> описание
+						 название
+						<input type="text" name="title"/>
+						описание
+						<textArea name="description"></textArea>
+						<br/>
 						<button type="submit">Создать</button>
+						<button type="button" onclick="getParentForm(this).style.display='none';">Я передумал</button>
 						<input type="hidden" name="action" value="add_group"/>
 					</div>
 				</form>

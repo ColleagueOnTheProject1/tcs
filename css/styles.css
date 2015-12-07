@@ -9,9 +9,10 @@ h1, h2, h3, h4, h5, h6{margin:0;font-weight:normal;}
 h1{font-family:"Courier";font-size:20px;text-transform:uppercase;text-align:center;margin:20px 0;}/*заголовок страницы*/
 h2{line-height:30px;text-transform:uppercase;font-size:14px;}
 p{line-height:21px;margin:0;}/*текст основного блока*/
-textarea{margin:0;overflow-y:scroll;}
+textarea{margin:0;overflow-y:auto;resize:none;box-sizing:border-box;}
 textarea:focus, input:focus, select:focus{outline: none;}
 textarea:active, input:active, select:active{outline: none;}
+input{box-sizing:border-box;}
 input::-ms-clear {width : 0;height: 0;}
 button{cursor:pointer;}
 /**классы общего назначения*/
@@ -83,6 +84,8 @@ button{cursor:pointer;}
 .active-task .last-comment{font-style:italic;color:green;}
 .active-task.edit .text{display:none;}
 .active-task .frame1{position:relative;margin:-40px auto 0;display:table;padding:0 0 2px;}
+
+.active-group{display:none;}
 #task-text:before{content:"Описание задачи:\000A";font-size:14px;}
 #task-text:empty:after{content:"отсутствует"}
 
@@ -149,7 +152,7 @@ button{cursor:pointer;}
 
 .connect-form{text-align:center;}
 .connect-form .c{font-size:20px;line-height:40px;}
-.connect-form input[type="text"]{width:200px;margin:10px 0;display:inline-block;}
+.connect-form input[type="text"]{width:200px;margin:10px 0;display:block;}
 .connect-form .wrapper{
 	background-color:#fff;
 	border:1px solid blue;
@@ -158,6 +161,7 @@ button{cursor:pointer;}
 .connect-form .hint{font-size:10px;color:rgba(255,0,0,0);}
 .connect-form .hint.animate{color:rgba(255,0,0,1);transition:color 0.3s ease 0s;}
 .connect-form table{margin:0 auto;}
+.connect-form textArea{width:200px;vertical-align:top;display:block;}
 
 .modal{
 	display:none;

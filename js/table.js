@@ -26,17 +26,17 @@ function tableUpdate(table, data){
 		}
 		this.classList.add('active');
 		table.rows[0].cells[0].setAttribute('active',this.cells[0].getAttribute('sort'));
-		if(table.hasAttribute('active_f')){
-			window[table.attributes['active_f'].value](this.attributes['n'].value);
+		if(table.hasAttribute('data-active-f')){
+			window[table.attributes['data-active-f'].value](this.attributes['n'].value);
 		}
 	}
 	function cellChoose(e){
 		var row = this.parentNode.parentNode.rows[0];
 		var temp_cell;
 		this.classList.toggle('not');
-		if(row.cells[this.cellIndex].hasAttribute('choose_f')){
+		if(row.cells[this.cellIndex].hasAttribute('data-choose-f')){
 			temp_cell = row.cells[this.cellIndex];
-			window[temp_cell.attributes['choose_f'].value](this.parentNode, temp_cell.attributes['choose_list'].value);
+			window[temp_cell.attributes['data-choose-f'].value](this.parentNode, temp_cell.attributes['data-choose-list'].value);
 		}
 		e.stopPropagation();
 	}
@@ -57,7 +57,7 @@ function tableUpdate(table, data){
 			row.insertCell();
 		}
 	}
-	main_attr = table.rows[0].attributes['main'].value;
+	main_attr = table.rows[0].attributes['data-main'].value;
 	for (var j = 0; j < table.rows[0].cells.length; j++)	
 	{
 		if(table.rows[0].cells[j].hasAttribute('to_up')){
@@ -81,9 +81,9 @@ function tableUpdate(table, data){
 		}
 		f = null;
 		cur_cell = table.rows[0].cells[j];
-		name = cur_cell.attributes.name.value;
-		if(cur_cell.hasAttribute('name_f'))
-			f = window[cur_cell.attributes['name_f'].value];
+		name = cur_cell.attributes['data-name'].value;
+		if(cur_cell.hasAttribute('data-name-f'))
+			f = window[cur_cell.attributes['data-name-f'].value];
 		for (i = 1; i < table.rows.length; i++)
 		{
 			cell = table.rows[i].cells[j];
@@ -153,7 +153,7 @@ function tableSort(table, cell){
 	var el1, el2;
 	var sort_f;
 	var to_up = true;
-	if(table.rows[0].cells[col].attributes.to_up.value == "0")
+	if(table.rows[0].cells[col].attributes['data-to-up'].value == "0")
 		to_up = false;
 	if(table.rows[1].cells[col].attributes.sort)
 		sort_f = sort_by_attr
