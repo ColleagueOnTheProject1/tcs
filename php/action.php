@@ -40,6 +40,7 @@ if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	$response['action'] = 'get_tasks';
 	getInfo();
 	getTasks();
+	getGroups();
 }elseif($_POST["action"] == "export"){
 	export();
 }elseif($_POST["action"] == "get_tasks"){

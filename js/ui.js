@@ -71,6 +71,10 @@ function taskListUpdate(data){
 		}
 		return i;
 	}
+	/*
+	@param e.target - элемент который нужно активировать
+	@param e.select - если он есть,- оставляем задачу активной
+	*/
 	function selGroup(e){
 		var gr = e.target.getAttribute('data-group');
 		var at = document.getElementById('active-task');
@@ -82,8 +86,10 @@ function taskListUpdate(data){
 			at.style.display = 'none';
 		}
 		active_group = e.target;
-		if(unselTask()){
-			at.style.display = 'none';
+		if(!e.select){
+			activeGroup(gr);
+			active_task.classList.remove('active');
+			active_task = null;
 		}
 		document.forms['create_task']['group'].value = gr;
 	}
@@ -103,16 +109,7 @@ function taskListUpdate(data){
 		n = e.target.getAttribute('n');
 		last_task_id = data[n]['id'];
 		activeTask(n);
-		selGroup({target:gt_arr[i]});
-	}
-	//снимает выделение с задачи, если она не принадлежит выбранной группе
-	function unselTask(){
-		if(active_task && active_task.parentNode.getAttribute('data-group') != active_group.getAttribute('data-group') ){
-			active_task.classList.remove('active');
-			active_task = null;
-			return true
-		}
-		return false;
+		selGroup({target:gt_arr[i], select:true});
 	}
 	taskList.innerHTML = "";
 	if(!data.length)
@@ -219,7 +216,7 @@ function activeTask(taskId){
 	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
 	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
 	
-//	document.getElementById('tasks-count').innerHTML = tasks[taskId]['tasks_count'];
+	//	document.getElementById('tasks-count').innerHTML = tasks[taskId]['tasks_count'];
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -243,8 +240,34 @@ function activeTask(taskId){
 		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
 	}
 	taskCancelEdit();
-	if(form.style.display == 'none')
+	if(form.style.display == 'none'){
 		form.style.display = 'block';
+		document.getElementById('active-group').style.display = 'none';
+	}
+}
+//активировать группу по ее идентификатору
+function activeGroup(id){
+	var form = document.getElementById('active-group');
+	var group;
+	document.getElementById('active-task').style.display = 'none';
+	form.style.display = 'block';
+	group = getGroupById(id);
+	console.log(1);
+	if(!group){
+		
+		return;
+	}
+	form['title'].value=group['title'];
+}
+//
+function getGroupById(id){
+	var i = 0;
+	while(i < groups.length && groups[i]['id'] != id){
+		i++;
+	}
+	if(i < groups.length){
+		return groups[i];
+	}else return null;
 }
 //обновляем список пользователей 
 function updateUsersList(data){
@@ -484,4 +507,8 @@ function errorAlert(error){
 function ui_init(){
 	activeTaskInit();
 	filtersInit();
+}
+//обновляет группы
+function groupsUpdate(data){
+	groups = data;
 }

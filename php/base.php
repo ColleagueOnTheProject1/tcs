@@ -224,7 +224,7 @@ function getGroups(){
 	while($row = mysql_fetch_assoc($result)){
 		$data[] = $row;
 	}
-	$response['data'] = $data;
+	$response['groups'] = $data;
 }
 //добавляем группу
 function groupAdd(){

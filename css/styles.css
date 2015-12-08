@@ -40,7 +40,7 @@ button{cursor:pointer;}
 	bottom:0;
 	margin:auto;}
 /**компоненты*/
-.detail{}
+.detail{width:706px;}
 .detail h2{display:inline-block;line-height:16px;}
 .detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding-top:10px;}
 .detail input[type="text"]{
