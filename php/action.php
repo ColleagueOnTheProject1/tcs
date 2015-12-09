@@ -83,9 +83,10 @@ elseif($_POST["action"] == "get_info"){
 	$response['action'] = 'get_groups';
 	getGroups();
 }elseif($_POST["action"] == "add_group"){
-	$response['action'] = 'get_groups';
+	$response['action'] = 'get_tasks';
 	groupAdd();
 	getGroups();
+	getTasks();
 }
 /*
 if(defined('JSON_NUMERIC_CHECK'))

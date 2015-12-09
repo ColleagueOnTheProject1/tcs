@@ -88,8 +88,10 @@ function taskListUpdate(data){
 		active_group = e.target;
 		if(!e.select){
 			activeGroup(gr);
-			active_task.classList.remove('active');
-			active_task = null;
+			if(active_task){
+				active_task.classList.remove('active');
+				active_task = null;
+			}
 		}
 		document.forms['create_task']['group'].value = gr;
 	}
@@ -212,7 +214,6 @@ function activeTask(taskId){
 	form['last_comment'].value = '';
 	form['comment'].value = tasks[taskId]['comment'];
 	form['type'].value = tasks[taskId]['type'];
-	document.getElementById('task-text').innerHTML = form['text'].value;
 	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
 	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
 	
@@ -252,14 +253,19 @@ function activeGroup(id){
 	document.getElementById('active-task').style.display = 'none';
 	form.style.display = 'block';
 	group = getGroupById(id);
-	console.log(1);
-	if(!group){
-		
+	if(!group){		
 		return;
 	}
-	form['title'].value=group['title'];
+	fillForm(form,group);
 }
-//
+//Заполняет поля формы данными из data. Именя полей из формы должны соответствовать именам данных.
+function fillForm(form, data){	
+	for(var s in data){
+		if(form[s] && form[s].value){
+			form[s].value = data[s];
+		}	
+	}
+}
 function getGroupById(id){
 	var i = 0;
 	while(i < groups.length && groups[i]['id'] != id){

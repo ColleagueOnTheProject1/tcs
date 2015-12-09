@@ -14,6 +14,20 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
+		<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
+			<div class="wrapper">
+				<div class="c">Новая группа</div>
+				 название
+				<input type="text" name="title"/>
+				описание
+				<textArea name="description"></textArea>
+				<br/>
+				<button type="submit">Создать</button>
+				<button type="button" onclick="getParentForm(this).style.display='none';">Я передумал</button>
+				<input type="hidden" name="action" value="add_group"/>
+			</div>
+		</form>
+
 		<form id="error-form" class="error-form modal connect-form" name="error_form" action="/" method="post" enctype="application/x-www-form-urlencoded">
 			<div class="wrapper">
 				<div class="c"></div>
@@ -145,7 +159,7 @@
 					<h2>Задачи</h2>
 					<form class="create-task" id="create-task" name="create_task" action="/" method="post" enctype="application/x-www-form-urlencoded">
 						<button onclick="event.preventDefault();sendForm(getParentForm(this), getFiltersStr());">Создать задачу</button>
-						<button onclick="document.forms['group_create'].style.display='block';">Создать группу</button>
+						<button type="button" onclick="document.forms['group_create'].style.display='block';">Создать группу</button>
 						<input type="hidden" name="group" value="0"/>
 						<input type="hidden" name="assigned" value=""/>
 						<input type="hidden" name="action" value="add_task"/>
@@ -239,8 +253,7 @@
 									<img title="удалить" onclick="" src="../design/basket.jpg" alt=""/>
 								</div>
 								<div class="wrapper">
-									Описание
-									<textArea name="description"></textArea>
+									<textArea name="description" placeholder="нет описания"></textArea>
 								</div>
 							</form>
 							<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
@@ -297,19 +310,6 @@
 					</tr>
 				</table>
 
-				<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);">
-					<div class="wrapper">
-						<div class="c">Новая группа</div>
-						 название
-						<input type="text" name="title"/>
-						описание
-						<textArea name="description"></textArea>
-						<br/>
-						<button type="submit">Создать</button>
-						<button type="button" onclick="getParentForm(this).style.display='none';">Я передумал</button>
-						<input type="hidden" name="action" value="add_group"/>
-					</div>
-				</form>
 
 			</div>
 			<div id="footer" class="footer">

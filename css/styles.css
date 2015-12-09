@@ -52,7 +52,7 @@ button{cursor:pointer;}
 .detail textArea{width:400px;box-sizing:border-box;resize:none;}
 .detail:not(.edit) textArea,
 .detail:not(.edit) input[type="text"]{background-color:transparent;border:none;}
-.detail:not(.edit) textArea{display:none;}
+/*.detail:not(.edit) textArea{display:none;}*/
 .detail .images,
 .detail .images{display:inline-block;width:300px;vertical-align:top;overflow-y:auto;}
 .detail .images img{max-width:90%;}
@@ -86,8 +86,6 @@ button{cursor:pointer;}
 .active-task .frame1{position:relative;margin:-40px auto 0;display:table;padding:0 0 2px;}
 
 .active-group{display:none;}
-#task-text:before{content:"Описание задачи:\000A";font-size:14px;}
-#task-text:empty:after{content:"отсутствует"}
 
 .img-actions{vertical-align:middle;display:none;text-align:center;}
 .img-actions img{max-width:400px;max-height:400px;}
