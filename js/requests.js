@@ -176,10 +176,5 @@ function setConfig(){
 	}
 	sendRequest("?name=config&" + getRString(config), update);
 }
-//сохраняем необходимые данные по задачам, пользователям и группам.
-function getInfo(data){
-	info = data;
-	updateFilters();
-}
 
 /***/

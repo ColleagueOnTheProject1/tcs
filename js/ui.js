@@ -116,20 +116,20 @@ function taskListUpdate(data){
 	taskList.innerHTML = "";
 	if(!data.length)
 		return;
-	for(i = 0; i < info['group_ids'].length; i++){//добавляем группы
-		if(g_filter != 'all' && info['group_ids'][i] != g_filter){
+	for(i = 0; i < groups.length; i++){//добавляем группы
+		if(g_filter != 'all' && groups[i]['id'] != g_filter){
 			continue;
 		}
 		el = document.createElement('div');		
 		el.classList.add('c');
-		el.setAttribute('data-group',info['group_ids'][i]);
-		el.innerHTML = info['group_titles'][i];
+		el.setAttribute('data-group',groups[i]['id']);
+		el.innerHTML = groups[i]['title'];
 		el.addEventListener('click', selGroup);
 		gt_arr.push(el);
 		taskList.appendChild(el);
 		el = document.createElement('div');
-		el.setAttribute('id', 'group_id_'+info['group_ids'][i]);
-		el.setAttribute('data-group',info['group_ids'][i]);
+		el.setAttribute('id', 'group_id_'+groups[i]['id']);
+		el.setAttribute('data-group',groups[i]['id']);
 		el.classList.add('sub');
 		g_arr.push(el);
 		taskList.appendChild(el);
@@ -195,10 +195,10 @@ function activeTask(taskId){
 	var imgs = [];
 	var task_images = document.getElementById('task-images');
 	if(tasks[taskId]['state']==5){
-		document.getElementById('edit-buttons').classList.add('closed');
+		form.querySelector('.edit-buttons').classList.add('closed');
 	}else
 	{
-		document.getElementById('edit-buttons').classList.remove('closed');
+		form.querySelector('.edit-buttons').classList.remove('closed');
 	}
 	cur_task = taskId;
 	form['title'].value = tasks[taskId]['title'];
@@ -226,8 +226,8 @@ function activeTask(taskId){
 			form['assigned'].options[i + 1].selected = true;
 		}
 	}
-	for(i = 0; i < info['group_ids'].length;i++){
-		if(info['group_ids'][i] == tasks[taskId]['group']){
+	for(i = 0; i < groups.length;i++){
+		if(groups[i]['id'] == tasks[taskId]['group']){
 			form['group'].options[i].selected = true;
 		}else{
 			form['group'].options[i].selected = false;
@@ -240,7 +240,7 @@ function activeTask(taskId){
 	for(i = 0; i < imgs.length; i++){
 		task_images.innerHTML+='<img src="images/'+ imgs[i] + '" alt=""/>';
 	}
-	taskCancelEdit();
+	formDisable('active-task');	
 	if(form.style.display == 'none'){
 		form.style.display = 'block';
 		document.getElementById('active-group').style.display = 'none';
@@ -251,17 +251,17 @@ function activeGroup(id){
 	var form = document.getElementById('active-group');
 	var group;
 	document.getElementById('active-task').style.display = 'none';
-	form.style.display = 'block';
 	group = getGroupById(id);
 	if(!group){		
 		return;
 	}
 	fillForm(form,group);
+	form.style.display = 'block';
 }
 //Заполняет поля формы данными из data. Именя полей из формы должны соответствовать именам данных.
 function fillForm(form, data){	
 	for(var s in data){
-		if(form[s] && form[s].value){
+		if(form[s] && form[s].value !=undefined){
 			form[s].value = data[s];
 		}	
 	}
@@ -307,7 +307,7 @@ function filtersInit(){
 	form['type'].lastChild.selected = true;
 }
 //обновляет списки фильтров
-function updateFilters(){
+function filtersUpdate(){
 	var u_filters = document.forms['filters']['users'];
 	var g_filters = document.forms['filters']['groups'];
 	var s_filters = document.forms['filters']['state'];
@@ -315,6 +315,7 @@ function updateFilters(){
 	var opt;
 	var arr;
 	var old_v;
+	//фильтр пользователей
 	arr = info['users'].split(',');
 	old_v = u_filters.value;
 	u_filters.innerHTML = '<option value="all">Все</option>';
@@ -326,24 +327,8 @@ function updateFilters(){
 			opt.selected = true;
 		}
 		u_filters.appendChild(opt);
-	}	
-	arr = info['group_titles'];
-	old_v = g_filters.value;
-	g_filters.innerHTML = '<option value="all">Все</option>';
-	t_g.innerHTML = '';
-	for(i = 0; i < arr.length; i++){
-		opt = document.createElement('option');
-		opt.value = info['group_ids'][i];
-		opt.innerHTML = arr[i];
-		if(opt.value == old_v){
-			opt.selected = true;
-		}
-		g_filters.appendChild(opt);
-		opt = document.createElement('option');
-		opt.value = info['group_ids'][i];
-		opt.innerHTML = arr[i];
-		t_g.appendChild(opt);
-	}	
+	}
+
 }
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
@@ -402,23 +387,72 @@ function getPassword(pass){
 
 }
 //открывает редактирование задачи
-function taskEdit(){
+function formEdit(name){
 	var i;
-	var form = document.getElementById('active-task');
+	var form = document.forms[name];
+	var fields;
 	form.classList.add('edit');
-	form['title'].readOnly = false;
-	form['text'].readOnly = false;
-	selects = form.getElementsByTagName('select');
-	for(i = 0; i< selects.length; i++){
-		selects[i].disabled = false;
+	fields = form.getElementsByTagName('input');
+	for(i=0;i<fields.length;i++){
+		if(fields[i].type=="text"){
+			fields[i].readOnly = false;
+		}else if(fields[i].type=="radio"){
+			fields[i].disabled = false;
+		}				
 	}
+	fields = form.getElementsByTagName('textarea');
+	for(i=0;i<fields.length;i++){
+		fields[i].readOnly = false;
+	}
+	fields = form.getElementsByTagName('select');
+	for(i = 0; i< fields.length; i++){
+		fields[i].disabled = false;
+	}
+	/*
 	document.getElementById('task-state-btns').classList.add('hidden');
 	for(i =0; i < form['priority'].length; i++){
 		form['priority'][i].disabled = false;
 	}
-	document.forms['image-form'].style.display = 'block';
+	*/
+}
+//деактивирует поля пормы
+function formDisable(name){
+	var i;
+	var form = document.forms[name];
+	var fields;
+	form.classList.add('edit');
+	fields = form.getElementsByTagName('input');
+	for(i=0;i<fields.length;i++){
+		if(fields[i].type=="text"){
+			fields[i].readOnly = true;
+		}else if(fields[i].type=="radio"){
+			fields[i].disabled = true;
+			
+		}				
+	}
+	fields = form.getElementsByTagName('textarea');
+	for(i=0;i<fields.length;i++){
+		fields[i].readOnly = true;
+	}
+	fields = form.getElementsByTagName('select');
+	for(i = 0; i< fields.length; i++){
+		fields[i].disabled = true;
+	}
+	if(form.classList.contains('edit')){
+		form.classList.remove('edit');
+	}
+
 }
 
+//показать форму по ее имени
+function showForm(name){
+	document.forms[name].style.display = 'block';
+}
+//
+function hideForm(name){
+	var form = document.forms[name];
+	form.style.display = 'none';	
+}
 function taskCancelEdit(){
 	var form = document.getElementById('active-task');
 	var selects;
@@ -516,5 +550,34 @@ function ui_init(){
 }
 //обновляет группы
 function groupsUpdate(data){
+	var opt;
+	var g_filters = document.forms['filters']['groups'];
+	var t_g = document.forms['active-task']['group'];
+	var opt;
+	var old_v;
+
 	groups = data;
+	//фильтр групп
+	old_v = g_filters.value;
+	g_filters.innerHTML = '<option value="all">Все</option>';
+	t_g.innerHTML = '';
+	for(var i = 0; i < groups.length; i++){
+		opt = document.createElement('option');
+		opt.value = groups[i]['id'];
+		opt.innerHTML = groups[i]['title'];
+		if(opt.value == old_v){
+			opt.selected = true;
+		}
+		g_filters.appendChild(opt);
+		opt = document.createElement('option');
+		opt.value = groups[i]['id'];
+		opt.innerHTML = groups[i]['title'];
+		t_g.appendChild(opt);
+	}	
+}
+//сохраняем необходимые данные по задачам, пользователям и группам.
+function getInfo(data){
+	console.log('getInfo');
+	info = data;
+	filtersUpdate();
 }

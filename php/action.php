@@ -39,8 +39,8 @@ if(!isset($user['id']) || !isset($user['type']))
 if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	$response['action'] = 'get_tasks';
 	getInfo();
-	getTasks();
 	getGroups();
+	getTasks();
 }elseif($_POST["action"] == "export"){
 	export();
 }elseif($_POST["action"] == "get_tasks"){
@@ -60,6 +60,11 @@ if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	$response['action'] = 'get_tasks';
 	saveTask();
 	getTasks();
+}
+elseif($_POST["action"] == "save_group"){
+	$response['action'] = 'groups';
+	saveGroup();
+	getGroups();
 }
 elseif($_POST["action"] == "get_info"){
 	$response['action'] = 'get_info';

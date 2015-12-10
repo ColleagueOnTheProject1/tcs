@@ -49,9 +49,10 @@ button{cursor:pointer;}
 .detail input{font-family:"Courier new";font-size:12px;}
 .detail input.m1{width:120px;text-transform:uppercase;}
 .detail input.m2{width:100px;text-transform:uppercase;}
+.detail output{font-family:"Courier new";font-size:12px;}
 .detail textArea{width:400px;box-sizing:border-box;resize:none;}
-.detail:not(.edit) textArea,
-.detail:not(.edit) input[type="text"]{background-color:transparent;border:none;}
+.detail textArea[readonly],
+.detail input[readonly]{background-color:transparent;border:none;}
 /*.detail:not(.edit) textArea{display:none;}*/
 .detail .images,
 .detail .images{display:inline-block;width:300px;vertical-align:top;overflow-y:auto;}

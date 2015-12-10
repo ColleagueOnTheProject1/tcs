@@ -168,9 +168,10 @@
 						<div id="task-list" class="list1"></div>
 						<div class="">
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
-								<h2>АКТИВНАЯ ЗАДАЧА: </h2><input class="field2" name="title" type="text" readonly="readonly"/>
-								<div id="edit-buttons" class="edit-buttons">
-									<img src="../design/edit.jpg" onclick="taskEdit()" alt=""/>
+								<h2>АКТИВНАЯ ЗАДАЧА: </h2>
+								<input class="field2" name="title" type="text" readonly/>
+								<div class="edit-buttons">
+									<img src="../design/edit.jpg" onclick="formEdit('active-task');showForm('image-form');" alt=""/>
 									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());" alt=""/>
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
 									<img src="../design/basket.jpg" onclick="" title="удалить" alt="">
@@ -195,10 +196,11 @@
 								</div>
 								<div class="frame">
 									<div class="inline-top">
-										дата создания:<br/><input class="m1" type="text" name="create_date"/>
+										дата создания:<br/>
+										<output name="create_date"></output>
 									</div>&nbsp;
 									<div class="inline-top">
-										затрачено:<br/><input class="m2" type="text" name="lead_time"/>
+										затрачено:<br/><output name="lead_time"></output>
 									</div>&nbsp;
 
 									<div class="inline-top">
@@ -244,17 +246,19 @@
 							<form id="active-group" class="active-group detail" name="active_group" action="/" method="post" enctype="application/x-www-form-urlencoded">
 								<div class="">
 									<h2>Группа:</h2>
-									<input type="text" name="title" class="field-name"/>
+									<input type="text" name="title" class="field-name" readonly/>
 								</div>
 								<div class="edit-buttons">
-									<img onclick="groupEdit()" src="../design/edit.jpg" alt=""/>
+									<img onclick="formEdit('active_group')" src="../design/edit.jpg" alt=""/>
 									<img onclick="sendForm(document.forms['active-group']);" src="../design/apply.jpg" alt="">
-									<img onclick="" src="../design/cancel.jpg" alt=""/>
+									<img onclick="formDisable('active_group');activeGroup(curGroup);" src="../design/cancel.jpg" alt=""/>
 									<img title="удалить" onclick="" src="../design/basket.jpg" alt=""/>
 								</div>
 								<div class="wrapper">
-									<textArea name="description" placeholder="нет описания"></textArea>
+									<textArea readonly name="description" placeholder="нет описания"></textArea>
 								</div>
+								<input type="hidden" name="action" value="save_group"/>
+								<input type="hidden" name="id"/>
 							</form>
 							<form class="image-form" id="image-form" name="image_form" action="php/action.php" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault();sendFormData(this);">
 								<input type="file" name="uploadfile" accept="image/jpeg,image/png"/>

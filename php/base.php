@@ -214,7 +214,22 @@ function saveTask(){
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
 }
-
+//сохранить данные группы
+function saveGroup(){
+	global $config;
+	$fields=Array('title','description');
+	$s = "";
+	for($i=0;$i<count($fields);$i++){
+		if(isset($_POST[$fields[$i]])){
+			if($i > 0){
+				$s .=",";
+			}
+			$s .="`".$fields[$i]."`='".$_POST[$fields[$i]]."'";
+		}
+	}
+	$query = "UPDATE `".$config['groups_table']."` SET ".$s." WHERE id=".$_POST['id'].";";
+	$result = mysql_query($query);
+}
 //получаем группы
 function getGroups(){
 	global $response, $user, $config;
@@ -280,6 +295,7 @@ function getInfo(){
 		$s .= $row['id'].',';
 	}
 	$data['tasks'] = substr($s, 0, - 1);
+	//получаем пользователей
 	$query = "SELECT `login` FROM ".$config['users_table'].";";
 	$result = mysql_query($query);
 	$s = '';
@@ -287,16 +303,6 @@ function getInfo(){
 		$s .= $row['login'].',';
 	}
 	$data['users'] = substr($s, 0, - 1);
-	$query = "SELECT `id`, `title` FROM ".$config['groups_table'].";";
-	$result = mysql_query($query);
-	$s = Array();
-	$s2 = Array();
-	while($row = mysql_fetch_assoc($result)){
-		$s[]= $row['title'];
-		$s2[] .= $row['id'];
-	}
-	$data['group_titles'] = $s;
-	$data['group_ids'] = $s2;
 	$response['get_info'] = $data;
 }
 //подключаемся к хосту и к базе
