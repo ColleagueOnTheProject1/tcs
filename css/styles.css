@@ -222,7 +222,8 @@ button{cursor:pointer;}
 	line-height:20px;
 	padding:0 10px;
 	position:relative;
-	background-image:linear-gradient(to bottom, #dde4f4, #aabce0);
+	background-image:-webkit-linear-gradient(top, #e4e4e4, #b8b8b8);
+	background-image:linear-gradient(to bottom, #e4e4e4, #b8b8b8);	
 	margin:3px 0;
 	cursor:pointer;}
 .list1 .c.active{background-image:linear-gradient(to bottom, #ddf4e4, #aae0bc);}

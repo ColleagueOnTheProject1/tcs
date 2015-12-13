@@ -47,7 +47,7 @@ function showTasks(data){
 	else if(data.length == tasks.length)
 		task_status = 2
 	else if(data.length > tasks.length)
-		task_status = 3
+		task_status = 3//добавлена
 	else
 		task_status = 4//удалена
 	tasks = data;
@@ -114,8 +114,6 @@ function taskListUpdate(data){
 		selGroup({target:gt_arr[i], select:true});
 	}
 	taskList.innerHTML = "";
-	if(!data.length)
-		return;
 	for(i = 0; i < groups.length; i++){//добавляем группы
 		if(g_filter != 'all' && groups[i]['id'] != g_filter){
 			continue;
@@ -158,6 +156,12 @@ function taskListUpdate(data){
 		}
 		el2.appendChild(el);	
 	}
+	if(!data.length){
+		if(groups.length){
+			selGroup({target:gt_arr[0]});
+		}
+		return;		
+	}
 	if(!last_task_id || task_status == 4){
 		i = 0;
 	}else if(task_status == 3){
@@ -168,7 +172,7 @@ function taskListUpdate(data){
 		i = getTaskNum(last_task_id);
 	t_arr[i].click();
 	if(task_status == 3){
-		taskEdit();
+		formEdit('active-task');
 	}
 	filter = false;
 }
@@ -577,7 +581,6 @@ function groupsUpdate(data){
 }
 //сохраняем необходимые данные по задачам, пользователям и группам.
 function getInfo(data){
-	console.log('getInfo');
 	info = data;
 	filtersUpdate();
 }
