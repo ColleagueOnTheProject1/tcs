@@ -162,17 +162,18 @@ function taskListUpdate(data){
 		}
 		return;		
 	}
+	if(info && info['new_task']){
+		i = getTaskNum(info['new_task']);
+		
+	}else
 	if(!last_task_id || task_status == 4){
 		i = 0;
-	}else if(task_status == 3){
-		//i = tasks.length - 1;
-		i = 0;
-
 	}else
 		i = getTaskNum(last_task_id);
 	t_arr[i].click();
-	if(task_status == 3){
+	if(info && info['new_task']){
 		formEdit('active-task');
+		info['new_task'] = null;
 	}
 	filter = false;
 }
@@ -205,23 +206,36 @@ function activeTask(taskId){
 		form.querySelector('.edit-buttons').classList.remove('closed');
 	}
 	cur_task = taskId;
+	for(var s in tasks[taskId]){
+		if(form[s]!=undefined){
+			if(form[s].type=="text" || form[s].tagName=="textArea"){
+				form[s].value=tasks[taskId][s];
+			}else if(form[s].tagName=="output"){
+				form[s].innerHTML = tasks[taskId][s];
+			}else if(form[s].type=="checkbox"){
+				console.log(s);
+				form[s][tasks[taskId][s]].checked = true;
+			}
+		}
+	}
+	/*
 	form['title'].value = tasks[taskId]['title'];
 	form['text'].value = tasks[taskId]['text'];
-
-	form['priority'][tasks[taskId]['priority']].checked = true;
 	form['images'].value = tasks[taskId]['images'];
 	form['id'].value = tasks[taskId]['id'];
 	form['state'].value = tasks[taskId]['state'];
 	form['old_state'].value = tasks[taskId]['state'];
-	form['lead_time'].value = tasks[taskId]['lead_time'] + ' сек';
-	form['create_date'].value = getDate(tasks[taskId]['id']);
-	form['last_comment'].value = '';
 	form['comment'].value = tasks[taskId]['comment'];
 	form['type'].value = tasks[taskId]['type'];
+	form['lead_time'].value = tasks[taskId]['lead_time'] + ' сек';	
+	form['last_comment'].value = '';	
+	form['priority'][tasks[taskId]['priority']].checked = true;
+*/	
+	form['create_date'].value = getDate(tasks[taskId]['id']);
+
 	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
 	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
 	
-	//	document.getElementById('tasks-count').innerHTML = tasks[taskId]['tasks_count'];
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){
@@ -320,19 +334,20 @@ function filtersUpdate(){
 	var arr;
 	var old_v;
 	//фильтр пользователей
-	arr = info['users'].split(',');
-	old_v = u_filters.value;
-	u_filters.innerHTML = '<option value="all">Все</option>';
-	for(var i = 0; i < arr.length; i++){
-		opt = document.createElement('option');
-		opt.value = arr[i];
-		opt.innerHTML = arr[i];
-		if(opt.value == old_v){
-			opt.selected = true;
+	if(info['users']){
+		arr = info['users'].split(',');
+		old_v = u_filters.value;
+		u_filters.innerHTML = '<option value="all">Все</option>';
+		for(var i = 0; i < arr.length; i++){
+			opt = document.createElement('option');
+			opt.value = arr[i];
+			opt.innerHTML = arr[i];
+			if(opt.value == old_v){
+				opt.selected = true;
+			}
+			u_filters.appendChild(opt);
 		}
-		u_filters.appendChild(opt);
 	}
-
 }
 //возвращает строку с фильтрами для get запроса
 function getFiltersStr(){
@@ -581,6 +596,8 @@ function groupsUpdate(data){
 }
 //сохраняем необходимые данные по задачам, пользователям и группам.
 function getInfo(data){
-	info = data;
+	for(var s in data){
+		info[s] = data[s];
+	}
 	filtersUpdate();
 }

@@ -19,7 +19,7 @@ const ACTION_GET_USERS="get_users";//имя события - список пол
 const ACTION_GET_GROUPS="groups";//имя события - получение группы
 const ACTION_AUTH="auth";//имя события - авторизация
 const ACTION_TASK_IMAGE="task_image";//имя события - картинка сохранена на сервер
-const ACTION_GET_INFO="get_info";//имя события - получить id групп, задач и пользователей
+const ACTION_GET_INFO="info";//имя события - получить id групп, задач и пользователей
 const ACTION_ADD_USER="add_user";//имя события - добавить пользователя
 const ACTION_ADD_GROUP="add_group";//имя события - добавить группу
 const ACTION_REMOVE_USER="remove_user";//имя события - удалить пользователей
@@ -41,7 +41,7 @@ var cur_task;
 var active_task;//активная задача в списке задач
 var active_group;//активная группа в списке задач
 var last_task_id;//id последней выбранной задачи в списке задач
-var info;
+var info = {};
 var filter = false;
 function init(){	
 	parser_handlers[ACTION_CONNECT] = showConnectForm;

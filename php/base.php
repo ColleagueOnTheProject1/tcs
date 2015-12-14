@@ -84,19 +84,20 @@ function tasksTableCreate(){
 	global $config;
 	$query = "CREATE TABLE `".$config['tasks_table']."` (
 	`id` INT(10) UNSIGNED NOT NULL,
-	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - ошибка, 3 - тест, 100 - другое',
+	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - баг, 3 - тест, 100 - другое',
 	`group` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
 	`text` TEXT NULL,
-	`owner` INT(11) UNSIGNED DEFAULT '0',
+	`owner` INT(11) UNSIGNED NULL DEFAULT '0',
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NOT NULL,
 	`last_comment` TEXT NOT NULL,
-	`start_time` INT(10) UNSIGNED DEFAULT '0',
-	`end_time` INT(10) UNSIGNED DEFAULT '0',
-	`lead_time` TIME NULL DEFAULT '0',
-	`priority` INT(11) UNSIGNED DEFAULT '0',
+	`start_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта',
+	`end_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия',
+	`lead_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени',
+	`plan_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'заложено времени',
+	`priority` INT(11) UNSIGNED NULL DEFAULT '0',
 	`state` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта',
 	PRIMARY KEY (`id`))";
 	mysql_query($query);
@@ -165,13 +166,19 @@ function getCompleteTasks(){
 }
 //добавить задачу
 function addTask(){
-	global $config, $login;
+	global $config, $login, $response;
 	if($_POST['assigned']==''){
 		$_POST['assigned'] = $login;
 	}
-
-	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`group`,`assigned`) VALUES (".time().",".$_POST['group'].",'".$_POST['assigned']."');";
+	$time = time();
+	$query = "INSERT INTO `".$config['tasks_table']."` (`id`,`group`,`assigned`) VALUES (".$time.",".$_POST['group'].",'".$_POST['assigned']."');";
 	$result = mysql_query($query);
+	if($result){
+		if(!isset($response['info'])){
+			$response['info']=Array();
+		}
+		$response['info']['new_task'] = $time;
+	}
 }
 //сохранить задачу
 function saveTask(){
@@ -303,7 +310,7 @@ function getInfo(){
 		$s .= $row['login'].',';
 	}
 	$data['users'] = substr($s, 0, - 1);
-	$response['get_info'] = $data;
+	$response['info'] = $data;
 }
 //подключаемся к хосту и к базе
 function connect(){

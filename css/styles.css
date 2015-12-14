@@ -92,8 +92,7 @@ button{cursor:pointer;}
 .img-actions img{max-width:400px;max-height:400px;}
 .img-actions > div{display:table;margin:10px auto;}
 
-.edit-buttons{text-align:justify;font-size:0;display:table;width:100%;margin:5px 0;}
-.edit-buttons:after{width:100%;display:inline-block;content:"";}
+.edit-buttons{width:100%;margin:5px 0;height:30px;}
 .edit-buttons img{
 	height:30px;
 	border:1px solid gray;
@@ -101,7 +100,7 @@ button{cursor:pointer;}
 	border-top:0;
 	cursor:pointer;
 	display:none;}
-.edit-buttons:not(.closed) img:first-child{display:inline;}
+.edit-buttons:not(.closed) img:first-child{display:inline-block;}
 .edit-buttons.closed img:last-child{display:inline;}
 
 .detail.edit .edit-buttons img:first-child{display:none;}
@@ -151,7 +150,7 @@ button{cursor:pointer;}
 
 .connect-form{text-align:center;}
 .connect-form .c{font-size:20px;line-height:40px;}
-.connect-form input[type="text"]{width:200px;margin:10px 0;display:block;}
+.connect-form input[type="text"]{width:200px;margin:10px auto;display:block;}
 .connect-form .wrapper{
 	background-color:#fff;
 	border:1px solid blue;
@@ -259,6 +258,7 @@ button{cursor:pointer;}
 .list1 .t[priority="3"] .priority-icon{background-position:-48px 0;}
 
 .list1 .sub{padding:0 20px;}
+.list1 .time:after{content:" сек";}
 
 .tasks-info{text-align:center;z-index:1;display:table;margin:0 auto -24px;position:relative;}
 .tasks-info span{

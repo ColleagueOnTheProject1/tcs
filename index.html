@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="favicon.png" type="image/icon"/>
 		<link rel="stylesheet" href="css/styles.css" type="text/css">
 		<!--набор функций для оптимизации-->
 		<script type="text/javascript" src="js/functions.js"></script>
@@ -80,7 +81,7 @@
 		<form class="connect-form modal" id="login-form" name="login_form" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
-				<input name="login" placeholder="имя пользователя"/>
+				<input type="text" name="login" placeholder="имя пользователя"/>
 				<input name="password" placeholder="пароль" type="text"/>
 				<button type="submit">Попробуем</button>
 				<div class="hint">не удалось войти!</div>
@@ -170,7 +171,7 @@
 							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2>
 								<input class="field2" name="title" type="text" readonly/>
-								<div class="edit-buttons">
+								<div class="edit-buttons allocate">
 									<img src="../design/edit.jpg" onclick="formEdit('active-task');showForm('image-form');" alt=""/>
 									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());" alt=""/>
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
@@ -200,7 +201,10 @@
 										<output name="create_date"></output>
 									</div>&nbsp;
 									<div class="inline-top">
-										затрачено:<br/><output name="lead_time"></output>
+										заложено:<br/><output class="time" name="plan_time"></output>
+									</div>&nbsp;
+									<div class="inline-top">
+										затрачено:<br/><output class="time" name="lead_time"></output>
 									</div>&nbsp;
 
 									<div class="inline-top">
