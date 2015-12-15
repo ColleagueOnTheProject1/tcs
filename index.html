@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="js/requests.js"></script>
 		<script type="text/javascript" src="js/table.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
+		<script type="text/javascript" src="js/controller.js"></script>
 		<script type="text/javascript" src="js/manager.js"></script>
 		<meta name="viewport" content="width=1400">
 		<title>система контроля задач</title>
@@ -173,7 +174,7 @@
 								<input class="field2" name="title" type="text" readonly/>
 								<div class="edit-buttons allocate">
 									<img src="../design/edit.jpg" onclick="formEdit('active-task');showForm('image-form');" alt=""/>
-									<img src="../design/apply.jpg" onclick="updateLastComment();sendForm(document.forms['active-task'], getFiltersStr());" alt=""/>
+									<img src="../design/apply.jpg" onclick="taskFormSend();" alt=""/>
 									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
 									<img src="../design/basket.jpg" onclick="" title="удалить" alt="">
 								</div>
@@ -196,23 +197,29 @@
 									</div>
 								</div>
 								<div class="frame">
-									<div class="inline-top">
+									<div class="wr inline-top">
 										дата создания:<br/>
 										<output name="create_date"></output>
 									</div>&nbsp;
-									<div class="inline-top">
+									<div class="wr inline-top">
 										заложено:<br/><output class="time" name="plan_time"></output>
 									</div>&nbsp;
-									<div class="inline-top">
+									<div class="wr inline-top">
 										затрачено:<br/><output class="time" name="lead_time"></output>
 									</div>&nbsp;
 
-									<div class="inline-top">
+									<div class="wr inline-top">
 										<div class="">приоритет</div>
 										<input type="radio" name="priority" disabled="disabled" value="0"/>
 										<input type="radio" name="priority" disabled="disabled" value="1"/>
 										<input type="radio" name="priority" disabled="disabled" value="2"/>
 										<input type="radio" name="priority" disabled="disabled" value="3"/>
+									</div>
+									<div class="wr inline-top">
+										заложить время:<br/>
+										<input type="number" name="days" min="0" max="31" value="0" readonly/>д.
+										<input type="number" name="hours" min="0" max="23" value="1" readonly/>ч.
+										<input type="number" name="minutes" min="0" max="59" value="0" readonly/>м.
 									</div>
 								</div>
 								<div class="actions frame">

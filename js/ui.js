@@ -208,30 +208,18 @@ function activeTask(taskId){
 	cur_task = taskId;
 	for(var s in tasks[taskId]){
 		if(form[s]!=undefined){
-			if(form[s].type=="text" || form[s].tagName=="textArea"){
+			if(form[s].type=="text" || form[s].tagName=="TEXTAREA"){
 				form[s].value=tasks[taskId][s];
-			}else if(form[s].tagName=="output"){
+			}else if(form[s].tagName=="OUTPUT"){
 				form[s].innerHTML = tasks[taskId][s];
-			}else if(form[s].type=="checkbox"){
-				console.log(s);
-				form[s][tasks[taskId][s]].checked = true;
+			}else if(form[s].length && form[s][0].type=="radio"){
+				form[s][tasks[taskId][s]].checked = true; 
 			}
 		}
 	}
-	/*
-	form['title'].value = tasks[taskId]['title'];
-	form['text'].value = tasks[taskId]['text'];
-	form['images'].value = tasks[taskId]['images'];
-	form['id'].value = tasks[taskId]['id'];
-	form['state'].value = tasks[taskId]['state'];
 	form['old_state'].value = tasks[taskId]['state'];
-	form['comment'].value = tasks[taskId]['comment'];
-	form['type'].value = tasks[taskId]['type'];
-	form['lead_time'].value = tasks[taskId]['lead_time'] + ' сек';	
-	form['last_comment'].value = '';	
-	form['priority'][tasks[taskId]['priority']].checked = true;
-*/	
 	form['create_date'].value = getDate(tasks[taskId]['id']);
+	form['last_comment'].value = '';
 
 	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
 	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
@@ -413,7 +401,7 @@ function formEdit(name){
 	form.classList.add('edit');
 	fields = form.getElementsByTagName('input');
 	for(i=0;i<fields.length;i++){
-		if(fields[i].type=="text"){
+		if(fields[i].type=="text" || fields[i].type=="number"){
 			fields[i].readOnly = false;
 		}else if(fields[i].type=="radio"){
 			fields[i].disabled = false;
@@ -442,7 +430,7 @@ function formDisable(name){
 	form.classList.add('edit');
 	fields = form.getElementsByTagName('input');
 	for(i=0;i<fields.length;i++){
-		if(fields[i].type=="text"){
+		if(fields[i].type=="text" || fields[i].type=="number"){
 			fields[i].readOnly = true;
 		}else if(fields[i].type=="radio"){
 			fields[i].disabled = true;

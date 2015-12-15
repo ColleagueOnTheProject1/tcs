@@ -64,6 +64,9 @@ button{cursor:pointer;}
 .detail .field3{height:200px;}
 .detail .field4{height:50px;}
 .detail .frame{border:1px solid black;margin-bottom:2px;}
+.detail .time:after{content:" сек";}
+.detail input[type="number"]{width:40px;display:inline-block;height:20px;}
+.detail .wr{padding:0 10px;}
 
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
@@ -258,7 +261,7 @@ button{cursor:pointer;}
 .list1 .t[priority="3"] .priority-icon{background-position:-48px 0;}
 
 .list1 .sub{padding:0 20px;}
-.list1 .time:after{content:" сек";}
+
 
 .tasks-info{text-align:center;z-index:1;display:table;margin:0 auto -24px;position:relative;}
 .tasks-info span{

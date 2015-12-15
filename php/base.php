@@ -96,7 +96,7 @@ function tasksTableCreate(){
 	`start_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта',
 	`end_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия',
 	`lead_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени',
-	`plan_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'заложено времени',
+	`plan_time` TIME NULL COMMENT 'заложено времени',
 	`priority` INT(11) UNSIGNED NULL DEFAULT '0',
 	`state` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта',
 	PRIMARY KEY (`id`))";
@@ -206,7 +206,6 @@ function saveTask(){
 		$query.= "start_time=".time().",";
 	}
 	elseif($_POST['state'] == 2 || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){//состояние-остановить или вернуть владельцу
-		//$query.="lead_time=lead_time + ".time()." - start_time,";
 		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
 	}
 	elseif($_POST['state'] == 5 && $_POST['id']){//состояние-завершить
@@ -217,6 +216,9 @@ function saveTask(){
 		$query = "UPDATE `".$config['tasks_table']."` SET `state`=5, `end_time`=".time()." WHERE `id`=".$_POST['id'].";";
 		$result = mysql_query($query);
 		return;
+	}
+	if(is_numeric($_POST['plan_time'])){
+		$query .= "`plan_time`=`plan_time` | SEC_TO_TIME(".$_POST['plan_time'].") ";
 	}
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
@@ -264,7 +266,6 @@ function getUsers(){
 	}
 	if($user['type'] > 0){
 		for($i = 0; $i < count($data); $i++){
-			//unset($data[$i]['password']);
 			$data[$i]['password'] = "";
 		}
 	}
