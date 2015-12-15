@@ -1,4 +1,23 @@
 ﻿<?php
+/**константы*/
+//Массив полей таблицы задач
+$TT_FIELDS = Array(
+	'id'=>"INT(10) UNSIGNED NOT NULL",
+	'type'=>"TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - баг, 3 - тест, 100 - другое'",
+	'group'=>"INT(10) UNSIGNED NOT NULL DEFAULT '0'",
+	'title'=>"VARCHAR(64) NULL DEFAULT 'новая задача'",
+	'text'=>"TEXT NULL",
+	'owner'=>"INT(11) UNSIGNED NULL DEFAULT '0'",
+	'assigned'=>"VARCHAR(32) NOT NULL DEFAULT ''",
+	'images'=>"VARCHAR(255) NULL DEFAULT NULL",
+	'comment'=>"TEXT NOT NULL",
+	'last_comment'=>"TEXT NOT NULL",
+	'start_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта'",
+	'end_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия'",
+	'lead_time'=>"TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени'",
+	'plan_time'=>"TIME NULL COMMENT 'заложено времени'",
+	'priority'=>"INT(11) UNSIGNED NULL DEFAULT '0'",
+	'state'=>"INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта'");
 //подключаемся к хосту, затем к базе, или возвращаем ошибки
 //подключаемся к хосту
 function hostConnect(){
@@ -108,6 +127,33 @@ function tasksTableCreate(){
 		(3, 'задача 3', 'описание задачи 3', 0);";
 		mysql_query($query);
 	}
+}
+//восстанавливает столбцы, которых не хватает, ключи не восстанавливает
+function tasksTableRebuild(){
+	global $config, $TT_FIELDS;
+	$query="SHOW COLUMNS FROM `".$config['tasks_table']."`;";
+	$result=mysql_query($query);
+	$query="ALTER TABLE `".$config['tasks_table']."` ";
+	$fields = Array();
+	if($result){
+		while($row = mysql_fetch_assoc($result)){
+			$fields[$row['Field']] = 1;
+		}		
+	}
+	$i=0;	
+	foreach($TT_FIELDS as $key=>$value){
+		if(!isset($fields[$key])){
+			if($i > 0){
+				$query.=",";
+			}
+			$query.=" ADD COLUMN `".$key."` ".$value;
+			$i++;
+		}		
+	}
+	if($i > 0){
+		$query.=";";
+		mysql_query($query);
+	}	
 }
 
 //получаем массив задач
@@ -355,6 +401,7 @@ function connect(){
 		$response['connect'] = $data;
 		exit(json_encode($response));
 	}
+	tasksTableRebuild();
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){
