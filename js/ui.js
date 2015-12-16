@@ -199,6 +199,8 @@ function activeTask(taskId){
 	var form = document.getElementById('active-task');
 	var imgs = [];
 	var task_images = document.getElementById('task-images');
+	var fields;
+	var arr = [];
 	if(tasks[taskId]['state']==5){
 		form.querySelector('.edit-buttons').classList.add('closed');
 	}else
@@ -206,9 +208,9 @@ function activeTask(taskId){
 		form.querySelector('.edit-buttons').classList.remove('closed');
 	}
 	cur_task = taskId;
-	for(var s in tasks[taskId]){
-		if(form[s]!=undefined){
-			if(form[s].type=="text" || form[s].tagName=="TEXTAREA"){
+	for(var s in tasks[taskId]){		
+		if(form[s]!=undefined){			
+			if(form[s].type=="text" || form[s].tagName=="TEXTAREA" || form[s].type=="hidden"){
 				form[s].value=tasks[taskId][s];
 			}else if(form[s].tagName=="OUTPUT"){
 				form[s].innerHTML = tasks[taskId][s];
@@ -217,9 +219,25 @@ function activeTask(taskId){
 			}
 		}
 	}
+	fields = form.getElementsByTagName('output');
+	for(var i=0;i<fields.length;i++){
+		if(fields[i].hasAttribute('data-copy')){
+			fields[i].innerHTML = form[fields[i].getAttribute('data-copy')].value;
+		}
+	}
 	form['old_state'].value = tasks[taskId]['state'];
 	form['create_date'].value = getDate(tasks[taskId]['id']);
 	form['last_comment'].value = '';
+	if(tasks[taskId]['plan_time']){
+		arr = tasks[taskId]['plan_time'].split(':');
+		form['minutes'].value = arr[1];
+		form['days'].value = Math.floor(arr[0]/24);
+		form['hours'].value = arr[0] - form['days'].value*24;
+	}else{
+		form['minutes'].value = 0;
+		form['days'].value = 0;
+		form['hours'].value = 0;	
+	}
 
 	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
 	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];

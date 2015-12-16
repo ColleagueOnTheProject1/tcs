@@ -138,9 +138,9 @@ function tasksTableRebuild(){
 	if($result){
 		while($row = mysql_fetch_assoc($result)){
 			$fields[$row['Field']] = 1;
-		}		
+		}
 	}
-	$i=0;	
+	$i=0;
 	foreach($TT_FIELDS as $key=>$value){
 		if(!isset($fields[$key])){
 			if($i > 0){
@@ -148,12 +148,12 @@ function tasksTableRebuild(){
 			}
 			$query.=" ADD COLUMN `".$key."` ".$value;
 			$i++;
-		}		
+		}
 	}
 	if($i > 0){
 		$query.=";";
 		mysql_query($query);
-	}	
+	}
 }
 
 //получаем массив задач
@@ -264,7 +264,8 @@ function saveTask(){
 		return;
 	}
 	if(is_numeric($_POST['plan_time'])){
-		$query .= "`plan_time`=`plan_time` | SEC_TO_TIME(".$_POST['plan_time'].") ";
+		$query .= "`plan_time`=if(`plan_time`,`plan_time`, SEC_TO_TIME(".$_POST['plan_time'].")) ";
+		//$query .= "`plan_time`=SEC_TO_TIME(".$_POST['plan_time'].") ";
 	}
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);

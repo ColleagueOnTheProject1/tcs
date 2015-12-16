@@ -202,8 +202,9 @@
 										<output name="create_date"></output>
 									</div>&nbsp;
 									<div class="wr inline-top">
-										заложено:<br/><output class="time" name="plan_time"></output>
+										заложено:<br/><output class="time" data-copy="plan_time" name="plan_time_copy"></output>
 									</div>&nbsp;
+									<input type="hidden" name="plan_time"/>
 									<div class="wr inline-top">
 										затрачено:<br/><output class="time" name="lead_time"></output>
 									</div>&nbsp;
@@ -215,7 +216,7 @@
 										<input type="radio" name="priority" disabled="disabled" value="2"/>
 										<input type="radio" name="priority" disabled="disabled" value="3"/>
 									</div>
-									<div class="wr inline-top">
+									<div class="time-group wr inline-top">
 										заложить время:<br/>
 										<input type="number" name="days" min="0" max="31" value="0" readonly/>д.
 										<input type="number" name="hours" min="0" max="23" value="1" readonly/>ч.
