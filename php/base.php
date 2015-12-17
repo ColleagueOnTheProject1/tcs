@@ -6,18 +6,23 @@ $TT_FIELDS = Array(
 	'type'=>"TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - баг, 3 - тест, 100 - другое'",
 	'group'=>"INT(10) UNSIGNED NOT NULL DEFAULT '0'",
 	'title'=>"VARCHAR(64) NULL DEFAULT 'новая задача'",
-	'text'=>"TEXT NULL",
+	'text'=>"TEXT NOT NULL",
 	'owner'=>"INT(11) UNSIGNED NULL DEFAULT '0'",
 	'assigned'=>"VARCHAR(32) NOT NULL DEFAULT ''",
 	'images'=>"VARCHAR(255) NULL DEFAULT NULL",
 	'comment'=>"TEXT NOT NULL",
-	'last_comment'=>"TEXT NOT NULL",
 	'start_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта'",
 	'end_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия'",
 	'lead_time'=>"TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени'",
 	'plan_time'=>"TIME NULL COMMENT 'заложено времени'",
 	'priority'=>"INT(11) UNSIGNED NULL DEFAULT '0'",
 	'state'=>"INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта'");
+$GT_FIELDS=Array(
+	'id'=>"INT(10) UNSIGNED NOT NULL",
+	'title'=>"VARCHAR(64) NULL DEFAULT NULL",
+	'description'=>"VARCHAR(255) NULL DEFAULT NULL",
+	'users'=>"VARCHAR(255) NOT NULL DEFAULT ''",
+	'owner'=>"INT(10) UNSIGNED NULL DEFAULT NULL");
 //подключаемся к хосту, затем к базе, или возвращаем ошибки
 //подключаемся к хосту
 function hostConnect(){
@@ -84,12 +89,11 @@ function usersTableCreate(){
 //создаем таблицу групп
 function groupsTableCreate(){
 	global $config;
-	$query="CREATE TABLE `".$config['groups_table']."` (
-	`id` INT(10) UNSIGNED NOT NULL,
-	`title` VARCHAR(64) NULL DEFAULT NULL,
-	`description` VARCHAR(255) NULL DEFAULT NULL,
-	`users` VARCHAR(255) NOT NULL DEFAULT '',
-	PRIMARY KEY (`id`));";
+	$query="CREATE TABLE `".$config['groups_table']."` (";
+	foreach($GT_FIELDS as $key=>$value){
+		$query.="`".$key."` ".$value.",";
+	}
+	$query.=" PRIMARY KEY (`id`));";
 	mysql_query($query);
 	if($config['test_groups']==1){
 		$query = "INSERT INTO `".$config['groups_table']."` (`id`, `title`, `description`, `users`) VALUES
@@ -98,6 +102,33 @@ function groupsTableCreate(){
 		mysql_query($query);
 	}
 }
+//восстанавливает поля таблицы по массиву полей
+function tableRebuild($table_name, $fields_arr){
+	$query="SHOW COLUMNS FROM `".$table_name."`;";
+	$result=mysql_query($query);
+	$fields = Array();
+	if($result){
+		while($row = mysql_fetch_assoc($result)){
+			$fields[$row['Field']] = 1;
+		}
+	}
+	$query="ALTER TABLE `".$table_name."` ";
+	$i=0;
+	foreach($fields_arr as $key=>$value){
+		if(!isset($fields[$key])){
+			if($i > 0){
+				$query.=",";
+			}
+			$query.=" ADD COLUMN `".$key."` ".$value;
+			$i++;
+		}
+	}
+	if($i > 0){
+		$query.=";";
+		mysql_query($query);
+	}
+}
+
 //
 function tasksTableCreate(){
 	global $config;
@@ -106,12 +137,11 @@ function tasksTableCreate(){
 	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - баг, 3 - тест, 100 - другое',
 	`group` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
-	`text` TEXT NULL,
+	`text` TEXT NOT NULL,
 	`owner` INT(11) UNSIGNED NULL DEFAULT '0',
 	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
 	`images` VARCHAR(255) NULL DEFAULT NULL,
 	`comment` TEXT NOT NULL,
-	`last_comment` TEXT NOT NULL,
 	`start_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта',
 	`end_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия',
 	`lead_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени',
@@ -128,34 +158,6 @@ function tasksTableCreate(){
 		mysql_query($query);
 	}
 }
-//восстанавливает столбцы, которых не хватает, ключи не восстанавливает
-function tasksTableRebuild(){
-	global $config, $TT_FIELDS;
-	$query="SHOW COLUMNS FROM `".$config['tasks_table']."`;";
-	$result=mysql_query($query);
-	$query="ALTER TABLE `".$config['tasks_table']."` ";
-	$fields = Array();
-	if($result){
-		while($row = mysql_fetch_assoc($result)){
-			$fields[$row['Field']] = 1;
-		}
-	}
-	$i=0;
-	foreach($TT_FIELDS as $key=>$value){
-		if(!isset($fields[$key])){
-			if($i > 0){
-				$query.=",";
-			}
-			$query.=" ADD COLUMN `".$key."` ".$value;
-			$i++;
-		}
-	}
-	if($i > 0){
-		$query.=";";
-		mysql_query($query);
-	}
-}
-
 //получаем массив задач
 function getTasks($ids=null){
 	global $response, $user, $config,$login;
@@ -229,10 +231,7 @@ function addTask(){
 //сохранить задачу
 function saveTask(){
 	global $config, $login;
-	$fields = Array(0=>'title', 1=>'text',2=>'priority',3=>'images',4=>'assigned',5=>'state',6=>'type', 7=>'group');
-	if($_POST['last_comment']){
-		$_POST['last_comment'] = $login.'\n'.date('d.m.y в H:i').'\n'.$_POST['last_comment'].'\n';
-	}
+	$fields = Array('title','priority','images','assigned','state','type', 'group');
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
 	if($_POST['priority'] == 3){
 		$query = "UPDATE `".$config['tasks_table']."` SET `priority`=2 WHERE `priority`=3 AND `assigned`='".$_POST['assigned']."' LIMIT 1;";
@@ -243,18 +242,24 @@ function saveTask(){
 	for($i = 0; $i < count($fields); $i++){
 		$query.="`".$fields[$i]."`='".$_POST[$fields[$i]]."',";
 	}
-	if($_POST['last_comment'] == '' && $_POST['state'] != 4){//сменили состояние задачи, но задача не была переоткрыта
-		$query.= "`comment`=CONCAT(`last_comment`, `comment`), `last_comment`='',";
-	}else{//если прислали комментарий
-		$query.="`comment`='".$_POST['comment']."', `last_comment`=CONCAT('".$_POST['last_comment']."\n',`last_comment`),";
+	$action_title = date("d.m.Y в H:i ").$login.'\n';
+	if(isset($_POST['new_text'])&&$_POST['new_text'] !=''){
+		$query.="`text`=CONCAT(`text`,'".$action_title.$_POST['new_text']."\n'),";
 	}
-	if($_POST['state'] == 1){//состояние-начать
+	if($_POST['state'] != $_POST['old_state']&&$_POST['state'] != 5){
+		$state = Array("начал задачу","приостановил задачу","отправил задачу на проверку","переоткрыл задачу");
+		$query.= "`comment`=CONCAT(`comment`,'".$action_title." ".$state[$_POST['state']-1]."\n\n'),";
+	}
+	//состояние-начать
+	if($_POST['state'] == 1){
 		$query.= "start_time=".time().",";
 	}
-	elseif($_POST['state'] == 2 || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){//состояние-остановить или вернуть владельцу
+	//состояние-остановить или вернуть владельцу
+	elseif($_POST['state'] == 2 || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){
 		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
 	}
-	elseif($_POST['state'] == 5 && $_POST['id']){//состояние-завершить
+	//состояние-завершить
+	elseif($_POST['state'] == 5 && $_POST['id']){
 		//увеличиваем количесво завершенных задач пользователя на 1
 		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `login`='".$_POST['assigned']."';";
 		$result = mysql_query($query);
@@ -263,9 +268,12 @@ function saveTask(){
 		$result = mysql_query($query);
 		return;
 	}
-	if(is_numeric($_POST['plan_time'])){
-		$query .= "`plan_time`=if(`plan_time`,`plan_time`, SEC_TO_TIME(".$_POST['plan_time'].")) ";
-		//$query .= "`plan_time`=SEC_TO_TIME(".$_POST['plan_time'].") ";
+	if(is_numeric($_POST['plan_time'])&& $_POST['plan_time']!=0){
+		//$query .= "`plan_time`=if(`plan_time`,`plan_time`, SEC_TO_TIME(".$_POST['plan_time'].")) ";
+		if($_POST['plan_time_copy']!="00:00:00"){
+			$query.="`comment`=CONCAT(`comment`,'".$action_title." заложено новое время\n\n'),";
+		}
+		$query.="`plan_time`=SEC_TO_TIME(".$_POST['plan_time'].") ";
 	}
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
@@ -300,7 +308,7 @@ function getGroups(){
 //добавляем группу
 function groupAdd(){
 	global $response, $user, $config;
-	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`) VALUES (".time().", '".$_POST['title']."','".$_POST['description']."');";
+	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`,`owner`) VALUES (".time().", '".$_POST['title']."','".$_POST['description']."','".$user['id']."');";
 	$result = mysql_query($query);
 }
 function getUsers(){
@@ -362,7 +370,7 @@ function getInfo(){
 }
 //подключаемся к хосту и к базе
 function connect(){
-	global $response, $config;
+	global $response, $config, $GT_FIELDS, $TT_FIELDS;
 	$data = Array();
 	$data['host'] = $config['host'];
 	$data['user'] = $config['user'];
@@ -402,7 +410,9 @@ function connect(){
 		$response['connect'] = $data;
 		exit(json_encode($response));
 	}
-	tasksTableRebuild();
+	//восстанавливаем поля таблиц, если не хватает
+	tableRebuild($config['groups_table'],$TT_FIELDS);
+	tableRebuild($config['groups_table'],$GT_FIELDS);
 }
 //получает информацию о текущем пользователе для последующей обработки
 function init(){

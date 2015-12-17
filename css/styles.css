@@ -42,7 +42,7 @@ button{cursor:pointer;}
 /**компоненты*/
 .detail{width:706px;}
 .detail h2{display:inline-block;line-height:16px;}
-.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding-top:10px;}
+.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding:10px 0;width:100%;display:table;}
 .detail input[type="text"]{
 	width:390px;
 	height:16px;}
@@ -50,7 +50,7 @@ button{cursor:pointer;}
 .detail input.m1{width:120px;text-transform:uppercase;}
 .detail input.m2{width:100px;text-transform:uppercase;}
 .detail output{font-family:"Courier new";font-size:12px;}
-.detail textArea{width:400px;box-sizing:border-box;resize:none;}
+.detail textArea{width:100%;box-sizing:border-box;resize:none;}
 .detail textArea[readonly],
 .detail input[readonly]{background-color:transparent;border:none;}
 /*.detail:not(.edit) textArea{display:none;}*/
@@ -59,15 +59,25 @@ button{cursor:pointer;}
 .detail .images img{max-width:90%;}
 .detail .images:before{display:block;content:"прикрепленные картинки";}
 .detail .images:empty:before{content:"прикрепленные картинки отсутствуют";}
-.detail .field1{width:400px;}
+.detail .field1{width:100%;}
 .detail .field2{text-transform:uppercase;}
-.detail .field3{height:200px;}
+.detail .field3{height:200px;overflow:auto;}
 .detail .field4{height:50px;}
+.detail .text{display:block;font-size:12px;white-space:pre-line;font-family:"Courier New";}
+.detail .text:before{display:block;text-decoration:underline;}
 .detail .frame{border:1px solid black;margin-bottom:2px;}
 .detail .time:empty:before{content:"00:00:00";}
 .detail .time:after{content:" сек";}
 .detail input[type="number"]{width:40px;display:inline-block;height:20px;border:1px solid black;}
 .detail .wr{padding:3px 10px;}
+.detail .hide-field{display:none;}
+.detail.edit .hide-field{display:block;}
+.detail .l-s, 
+.detail .r-s{width:50%;padding:0 10px;box-sizing:border-box;display:table-cell;vertical-align:top;}
+.detail .l-s{border-right:1px solid gray;}
+.detail .r-s{}
+.detail.edit .message{display:none;}
+
 
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
@@ -80,14 +90,11 @@ button{cursor:pointer;}
 .active-task .state-buttons input[value="3"] ~ button:nth-of-type(6){display:inline;}
 .active-task .state-buttons input[value="4"] ~ button:nth-of-type(3){display:inline;}
 .active-task .lead-time:before{content:"затрачено времени:";}
-.active-task .comment:before{content:"комментарии:";}
-.active-task .last-comment:empty + .comments:empty:after{content:"пусто";color:black;}
-.active-task.edit .comment:before{content:"добавить комментарий:";}
+.active-task .history:before{content:"история действий:";display:block;text-decoration:underline;}
 .active-task .no-edit{display:none;}
-.active-task .text{font-size:12px;width:400px;white-space:pre-line;}
-.active-task .comments{font-style:italic;color:gray;}
+.active-task .message:before{content:"описание задачи:";}
 .active-task .last-comment{font-style:italic;color:green;}
-.active-task.edit .text{display:none;}
+
 .active-task .frame1{position:relative;margin:-40px auto 0;display:table;padding:0 0 2px;}
 
 .active-group{display:none;}

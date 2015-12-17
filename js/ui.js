@@ -227,7 +227,7 @@ function activeTask(taskId){
 	}
 	form['old_state'].value = tasks[taskId]['state'];
 	form['create_date'].value = getDate(tasks[taskId]['id']);
-	form['last_comment'].value = '';
+	form['new_text'].value = '';
 	if(tasks[taskId]['plan_time']){
 		arr = tasks[taskId]['plan_time'].split(':');
 		form['minutes'].value = arr[1];
@@ -238,10 +238,7 @@ function activeTask(taskId){
 		form['days'].value = 0;
 		form['hours'].value = 0;	
 	}
-
-	document.getElementById('task-comment').innerHTML = tasks[taskId]['comment'];
-	document.getElementById('last-comment').innerHTML = tasks[taskId]['last_comment'];
-	
+	document.getElementById('comment').innerHTML = tasks[taskId]['comment'];
 	var logins;
 	logins = info['users'].split(',');
 	for(var i = 0; i < logins.length; i++){

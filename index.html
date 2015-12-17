@@ -237,30 +237,28 @@
 									</div>&nbsp;
 								</div>
 								<div class="wrapper">
-
-									<div class="inline-top">
-										<div id="task-text" class="text"></div>
-										<textArea name="text"  class="field3" readonly="readonly"></textArea>
-										<br/><div class="comment"></div>
-										<textArea class="field4" name="last_comment"></textArea>
-										<div id="last-comment" class="text last-comment"></div>
-										<div id="task-comment" class="text comments"></div>
-										<br/><br/><textArea class="no-edit" name="comment"></textArea>
+									<div class="l-s">
+										<output name="text" class="text message" readonly="readonly"></output>
+										<textArea name="new_text"  class="hide-field field3" readonly="readonly"></textArea>
+										
 									</div>
-
+									<div class="r-s">
+										<div id="comment" class="history text field3"></div>
+									</div>
+								</div>
 									<div id="task-images" class="images"></div>
 									<input type="hidden" name="old_state" value="0"/>
 									<input type="hidden" name="images" value=""/>
 									<input type="hidden" name="id" value=""/>
 									<input type="hidden" name="action" value="save_task"/>
-								</div>
+
 							</form>
 							<form id="active-group" class="active-group detail" name="active_group" action="/" method="post" enctype="application/x-www-form-urlencoded">
 								<div class="">
 									<h2>Группа:</h2>
 									<input type="text" name="title" class="field-name" readonly/>
 								</div>
-								<div class="edit-buttons">
+								<div class="edit-buttons allocate">
 									<img onclick="formEdit('active_group')" src="../design/edit.jpg" alt=""/>
 									<img onclick="sendForm(document.forms['active-group']);" src="../design/apply.jpg" alt="">
 									<img onclick="formDisable('active_group');activeGroup(curGroup);" src="../design/cancel.jpg" alt=""/>

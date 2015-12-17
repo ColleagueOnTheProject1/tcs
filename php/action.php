@@ -30,6 +30,7 @@ if(isset($_POST['login']) && isset($_POST['password'])&& $_POST['action']=="auth
 include 'base.php';
 connect();
 $response = array();
+/*информация по вошедшему пользователю*/
 $user=null;
 init();
 //не найден пользователь - уходим отсюда
