@@ -93,7 +93,7 @@ function groupsTableCreate(){
 	foreach($GT_FIELDS as $key=>$value){
 		$query.="`".$key."` ".$value.",";
 	}
-	$query.=" PRIMARY KEY (`id`));";
+	$query.=" PRIMARY KEY (`id`),UNIQUE INDEX `title` (`title`));";
 	mysql_query($query);
 	if($config['test_groups']==1){
 		$query = "INSERT INTO `".$config['groups_table']."` (`id`, `title`, `description`, `users`) VALUES
@@ -261,7 +261,7 @@ function saveTask(){
 	//состояние-завершить
 	elseif($_POST['state'] == 5 && $_POST['id']){
 		//увеличиваем количесво завершенных задач пользователя на 1
-		$query = "UPDATE `".$config['users_table']."` SET finished=finished+1 WHERE `login`='".$_POST['assigned']."';";
+		$query = "UPDATE `".$config['users_table']."` SET `finished`=`finished`+1 WHERE `login`='".$_POST['assigned']."';";
 		$result = mysql_query($query);
 		//$query = "DELETE FROM `".$config['tasks_table']."` WHERE  `id`=".$_POST['id'].";";
 		$query = "UPDATE `".$config['tasks_table']."` SET `state`=5, `end_time`=".time()." WHERE `id`=".$_POST['id'].";";
@@ -310,6 +310,20 @@ function groupAdd(){
 	global $response, $user, $config;
 	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`,`owner`) VALUES (".time().", '".$_POST['title']."','".$_POST['description']."','".$user['id']."');";
 	$result = mysql_query($query);
+}
+//удаляем группу
+function groupRemove(){
+	global $config;
+	if(isset($_POST['group'])){
+		//записываем все задачи, лежащие на проверке на счет пользователей
+		$query="UPDATE `".$config['users_table']."` SET `finished`=`finished`+1 WHERE `id` IN (SELECT * FROM `".$config['tasks_table']."` WHERE `state`=3 AND `group`=".$_POST['group'].");";
+		//закрываем все задачи в данной группе
+		$query="UPDATE `".$config['task_table']."` SET `state`=5 WHERE `group`=".$_POST['group'];
+		$result = mysql_query($query);
+		//удаляем групппу
+		$query="DELETE FROM `".$config['groups_table']."` WHERE `id`=".$_POST['group'];
+		$result = mysql_query($query);
+	}
 }
 function getUsers(){
 	global $response, $user, $config, $user;

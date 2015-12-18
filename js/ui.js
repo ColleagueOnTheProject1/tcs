@@ -430,12 +430,6 @@ function formEdit(name){
 	for(i = 0; i< fields.length; i++){
 		fields[i].disabled = false;
 	}
-	/*
-	document.getElementById('task-state-btns').classList.add('hidden');
-	for(i =0; i < form['priority'].length; i++){
-		form['priority'][i].disabled = false;
-	}
-	*/
 }
 //деактивирует поля пормы
 function formDisable(name){

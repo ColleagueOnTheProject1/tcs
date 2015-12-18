@@ -173,10 +173,10 @@
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2>
 								<input class="field2" name="title" type="text" readonly/>
 								<div class="edit-buttons allocate">
-									<img src="../design/edit.jpg" onclick="formEdit('active-task');showForm('image-form');" alt=""/>
-									<img src="../design/apply.jpg" onclick="taskFormSend();" alt=""/>
-									<img src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
-									<img src="../design/basket.jpg" onclick="" title="удалить" alt="">
+									<img class="hidden-1" src="../design/edit.jpg" onclick="formEdit('active-task');showForm('image-form');" alt=""/>
+									<img class="hidden-2" src="../design/apply.jpg" onclick="taskFormSend();" alt=""/>
+									<img class="hidden-2" src="../design/cancel.jpg" onclick="activeTask(cur_task);" alt="">
+									<img class="hidden-1" src="../design/basket.jpg" onclick="" title="удалить" alt="">
 								</div>
 								<div class="frame1">
 									<div class="inline-top">
@@ -259,10 +259,10 @@
 									<input type="text" name="title" class="field-name" readonly/>
 								</div>
 								<div class="edit-buttons allocate">
-									<img onclick="formEdit('active_group')" src="../design/edit.jpg" alt=""/>
-									<img onclick="sendForm(document.forms['active-group']);" src="../design/apply.jpg" alt="">
-									<img onclick="formDisable('active_group');activeGroup(curGroup);" src="../design/cancel.jpg" alt=""/>
-									<img title="удалить" onclick="" src="../design/basket.jpg" alt=""/>
+									<img class="hidden-1" onclick="formEdit('active_group')" src="../design/edit.jpg" alt=""/>
+									<img class="hidden-2" onclick="sendForm(document.forms['active-group']);" src="../design/apply.jpg" alt="">
+									<img class="hidden-2" onclick="formDisable('active_group');activeGroup(curGroup);" src="../design/cancel.jpg" alt=""/>
+									<img class="hidden-1" title="удалить" onclick="" src="../design/basket.jpg" alt=""/>
 								</div>
 								<div class="wrapper">
 									<textArea readonly name="description" placeholder="нет описания"></textArea>
