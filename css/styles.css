@@ -53,7 +53,6 @@ button{cursor:pointer;}
 .detail textArea{width:100%;box-sizing:border-box;resize:none;}
 .detail textArea[readonly],
 .detail input[readonly]{background-color:transparent;border:none;}
-/*.detail:not(.edit) textArea{display:none;}*/
 .detail .images,
 .detail .images{display:inline-block;width:300px;vertical-align:top;overflow-y:auto;}
 .detail .images img{max-width:90%;}
@@ -77,7 +76,8 @@ button{cursor:pointer;}
 .detail .l-s{border-right:1px solid gray;}
 .detail .r-s{}
 .detail.edit .message{display:none;}
-
+.detail.edit .hidden-1{display:none;}
+.detail:not(.edit) .hidden-2{display:none;}
 
 .active-task .state-buttons{display:inline;}
 .active-task .state-buttons button{display:none;}
@@ -94,7 +94,6 @@ button{cursor:pointer;}
 .active-task .no-edit{display:none;}
 .active-task .message:before{content:"описание задачи:";}
 .active-task .last-comment{font-style:italic;color:green;}
-
 .active-task .frame1{position:relative;margin:-40px auto 0;display:table;padding:0 0 2px;}
 
 .active-group{display:none;}
@@ -109,15 +108,7 @@ button{cursor:pointer;}
 	border:1px solid gray;
 	border-left:none;
 	border-top:0;
-	cursor:pointer;
-	display:none;}
-.edit-buttons:not(.closed) img:first-child{display:inline-block;}
-.edit-buttons.closed img:last-child{display:inline;}
-
-.detail.edit .edit-buttons img:first-child{display:none;}
-.detail.edit .edit-buttons img:nth-child(2){display:inline;}
-.detail.edit .edit-buttons img:nth-child(3){display:inline;}
-
+	cursor:pointer;}
 
 .logo{display:block;text-decoration:none;}
 
