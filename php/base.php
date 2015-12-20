@@ -112,6 +112,8 @@ function tableRebuild($table_name, $fields_arr){
 			$fields[$row['Field']] = 1;
 		}
 	}
+	if(!count($fields))
+		return;
 	$query="ALTER TABLE `".$table_name."` ";
 	$i=0;
 	foreach($fields_arr as $key=>$value){
@@ -123,10 +125,8 @@ function tableRebuild($table_name, $fields_arr){
 			$i++;
 		}
 	}
-	if($i > 0){
-		$query.=";";
-		mysql_query($query);
-	}
+	$query.=";";
+	mysql_query($query);	
 }
 
 //
@@ -270,7 +270,7 @@ function saveTask(){
 	}
 	if(is_numeric($_POST['plan_time'])&& $_POST['plan_time']!=0){
 		//$query .= "`plan_time`=if(`plan_time`,`plan_time`, SEC_TO_TIME(".$_POST['plan_time'].")) ";
-		if($_POST['plan_time_copy']!="00:00:00"){
+		if($_POST['plan_time_copy'] && $_POST['plan_time_copy']!="00:00:00"){
 			$query.="`comment`=CONCAT(`comment`,'".$action_title." заложено новое время\n\n'),";
 		}
 		$query.="`plan_time`=SEC_TO_TIME(".$_POST['plan_time'].") ";
@@ -411,7 +411,7 @@ function connect(){
 		exit(json_encode($response));
 	}
 	//восстанавливаем поля таблиц, если не хватает
-	tableRebuild($config['groups_table'],$TT_FIELDS);
+	tableRebuild($config['tasks_table'],$TT_FIELDS);
 	tableRebuild($config['groups_table'],$GT_FIELDS);
 }
 //получает информацию о текущем пользователе для последующей обработки
