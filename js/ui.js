@@ -515,17 +515,52 @@ function tasksInfoUpdate(data){
 	var st;
 	var rc = 0;//осталось задач
 	var i;
+	var useEffects = false;
+	var useAnimation = false;
 	for (i = 0; i < data.length; i++){
 		if(i != 3 && i != 5){
 			rc += parseInt(data[i]);
 		}
 	}
+	if(fields[0].innerHTML !=""){
+		useEffects = true;
+	}
 	for(i = 0; i < fields.length; i++){
 		st = fields[i].getAttribute('data-state');
 		if(st < 6){
+			//добавляем эффект свечения если значение изменилось
+			if(useEffects && fields[i].innerHTML != data[st]){
+				fields[i].classList.add('blink-1');
+				//пишем сюда количество анимаций, на случай, если предыдущая анимация еще не завершилась
+				if(!fields[i].hasAttribute('data-a')){
+					fields[i].setAttribute('data-a','1');
+				}else{
+					fields[i].setAttribute('data-a',parseInt(fields[i].getAttribute('data-a')) + 1);
+				}
+				useAnimation = true;
+			}
 			fields[i].innerHTML = data[st];
 		}else if(st == 6){
 			fields[i].innerHTML = rc;
+		}
+	}
+	if(useAnimation){
+		setTimeout(function(){
+			stopAnimation(fields, 'blink-1');
+		},2000);
+	}
+}
+/*остановить анимацию для группы объектов*/
+function stopAnimation(obj_arr, className){
+	for(var i=0; i < obj_arr.length;i++){
+		if(!obj_arr[i].hasAttribute('data-a')){
+			continue;
+		}
+		if(obj_arr[i].getAttribute('data-a') == '1'){
+			obj_arr[i].removeAttribute('data-a');
+			obj_arr[i].classList.remove(className);
+		}else{
+			obj_arr[i].setAttribute('data-a',parseInt(obj_arr[i].getAttribute('data-a')) - 1);
 		}
 	}
 }

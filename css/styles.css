@@ -1,8 +1,21 @@
 @charset "utf-8"; 
-body{padding: 0px; margin: 0px; color:black; font-family:"Arial"; font-size:14px; 
-	width:100%; position:absolute; display:table; min-width:1200px;
-	background:silver; 
+@keyframes blink_1{
+	0%{box-shadow:none;}
+	25%{box-shadow:0 0 5px 1px rgba(0,0,255,1);}
+	50%{box-shadow:0 0 10px 1px rgba(0,0,255,1);}
+	75%{box-shadow:0 0 5px 1px rgba(0,0,255,1);}
 }
+body{
+	padding: 0px; 
+	margin: 0px; 
+	color:black; 
+	font-family:"Arial"; 
+	width:100%; 
+	position:absolute; 
+	display:table; 
+	min-width:1200px;
+	background:silver;}
+body, .clear-size > *{font-size:14px;}
 a{color:inherit;}
 ul, input{margin:0; padding:0;}
 h1, h2, h3, h4, h5, h6{margin:0;font-weight:normal;}
@@ -24,12 +37,15 @@ button{cursor:pointer;}
 .allocate{text-align:justify;}
 .allocate > *{display:inline-block;text-align:left;vertical-align:top;}
 .allocate:after{content:"";width:100%;display:inline-block;}
+.clear-size{font-size:0.01px;}
 .content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
 .hidden{display:none !important;}
 /**/
 .ps{font-size:12px;}
+/*effects*/
+.blink-1{animation:blink_1 1s linear 0s infinite;}
 /**/
 .icon1{/**маленькая иконка, которая не занимает пространства*/
 	content:"";
@@ -262,13 +278,21 @@ button{cursor:pointer;}
 .list1 .sub{padding:0 20px;}
 
 
-.tasks-info{text-align:center;z-index:1;display:table;margin:0 auto -24px;position:relative;}
+.tasks-info{
+	text-align:center;
+	z-index:1;
+	display:table;
+	margin:0 auto -24px;
+	position:relative;
+	padding:5px 0;
+	text-align:center;}
 .tasks-info span{
 	border:1px solid white;
 	padding:3px 5px;
 	display:inline-block;
 	cursor:default;
-	font-weight:bold;}
+	font-weight:bold;
+	margin:0 5px;}
 
 .tasks-info span[data-state="6"]{color:blue;}
 .tasks-info span[data-state="0"]{color:red;}
@@ -289,8 +313,3 @@ button{cursor:pointer;}
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}
 
 #description{padding:0 10px;}
-
-/*главная страница макет*/
-#Test{background:url("../index.jpg")no-repeat top center;position:absolute;top:0px;height:100%;width:100%;opacity:0.4;
-	z-index:1000;pointer-events:none;}
-#Test .content{border:1px solid red;border-bottom:0;border-top:0;position:absolute;top:0;bottom:0;left:0;right:0;}
