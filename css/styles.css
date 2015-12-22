@@ -168,6 +168,7 @@ button{cursor:pointer;}
 
 .connect-form{text-align:center;}
 .connect-form .c{font-size:20px;line-height:40px;}
+.connect-form .d{max-width:200px;margin:0 auto;font-size:12px;}
 .connect-form input[type="text"]{width:200px;margin:10px auto;display:block;}
 .connect-form .wrapper{
 	background-color:#fff;

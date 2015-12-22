@@ -24,15 +24,19 @@ function sendForm(form, getStr){
 	var key;
 	for(var i = 0; i < form.elements.length; i++){
 		if(form.elements[i].value != undefined){
+			key = form.elements[i].name;
+			if(!key){
+				continue;
+			}
 			if(form.elements[i].type == 'radio' && form.elements[i].checked == false)
 				continue;
 			if(form.elements[i].type == 'checkbox' && form.elements[i].checked == false)
-				continue;
-			key = form.elements[i].name;
+				continue;			
 			if(form.elements[i].tagName="select" && form.elements[i].selectedIndex == 0)
 				fields[key] = '';
 			fields[key] = form.elements[i].value;
 			s = s + '&' + key + '=' + fields[key];
+			console.info(i,key,fields[key], form.elements[i].value);
 		}
 	}
 	s = s.substr(1);
@@ -42,7 +46,6 @@ function sendForm(form, getStr){
 		getStr = '&' + getStr;
 	}
 	s = s + getStr;
-
 	json = JSON.stringify(fields);
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',false);

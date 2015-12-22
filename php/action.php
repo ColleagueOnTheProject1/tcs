@@ -94,6 +94,12 @@ elseif($_POST["action"] == "get_info"){
 	getGroups();
 	getTasks();
 }
+elseif($_POST["action"] == "group_remove"){
+	$response['action'] = 'get_tasks';
+	groupRemove();
+	getGroups();
+	getTasks();
+}
 /*
 if(defined('JSON_NUMERIC_CHECK'))
 	echo json_encode($response, JSON_NUMERIC_CHECK);

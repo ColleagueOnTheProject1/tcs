@@ -199,6 +199,12 @@ function getTasks($ids=null){
 	while($row = mysql_fetch_row($result)){
 		$c_arr[$row[0]] = $row[1];
 	}
+	$query = "SELECT `finished` FROM `".$config['users_table']."` WHERE `login`='$login' LIMIT 1;";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	if($row){
+		$c_arr[5] = $row[0];
+	}
 	$response['u_task_count'] = $c_arr;
 }
 //получаем список завершенных задач
@@ -231,6 +237,7 @@ function addTask(){
 //сохранить задачу
 function saveTask(){
 	global $config, $login;
+	$comment = "";
 	$fields = Array('title','priority','images','assigned','state','type', 'group');
 	//если приоритет наивысший, то переписать наивысший приоритет другого задания на высокий.
 	if($_POST['priority'] == 3){
@@ -245,17 +252,20 @@ function saveTask(){
 	$action_title = date("d.m.Y в H:i ").$login.'\n';
 	if(isset($_POST['new_text'])&&$_POST['new_text'] !=''){
 		$query.="`text`=CONCAT(`text`,'".$action_title.$_POST['new_text']."\n'),";
+		if(isset($_POST['text'])&&($_POST['text']!="")){
+			$comment = $comment.$action_title." добавил комментарий".'\n\n';
+		}
 	}
 	if($_POST['state'] != $_POST['old_state']&&$_POST['state'] != 5){
 		$state = Array("начал задачу","приостановил задачу","отправил задачу на проверку","переоткрыл задачу");
-		$query.= "`comment`=CONCAT(`comment`,'".$action_title." ".$state[$_POST['state']-1]."\n\n'),";
+		$comment = $comment.$action_title." ".$state[$_POST['state']-1].'\n\n';
 	}
 	//состояние-начать
 	if($_POST['state'] == 1){
 		$query.= "start_time=".time().",";
 	}
 	//состояние-остановить или вернуть владельцу
-	elseif($_POST['state'] == 2 || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){
+	elseif(($_POST['state'] == 2 && $_POST['old_state'] != 2) || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){
 		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
 	}
 	//состояние-завершить
@@ -269,12 +279,12 @@ function saveTask(){
 		return;
 	}
 	if(is_numeric($_POST['plan_time'])&& $_POST['plan_time']!=0){
-		//$query .= "`plan_time`=if(`plan_time`,`plan_time`, SEC_TO_TIME(".$_POST['plan_time'].")) ";
 		if($_POST['plan_time_copy']!="00:00:00"){
-			$query.="`comment`=CONCAT(`comment`,'".$action_title." заложено новое время\n\n'),";
+			$comment = $comment.$action_title." заложено новое время".'\n\n';
 		}
-		$query.="`plan_time`=SEC_TO_TIME(".$_POST['plan_time'].") ";
+		$query.="`plan_time`=SEC_TO_TIME(".$_POST['plan_time']."),";
 	}
+	$query.="`comment`=CONCAT('".$comment."',`comment`),";
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
 }
@@ -313,12 +323,25 @@ function groupAdd(){
 }
 //удаляем группу
 function groupRemove(){
-	global $config;
+	global $config, $user;
 	if(isset($_POST['group'])){
+		//проверяем, является ли пользователь владельцем группы или администратором
+		if($user['type']!=0){
+			$query="SELECT `owner` FROM `".$config['groups_table']."` WHERE `id`=".$_POST['group'].";";
+			$result = mysql_query($query);
+
+			if($row = mysql_fetch_row($result)){
+				if(!$row || $row[0] != $user['id']){
+					$response['error'] = 3;
+					exit(json_encode($response));
+				}
+			}
+		}
 		//записываем все задачи, лежащие на проверке на счет пользователей
-		$query="UPDATE `".$config['users_table']."` SET `finished`=`finished`+1 WHERE `id` IN (SELECT * FROM `".$config['tasks_table']."` WHERE `state`=3 AND `group`=".$_POST['group'].");";
-		//закрываем все задачи в данной группе
-		$query="UPDATE `".$config['task_table']."` SET `state`=5 WHERE `group`=".$_POST['group'];
+		$query="UPDATE `".$config['users_table']."` SET `finished`=`finished`+1 WHERE `login` IN (SELECT `assigned` FROM `".$config['tasks_table']."` WHERE `state`=3 AND `group`=".$_POST['group'].");";
+		$result = mysql_query($query);
+		//удаляем все задачи в данной группе
+		$query="DELETE FROM `".$config['tasks_table']."` WHERE `group`=".$_POST['group'];
 		$result = mysql_query($query);
 		//удаляем групппу
 		$query="DELETE FROM `".$config['groups_table']."` WHERE `id`=".$_POST['group'];

@@ -278,6 +278,9 @@ function activeGroup(id){
 	}
 	fillForm(form,group);
 	form.style.display = 'block';
+	//записываем идентификатор группы в форму удаления группы
+	document.forms['group_remove']['group'].value = id;
+	document.getElementById('r-g-n').innerHTML = group['title'];
 }
 //Заполняет поля формы данными из data. Именя полей из формы должны соответствовать именам данных.
 function fillForm(form, data){	
