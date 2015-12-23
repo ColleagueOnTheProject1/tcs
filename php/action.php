@@ -34,7 +34,7 @@ $response = array();
 $user=null;
 init();
 //не найден пользователь - уходим отсюда
-if(!isset($user['id']) || !isset($user['type']))
+if($user['id']==null || $user['type']==null)
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
 
 if($_POST["action"] == "auth" || $_POST["action"] == "connect"){

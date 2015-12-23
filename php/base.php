@@ -459,7 +459,6 @@ function init(){
 	if(mysql_num_rows($result) > 0){
 		$user = mysql_fetch_assoc($result);
 	}
-	else exit(mysql_num_rows($result));
 }
 //экспорт базы в файл
 function export(){

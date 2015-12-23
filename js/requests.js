@@ -36,7 +36,6 @@ function sendForm(form, getStr){
 				fields[key] = '';
 			fields[key] = form.elements[i].value;
 			s = s + '&' + key + '=' + fields[key];
-			console.info(i,key,fields[key], form.elements[i].value);
 		}
 	}
 	s = s.substr(1);

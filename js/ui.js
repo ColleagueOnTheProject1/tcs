@@ -25,7 +25,7 @@ function showBaseForm(){
 //
 function showLoginForm(){
 	if(cookie['login']){
-		document.getElementById('login-form').login.value = cookie['login'];
+		document.getElementById('login-form').login.value = decodeURI(cookie['login']);
 		if(cookie['password'])
 			document.getElementById('login-form').password.value = cookie['password'];
 		document.getElementById('login-form').getElementsByClassName("hint")[0].classList.add('animate');
