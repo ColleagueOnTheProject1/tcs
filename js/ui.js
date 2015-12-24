@@ -71,6 +71,14 @@ function taskListUpdate(data){
 		}
 		return i;
 	}
+	function getGroupNum(group_id){
+		for(var i = 0; i < groups.length; i++){
+			if(groups[i]['id'] == group_id)
+				break;
+		}
+		return i;
+	}
+
 	/*
 	@param e.target - элемент который нужно активировать
 	@param e.select - если он есть,- оставляем задачу активной
@@ -166,11 +174,19 @@ function taskListUpdate(data){
 		i = getTaskNum(info['new_task']);
 		
 	}else
+	
 	if(!last_task_id || task_status == 4){
 		i = 0;
 	}else
 		i = getTaskNum(last_task_id);
-	t_arr[i].click();
+	if(info && info['new_group']){
+		i=getGroupNum(info['new_group']);
+		info['new_group'] = null;
+		console.info(i);
+		gt_arr[i].click();
+	}else{
+		t_arr[i].click();
+	}
 	if(info && info['new_task']){
 		formEdit('active-task');
 		info['new_task'] = null;

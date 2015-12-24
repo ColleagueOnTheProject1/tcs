@@ -318,8 +318,15 @@ function getGroups(){
 //добавляем группу
 function groupAdd(){
 	global $response, $user, $config;
-	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`,`owner`) VALUES (".time().", '".$_POST['title']."','".$_POST['description']."','".$user['id']."');";
+	$time = time();
+	$query = "INSERT INTO `".$config['groups_table']."` (`id`,`title`,`description`,`owner`) VALUES (".$time.", '".$_POST['title']."','".$_POST['description']."','".$user['id']."');";
 	$result = mysql_query($query);
+	if($result){
+		if(!isset($response['info'])){
+			$response['info']=Array();
+		}
+		$response['info']['new_group'] = $time;
+	}
 }
 //удаляем группу
 function groupRemove(){
