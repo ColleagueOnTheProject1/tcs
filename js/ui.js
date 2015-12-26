@@ -25,7 +25,7 @@ function showBaseForm(){
 //
 function showLoginForm(){
 	if(cookie['login']){
-		document.getElementById('login-form').login.value = cookie['login'];
+		document.getElementById('login-form').login.value = decodeURI(cookie['login']);
 		if(cookie['password'])
 			document.getElementById('login-form').password.value = cookie['password'];
 		document.getElementById('login-form').getElementsByClassName("hint")[0].classList.add('animate');
@@ -71,6 +71,14 @@ function taskListUpdate(data){
 		}
 		return i;
 	}
+	function getGroupNum(group_id){
+		for(var i = 0; i < groups.length; i++){
+			if(groups[i]['id'] == group_id)
+				break;
+		}
+		return i;
+	}
+
 	/*
 	@param e.target - элемент который нужно активировать
 	@param e.select - если он есть,- оставляем задачу активной
@@ -166,11 +174,19 @@ function taskListUpdate(data){
 		i = getTaskNum(info['new_task']);
 		
 	}else
+	
 	if(!last_task_id || task_status == 4){
 		i = 0;
 	}else
 		i = getTaskNum(last_task_id);
-	t_arr[i].click();
+	if(info && info['new_group']){
+		i=getGroupNum(info['new_group']);
+		info['new_group'] = null;
+		console.info(i);
+		gt_arr[i].click();
+	}else{
+		t_arr[i].click();
+	}
 	if(info && info['new_task']){
 		formEdit('active-task');
 		info['new_task'] = null;
@@ -278,6 +294,9 @@ function activeGroup(id){
 	}
 	fillForm(form,group);
 	form.style.display = 'block';
+	//записываем идентификатор группы в форму удаления группы
+	document.forms['group_remove']['group'].value = id;
+	document.getElementById('r-g-n').innerHTML = group['title'];
 }
 //Заполняет поля формы данными из data. Именя полей из формы должны соответствовать именам данных.
 function fillForm(form, data){	

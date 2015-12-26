@@ -34,7 +34,7 @@ $response = array();
 $user=null;
 init();
 //не найден пользователь - уходим отсюда
-if(!isset($user['id']) || !isset($user['type']))
+if($user['id']==null || $user['type']==null)
 	exit(json_encode(array('action' => 'auth', 'user_id'=>$user['id'], 'user_type'=>$user['type'])));
 
 if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
@@ -91,6 +91,12 @@ elseif($_POST["action"] == "get_info"){
 }elseif($_POST["action"] == "add_group"){
 	$response['action'] = 'get_tasks';
 	groupAdd();
+	getGroups();
+	getTasks();
+}
+elseif($_POST["action"] == "group_remove"){
+	$response['action'] = 'get_tasks';
+	groupRemove();
 	getGroups();
 	getTasks();
 }
