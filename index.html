@@ -16,7 +16,10 @@
 		<title>система контроля задач</title>
 	</head>
 	<body>
-		<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
+		<div id="save" class="save" hidden>
+			<div class="t">сохранение данных...</div>
+		</div>
+		<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="hideAndSend(event,this)">
 			<div class="wrapper">
 				<div class="c">Новая группа</div>
 				 название
@@ -29,7 +32,7 @@
 				<input type="hidden" name="action" value="add_group"/>
 			</div>
 		</form>
-		<form id="group-remove" class="group-remove connect-form modal" name="group_remove" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();sendForm(this);this.style.display='none';">
+		<form id="group-remove" class="group-remove connect-form modal" name="group_remove" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="hideAndSend(event,this)">
 			<div class="wrapper">
 				<div class="c">Удаление группы</div>
 				<div class="d">После удаления группы "<b id="r-g-n"></b>", ее уже нельзя будет восстановить. Также, вместе с группой будут удалены и задачи расположенные в ней. Вы действительно желаете удалить группу?</div>
@@ -62,7 +65,7 @@
 				<button type="reset" onclick="getParentForm(this).style.display='none';">отмена</button>
 			</div>
 		</form>
-		<form class="connect-form modal" id="connect-form" name="connect_form" action="/" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="this.style.display='none'; event.preventDefault();sendForm(this);">
+		<form class="connect-form modal" id="connect-form" name="connect_form" action="/" method="POST" enctype="application/x-www-form-urlencoded"  onsubmit="hideAndSend(event,this)">
 			<div class="wrapper">
 				<div class="c"></div>
 				<table>
@@ -88,7 +91,7 @@
 				<input type="hidden" name="action" value="set_config"/>
 			</div>
 		</form>
-		<form class="connect-form modal" id="login-form" name="login_form" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();this.style.display='none';sendForm(this);">
+		<form class="connect-form modal" id="login-form" name="login_form" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="hideAndSend(event,this)">
 			<div class="wrapper">
 				<div class="c">необходимо войти в систему</div>
 				<input type="text" name="login" placeholder="имя пользователя"/>
@@ -332,8 +335,6 @@
 						<th data-name="choose" data-choose-f="chooseGroup">Выбрать</th>
 					</tr>
 				</table>
-
-
 			</div>
 			<div id="footer" class="footer">
 			</div>

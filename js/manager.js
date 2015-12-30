@@ -118,3 +118,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	init();
 	initListeners();
 });
+//отправляет форму без перезагрузки страницы, предварительно спрятав ее
+function hideAndSend(event, form){
+	form.style.display='none';
+	event.preventDefault();
+	document.getElementById('save').hidden=false;
+	sendForm(form);
+	document.getElementById('save').hidden=true;
+}
