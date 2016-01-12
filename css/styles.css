@@ -37,6 +37,7 @@ input::-ms-clear {width : 0;height: 0;}
 button{cursor:pointer;}
 /**классы общего назначения*/
 .null {height: 0px; min-height: 0px; line-height: 0px; font-size: 0px; overflow: hidden; clear: both;}
+.clear-size{font-size:0.01px;}
 .tb{display:table;}
 .td{display:table-cell;}
 .tr{display:table-row;}
@@ -44,7 +45,6 @@ button{cursor:pointer;}
 .allocate{text-align:justify;}
 .allocate > *{display:inline-block;text-align:left;vertical-align:top;}
 .allocate:after{content:"";width:100%;display:inline-block;}
-.clear-size{font-size:0.01px;}
 .content{width:1000px; margin-left:auto; margin-right:auto;position:relative;}
 .btn{text-align:center;text-decoration:none;cursor:pointer;}
 .btn1{height:30px;box-sizing:border-box;}
@@ -321,9 +321,10 @@ button{cursor:pointer;}
 	top:0;
 	width:100%;
 	height:100%;
-	background-color:rgba(0,0,0,0.8);}
+	background-color:rgba(0,0,0,0.8);
+	z-index:100;}
 .save.active{animation:show 0.3s linear 0.5s forwards;}
-.save .t{position:absolute;font-size:20px;color:white;right:0;bottom:0;}
+.save .t{position:absolute;font-size:20px;color:white;right:10px;bottom:10px;}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}

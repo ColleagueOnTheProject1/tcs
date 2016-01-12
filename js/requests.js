@@ -1,4 +1,7 @@
-
+//будет вызываться перед отправкой запроса
+var beforeSend;
+//будет вызываться после получения ответа от сервера
+var afterSend;
 function getXmlHttp(){
   var xmlhttp;
   try {
@@ -49,7 +52,13 @@ function sendForm(form, getStr){
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',false);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	if(beforeSend){
+		beforeSend();
+	}
 	xmlhttp.send(s);
+	if(afterSend){
+		afterSend();
+	}
 	parse(xmlhttp.responseText);
 }
 //отправка формы с бинарными данными
@@ -62,14 +71,24 @@ function sendFormData(form){
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("POST",'php/action.php',true);
 	xmlhttp.onreadystatechange = responseHandler;
+	if(beforeSend){
+		beforeSend();
+	}
 	xmlhttp.send(formData);
+	if(afterSend){
+		afterSend();
+	}
 }
 //
 
 function sendAction(action, getStr){
 	function responseHandler(){
-		if(xmlhttp.readyState == 4)
+		if(xmlhttp.readyState == 4){
 			parse(xmlhttp.responseText);
+			if(afterSend){
+				afterSend();
+			}
+		}
 	}
 	var xmlhttp = getXmlHttp();
 	xmlhttp.open("post",'php/action.php',true);
@@ -80,8 +99,10 @@ function sendAction(action, getStr){
 	}else{
 		getStr = '&' + getStr;
 	}
+	if(beforeSend){
+		beforeSend();
+	}
 	xmlhttp.send('action='+action + getStr);
-	//parse(xmlhttp.responseText);
 }
 /**отправляет запрос и при получении ответа вызывает заданный обработчик события*/
 function sendRequest(get, handler){

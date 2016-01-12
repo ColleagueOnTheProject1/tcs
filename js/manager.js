@@ -59,7 +59,8 @@ function init(){
 	parser_handlers[ACTION_U_TASK_COUNT] = tasksInfoUpdate;
 	parser_handlers[ACTION_EXPORT] = download;
 	parser_handlers[ACTION_ERROR] = errorAlert;
-	
+	beforeSend=showSend;
+	afterSend=hideSend;
     sendAction(ACTION_CONNECT);
 }
 /**получить данные для текущей вкладки - пользователи/задачи/группы/...*/
@@ -113,16 +114,17 @@ function showLogin(){
 	document.getElementById("login").innerHTML = decodeURI(cookie['login']);
 	document.getElementById("exit").innerHTML = decodeURI(cookie['login']);
 }
+//отправляет форму без перезагрузки страницы, предварительно спрятав ее
+function hideAndSend(event, form, param){
+	form.style.display='none';
+	event.preventDefault();	
+	sendForm(form, param);
+	//document.getElementById('save').hidden=true;
+}
 document.addEventListener('DOMContentLoaded', function() {
 	ui_init();
 	init();
 	initListeners();
 });
-//отправляет форму без перезагрузки страницы, предварительно спрятав ее
-function hideAndSend(event, form){
-	form.style.display='none';
-	event.preventDefault();
-	document.getElementById('save').hidden=false;
-	sendForm(form);
-	document.getElementById('save').hidden=true;
-}
+
+

@@ -652,3 +652,11 @@ function getInfo(data){
 	}
 	filtersUpdate();
 }
+//показать окно отправки запроса
+function showSend(){
+	document.getElementById('save').hidden=false;
+}
+//скрыть окно отпраки запроса
+function hideSend(){
+	document.getElementById('save').hidden=true;
+}

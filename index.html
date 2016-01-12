@@ -17,7 +17,7 @@
 	</head>
 	<body>
 		<div id="save" class="save" hidden>
-			<div class="t">сохранение данных...</div>
+			<div class="t">соединение с сервером ...</div>
 		</div>
 		<form id="group-create" class="group-create connect-form modal" name="group_create" action="/" method="post" enctype="application/x-www-form-urlencoded" onsubmit="hideAndSend(event,this)">
 			<div class="wrapper">
@@ -181,7 +181,7 @@
 					<div class="allocate">
 						<div id="task-list" class="list1"></div>
 						<div class="">
-							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault(); sendForm(document.forms['active-task'], getFiltersStr());">
+							<form id="active-task" name="active-task" class="detail active-task" enctype="application/x-www-form-urlencoded" onsubmit="event.preventDefault();hideAndSend(event, this, getFiltersStr());">
 								<h2>АКТИВНАЯ ЗАДАЧА: </h2>
 								<input class="field2" name="title" type="text" readonly/>
 								<div class="edit-buttons allocate">
