@@ -90,6 +90,8 @@ function taskListUpdate(data){
 			gt_arr[i].classList.remove('active');
 		}
 		e.target.classList.add('active');
+		if(!e.select)
+			e.target.focus();
 		if(document.getElementById('group_id_' + gr).childNodes.length == 0) {
 			at.style.display = 'none';
 		}
@@ -116,6 +118,7 @@ function taskListUpdate(data){
 		}
 		active_task = e.target;
 		e.target.classList.add('active');
+		e.target.focus();
 		n = e.target.getAttribute('n');
 		last_task_id = data[n]['id'];
 		activeTask(n);
@@ -129,6 +132,7 @@ function taskListUpdate(data){
 		el = document.createElement('div');		
 		el.classList.add('c');
 		el.setAttribute('data-group',groups[i]['id']);
+		el.setAttribute('tabindex','0');
 		el.innerHTML = groups[i]['title'];
 		el.addEventListener('click', selGroup);
 		gt_arr.push(el);
@@ -142,11 +146,12 @@ function taskListUpdate(data){
 	}
 	og = document.getElementById('group_id_0');
 	for(i = 0; i < data.length; i++){//добавляем задачи
-		el = document.createElement('div');
+		el = document.createElement('a');
 		el.classList.add('t');
 		el.setAttribute('n', i);
 		el.setAttribute('state', data[i]['state']);
 		el.setAttribute('priority', data[i]['priority']);
+		el.setAttribute('tabindex','0');
 		el.innerHTML = data[i]['title'];
 		icon = document.createElement('div');
 		icon.classList.add('state-icon');
@@ -182,7 +187,6 @@ function taskListUpdate(data){
 	if(info && info['new_group']){
 		i=getGroupNum(info['new_group']);
 		info['new_group'] = null;
-		console.info(i);
 		gt_arr[i].click();
 	}else{
 		t_arr[i].click();
@@ -281,6 +285,48 @@ function activeTask(taskId){
 	if(form.style.display == 'none'){
 		form.style.display = 'block';
 		document.getElementById('active-group').style.display = 'none';
+	}
+}
+//выбрать следующую по порядку задачу или группу, если задач в текущей группе больше нет.
+function nextBranch(){
+	el = document.activeElement;
+	/*ищем ближайщего соседа в дереве*/
+	if(el.classList.contains('c')){
+		el=el.nextSibling;
+		if(el.firstChild){//ставим первую задачу в группе
+			el=el.firstChild;
+		}else{//переходим к следующей группе
+			el=el.nextSibling;
+		}
+	}else if(el.nextSibling){//ставим следующую задачу
+		el=el.nextSibling;
+	}else{//переходим к следующей группе
+		el=el.parentNode.nextSibling;
+	}
+	if(el){
+		el.click();
+		el.focus();
+	}
+}
+//выбрать предыдущую по порядку задачу или группу, если задач в текущей группе больше нет.
+function prevBranch(){
+	el = document.activeElement;
+	/*ищем ближайщего соседа в дереве*/
+	if(el.classList.contains('c')&&el.previousSibling){
+		el=el.previousSibling;
+		if(el.firstChild){//ставим первую задачу в группе
+			el=el.lastChild;
+		}else{//переходим к предыдущей группе
+			el=el.previousSibling;
+		}
+	}else if(el.previousSibling){//ставим следующую задачу
+		el=el.previousSibling;
+	}else if(el.classList.contains('t') ){//переходим к предыдущей группе
+		el=el.parentNode.previousSibling;
+	}
+	if(el){
+		el.click();
+		el.focus();
 	}
 }
 //активировать группу по ее идентификатору

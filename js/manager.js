@@ -121,10 +121,22 @@ function hideAndSend(event, form, param){
 	sendForm(form, param);
 	//document.getElementById('save').hidden=true;
 }
+function keydownListener(e){
+	var el;
+	if (e.ctrlKey || e.altKey || e.metaKey) return;	
+	if(e.keyCode == 40){
+		nextBranch();
+	}else if(e.keyCode == 38){
+		prevBranch();
+	}
+	e.stopPropagation();
+	e.preventDefault();
+}
 document.addEventListener('DOMContentLoaded', function() {
 	ui_init();
 	init();
 	initListeners();
+	document.addEventListener('keydown', keydownListener);
 });
 
 

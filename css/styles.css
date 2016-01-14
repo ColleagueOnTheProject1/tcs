@@ -65,7 +65,7 @@ button{cursor:pointer;}
 /**компоненты*/
 .detail{width:706px;}
 .detail h2{display:inline-block;line-height:16px;}
-.detail .wrapper{border:1px solid black;height:300px;overflow-y:auto;padding:10px 0;width:100%;display:table;}
+.detail .wrapper{border:1px solid black;overflow-y:auto;padding:10px 0;width:100%;display:table;box-sizing:border-box;}
 .detail input[type="text"]{
 	width:390px;
 	height:16px;}
@@ -95,9 +95,10 @@ button{cursor:pointer;}
 .detail .hide-field{display:none;}
 .detail.edit .hide-field{display:block;}
 .detail .l-s, 
-.detail .r-s{width:50%;padding:0 10px;box-sizing:border-box;display:table-cell;vertical-align:top;}
-.detail .l-s{border-right:1px solid gray;}
+.detail .r-s{padding:0 10px;box-sizing:border-box;display:table-cell;vertical-align:top;}
+.detail .l-s{border-right:1px solid gray;width:65%;}
 .detail .r-s{}
+.detail .message{height:200px;overflow-y:scroll;}
 .detail.edit .message{display:none;}
 .detail.edit .hidden-1{display:none;}
 .detail:not(.edit) .hidden-2{display:none;}
@@ -219,7 +220,7 @@ button{cursor:pointer;}
 .sortable th[name="choose"]{background-image:linear-gradient(to bottom, #ddf4e4, #aae0bc);width:80px;}
 .sortable tr.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 
-.user{text-align:right;font-size:12px;display:none;}
+.user{text-align:right;font-size:12px;display:none;right:0;top:5px;position:absolute;}
 .user .login,
 .user .exit{font-weight:bold;}
 .user .hint{display:none;}
@@ -250,9 +251,10 @@ button{cursor:pointer;}
 	background-image:-webkit-linear-gradient(top, #e4e4e4, #b8b8b8);
 	background-image:linear-gradient(to bottom, #e4e4e4, #b8b8b8);	
 	margin:3px 0;
-	cursor:pointer;}
+	cursor:pointer;
+	outline:none;}
 .list1 .c.active{background-image:linear-gradient(to bottom, #ddf4e4, #aae0bc);}
-.list1 .t{padding:0 10px;cursor:pointer;position:relative;}
+.list1 .t{padding:0 10px;cursor:pointer;position:relative;display:block;outline:none;}
 .list1 .t.active{background-image:linear-gradient(to bottom, #f4dde4, #e0aabc);}
 .list1 .t .state-icon{
 	content:"";
@@ -290,7 +292,7 @@ button{cursor:pointer;}
 	text-align:center;
 	z-index:1;
 	display:table;
-	margin:0 auto -24px;
+	margin:0 auto;
 	position:relative;
 	padding:5px 0;
 	text-align:center;}
