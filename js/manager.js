@@ -123,14 +123,19 @@ function hideAndSend(event, form, param){
 }
 function keydownListener(e){
 	var el;
+	var flag=false;
 	if (e.ctrlKey || e.altKey || e.metaKey) return;	
 	if(e.keyCode == 40){
 		nextBranch();
+		flag=true;
 	}else if(e.keyCode == 38){
 		prevBranch();
+		flag=true;
 	}
-	e.stopPropagation();
-	e.preventDefault();
+	if(flag){
+		e.stopPropagation();
+		e.preventDefault();
+	}
 }
 document.addEventListener('DOMContentLoaded', function() {
 	ui_init();
