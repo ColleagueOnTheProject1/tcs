@@ -111,6 +111,7 @@
 			</div>
 		</div>
 		<div class="content">
+			<div class="version">Система контроля задач, версия №<output id="version"></output></div>
 			<div id="user" class="user">
 				Здравствуй <span id="login" class="login">Админ</span>!
 				<br/>
@@ -216,11 +217,12 @@
 										<output name="create_date"></output>
 									</div>&nbsp;
 									<div class="wr inline-top">
-										заложено:<br/><output class="time" data-copy="plan_time" name="plan_time_copy"></output>
+										заложено:<br/><output class="time" name="plan_time_screen"></output>
 									</div>&nbsp;
 									<input type="hidden" name="plan_time"/>
+									<output hidden="true" name="plan_time_copy" data-copy="plan_time"></output>
 									<div class="wr inline-top">
-										затрачено:<br/><output class="time" name="lead_time"></output>
+										затрачено:<br/><output class="time" name="lead_time_copy"></output>
 									</div>&nbsp;
 
 									<div class="wr inline-top">

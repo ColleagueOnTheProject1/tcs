@@ -42,6 +42,7 @@ if($_POST["action"] == "auth" || $_POST["action"] == "connect"){
 	getInfo();
 	getGroups();
 	getTasks();
+	$response['version']=$config['version'];
 }elseif($_POST["action"] == "export"){
 	export();
 }elseif($_POST["action"] == "get_tasks"){

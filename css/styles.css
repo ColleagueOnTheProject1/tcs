@@ -89,7 +89,6 @@ button{cursor:pointer;}
 .detail .text:before{display:block;text-decoration:underline;}
 .detail .frame{border:1px solid black;margin-bottom:2px;}
 .detail .time:empty:before{content:"00:00:00";}
-.detail .time:after{content:" сек";}
 .detail input[type="number"]{width:40px;display:inline-block;height:20px;border:1px solid black;}
 .detail .wr{padding:3px 10px;}
 .detail .hide-field{display:none;}
@@ -327,6 +326,8 @@ button{cursor:pointer;}
 	z-index:100;}
 .save.active{animation:show 0.3s linear 0.5s forwards;}
 .save .t{position:absolute;font-size:20px;color:white;right:10px;bottom:10px;}
+
+.version{text-transform:uppercase;font:bold 16px "Courier New";position:absolute;top:5px;}
 #selected-users:empty:before{content:"нет выбранных пользователей";}
 
 #sureface{position:fixed;z-index:1000;width:100%;height:100%;display:none;background-color:rgba(0,0,0,0.5);}

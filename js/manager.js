@@ -31,6 +31,7 @@ const ACTION_TASKS_INFO="tasks_info";//имя события - пришла ин
 const ACTION_U_TASK_COUNT="u_task_count";//имя события - пришла информация о количестве задач текущего пользователя
 const ACTION_EXPORT="export";//имя события - экспорт базы
 const ACTION_ERROR="error";//имя события - ошибка
+const ACTION_VERSION="version";//имя события - обновить номер версии
 
 
 
@@ -59,6 +60,8 @@ function init(){
 	parser_handlers[ACTION_U_TASK_COUNT] = tasksInfoUpdate;
 	parser_handlers[ACTION_EXPORT] = download;
 	parser_handlers[ACTION_ERROR] = errorAlert;
+	parser_handlers[ACTION_VERSION]=versionUpdate;
+	
 	beforeSend=showSend;
 	afterSend=hideSend;
     sendAction(ACTION_CONNECT);

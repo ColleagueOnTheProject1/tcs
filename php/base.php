@@ -13,8 +13,8 @@ $TT_FIELDS = Array(
 	'comment'=>"TEXT NOT NULL",
 	'start_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта'",
 	'end_time'=>"INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия'",
-	'lead_time'=>"TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени'",
-	'plan_time'=>"TIME NULL COMMENT 'заложено времени'",
+	'lead_time'=>"INT(10) NULL DEFAULT NULL COMMENT 'затрачено времени'",
+	'plan_time'=>"INT(10) NULL DEFAULT NULL COMMENT 'заложено времени'",
 	'priority'=>"INT(11) UNSIGNED NULL DEFAULT '0'",
 	'state'=>"INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта'");
 $GT_FIELDS=Array(
@@ -126,29 +126,17 @@ function tableRebuild($table_name, $fields_arr){
 		}
 	}
 	$query.=";";
-	mysql_query($query);	
+	mysql_query($query);
 }
 
 //
 function tasksTableCreate(){
 	global $config;
-	$query = "CREATE TABLE `".$config['tasks_table']."` (
-	`id` INT(10) UNSIGNED NOT NULL,
-	`type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 - новинка, 1- улучшение, 2 - баг, 3 - тест, 100 - другое',
-	`group` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-	`title` VARCHAR(64) NULL DEFAULT 'новая задача',
-	`text` TEXT NOT NULL,
-	`owner` INT(11) UNSIGNED NULL DEFAULT '0',
-	`assigned` VARCHAR(32) NOT NULL DEFAULT '',
-	`images` VARCHAR(255) NULL DEFAULT NULL,
-	`comment` TEXT NOT NULL,
-	`start_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата последнего старта',
-	`end_time` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT 'дата закрытия',
-	`lead_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT 'затрачено времени',
-	`plan_time` TIME NULL COMMENT 'заложено времени',
-	`priority` INT(11) UNSIGNED NULL DEFAULT '0',
-	`state` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '0 - не начата, 1 - начата, 2 - приостановлена, 3 - на проверке, 4 - переоткрыта, 5- закрыта',
-	PRIMARY KEY (`id`))";
+	$query = "CREATE TABLE `".$config['tasks_table']."` (";
+	foreach($TT_FIELDS as $key=>$value){
+		$query.=$key.' '.$value.',';
+	}
+	$query.="PRIMARY KEY (`id`))";
 	mysql_query($query);
 	if($config['test_tasks']==1){
 		$query="INSERT INTO `".$config['tasks_table']."` (`id`, `title`, `text`, `owner`) VALUES
@@ -266,7 +254,7 @@ function saveTask(){
 	}
 	//состояние-остановить или вернуть владельцу
 	elseif(($_POST['state'] == 2 && $_POST['old_state'] != 2) || ($_POST['state'] == 3 && $_POST['old_state'] == 1)){
-		$query.="lead_time=ADDTIME(lead_time, SEC_TO_TIME(".time()." - start_time)),";
+		$query.="lead_time=(lead_time + (".time()." - start_time)/60),";
 	}
 	//состояние-завершить
 	elseif($_POST['state'] == 5 && $_POST['id']){
@@ -278,15 +266,24 @@ function saveTask(){
 		$result = mysql_query($query);
 		return;
 	}
-	if(is_numeric($_POST['plan_time'])&& $_POST['plan_time']!=0){
-		if($_POST['plan_time_copy'] && $_POST['plan_time_copy']!="00:00:00"){
-			$comment = $comment.$action_title." заложено новое время".'\n\n';
-		}
-		$query.="`plan_time`=SEC_TO_TIME(".$_POST['plan_time']."),";
+	if(is_numeric($_POST['plan_time'])&& $_POST['plan_time_copy'] && $_POST['plan_time'] != $_POST['plan_time_copy']){
+		$comment = $comment.$action_title." заложено новое время(".planTimeFormat($_POST['plan_time']).")".'\n\n';
 	}
+	$query.="`plan_time`=".$_POST['plan_time'].",";
 	$query.="`comment`=CONCAT('".$comment."',`comment`),";
 	$query = substr($query,0,-1)." WHERE id=".$_POST['id'].";";
 	$result = mysql_query($query);
+	/*
+	global $response;
+	$response['query'] = $query;
+	*/
+}
+//формат запланированного времени типа 42д.20ч.20м.
+function planTimeFormat($minutes){
+	$s=floor($minutes/1440).'д.';
+	$minutes%=1440;
+	$s.=floor($minutes/60).'ч.'.($minutes%60).'м.';
+	return $s;
 }
 //сохранить данные группы
 function saveGroup(){
@@ -505,6 +502,10 @@ function importFS(){
 	if($_POST['i_host'] != $config['host'] || $_POST['i_user'] != $config['user'] || $_POST['i_password'] != $config['password']){
 		$connect2 = @mysql_connect($_POST['i_host'], $_POST['i_user'], $_POST['i_password']);
 	}else $connect2 = $connect;
-
+}
+//обновление базы из sql файла
+function updateFromFile($file_name){
+	$query=file_get_contents($file_name);
+	$result=mysql_query($query);
 }
 ?>

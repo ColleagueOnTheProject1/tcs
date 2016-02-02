@@ -8,7 +8,7 @@ function taskFormSend(){
 	h = parseInt(form['hours'].value);
 	m = parseInt(form['minutes'].value);
 	if(!isNaN(d)&&!isNaN(h)&&!isNaN(m)){
-		time = (d*1440+h*60+m)*60;
+		time = (d*1440+h*60+m);
 		form['plan_time'].value = time;
 	}	
 	sendForm(form, getFiltersStr());

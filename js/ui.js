@@ -242,22 +242,27 @@ function activeTask(taskId){
 	fields = form.getElementsByTagName('output');
 	for(var i=0;i<fields.length;i++){
 		if(fields[i].hasAttribute('data-copy')){
-			fields[i].innerHTML = form[fields[i].getAttribute('data-copy')].value;
+			fields[i].value = form[fields[i].getAttribute('data-copy')].value;
 		}
 	}
 	form['old_state'].value = tasks[taskId]['state'];
 	form['create_date'].value = getDate(tasks[taskId]['id']);
 	form['new_text'].value = '';
 	if(tasks[taskId]['plan_time']){
-		arr = tasks[taskId]['plan_time'].split(':');
-		form['minutes'].value = arr[1];
-		form['days'].value = Math.floor(arr[0]/24);
-		form['hours'].value = arr[0] - form['days'].value*24;
+		arr=planTimeArr(tasks[taskId]['plan_time']);
 	}else{
-		form['minutes'].value = 0;
-		form['days'].value = 0;
-		form['hours'].value = 0;	
+		arr=planTimeArr(null);
 	}
+	form['minutes'].value = arr[2];		
+	form['hours'].value = arr[1];
+	form['days'].value = arr[0];
+	form['plan_time_screen'].value=arr[0]+'д.'+arr[1]+'ч.'+arr[2]+'м.';	
+	if(tasks[taskId]['lead_time']){
+		arr=planTimeArr(tasks[taskId]['lead_time']);
+	}else{
+		arr=planTimeArr(null);
+	}
+	form['lead_time_copy'].value=arr[0]+'д.'+arr[1]+'ч.'+arr[2]+'м.';
 	document.getElementById('comment').innerHTML = tasks[taskId]['comment'];
 	var logins;
 	logins = info['users'].split(',');
@@ -286,6 +291,20 @@ function activeTask(taskId){
 		form.style.display = 'block';
 		document.getElementById('active-group').style.display = 'none';
 	}
+}
+//Возвращает массив где индексы 0 - дни, 1-часы, 2- минуты
+function planTimeArr(minutes){
+	var arr=[];
+	if(!minutes){
+		arr[0]=0;
+		arr[1]=0;
+		arr[2]=0;
+	}
+	arr[0]=Math.floor(minutes/1440);
+	minutes%=1440;
+	arr[1]=Math.floor(minutes/60);
+	arr[2]=minutes%60;
+	return arr;
 }
 //выбрать следующую по порядку задачу или группу, если задач в текущей группе больше нет.
 function nextBranch(){
@@ -705,4 +724,8 @@ function showSend(){
 //скрыть окно отпраки запроса
 function hideSend(){
 	document.getElementById('save').hidden=true;
+}
+//обновить номер версии
+function versionUpdate(version){
+	document.getElementById('version').value=version;
 }
